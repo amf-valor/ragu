@@ -29,6 +29,7 @@
     "@angular/cli": "~13.3.2",
     "@angular/compiler-cli": "~13.3.0",
     "@testing-library/angular": "^11.0.4",
+    "@testing-library/user-event": "^14.1.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~4.0.0",
