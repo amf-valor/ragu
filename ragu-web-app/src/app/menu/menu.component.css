@@ -1,3 +1,7 @@
-.menu-bar-container{
-    float: right;
+:host ::ng-deep p-menubarsub{
+    width: 100%;
+}
+
+:host ::ng-deep p-menubarsub ul{
+    flex-direction: row-reverse;
 }
