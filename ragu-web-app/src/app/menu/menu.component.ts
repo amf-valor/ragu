@@ -12,12 +12,12 @@ export class MenuComponent implements OnInit {
   constructor() { 
     this.items = [{
       label: 'Locais de entrega',
-      icon: PrimeIcons.MAP
-    }]
+      icon: PrimeIcons.MAP,
+      routerLink: ['/delivery-locales']
+    }];
   }
-
+  
   ngOnInit(): void {
     
   }
-
 }
