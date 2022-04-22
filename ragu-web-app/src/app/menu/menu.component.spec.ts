@@ -8,7 +8,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { routes } from '../app-routing.module';
 
 describe('MenuComponent', () => {
-  let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
 
   beforeEach(async () => {
@@ -24,14 +23,9 @@ describe('MenuComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenuComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
+  
   it('should show menu item Locais de entrega', () => {
     const menuItem = screen.queryByText('Locais de entrega');
     expect(menuItem).toBeTruthy();
