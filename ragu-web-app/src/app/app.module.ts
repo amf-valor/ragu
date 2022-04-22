@@ -4,19 +4,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuModule } from './menu/menu.module';
-import { DeliveryLocalesComponent } from './delivery-locales/delivery-locales.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeliveryLocalesModule } from './delivery-locales/delivery-locales.module';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
+import { environment } from 'src/environments/environment';
+import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DeliveryLocalesComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
-    MenuModule
+    MenuModule,
+    DeliveryLocalesModule,
+    HttpClientModule,
+    environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(RaguInMemoryDbService)
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

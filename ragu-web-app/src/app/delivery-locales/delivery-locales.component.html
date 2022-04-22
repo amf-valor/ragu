@@ -1,1 +1,39 @@
-<p>delivery-locales works!</p>
+<form [formGroup]="deliveryLocalesForm" class="formgroup-inline delivery-locales-form">
+    <div class="field">
+        <span class="p-float-label field">
+            <input id="hood-input" type="text" pInputText formControlName="hood"> 
+            <label for="hood-input">Bairro</label>
+            <small  *ngIf="hoodControl.invalid && (hoodControl.dirty || hoodControl.touched )" class="p-error block">Bairro é obrigatório</small>
+        </span>     
+    </div>
+    <div class="field">
+        <span class="p-float-label">
+            <p-inputNumber mode="currency" currency="BRL" inputId="tax-input" locale="pt-BR" formControlName="tax"></p-inputNumber>
+            <label for="tax-input">Taxa</label>
+            <small *ngIf="taxControl.invalid && (taxControl.dirty || taxControl.touched)" class="p-error block">Taxa é obrigatório</small>
+        </span>
+    </div>     
+    <p-button [disabled]="deliveryLocalesForm.invalid" (onClick)="onSaveButtonClick()" [loading]="saving">Salvar&nbsp;</p-button>
+</form>
+<div class="delivery-locales-table-container">
+    <p-table [value]="deliveryLocales">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Bairro</th>
+                <th>Taxa</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-deliveryLocale>
+            <tr>
+                <td>{{deliveryLocale.hood}}</td>
+                <td>{{deliveryLocale.tax | currency}}</td>
+            </tr>
+        </ng-template>
+    
+    </p-table>
+</div>
+   
+
+
+
+
