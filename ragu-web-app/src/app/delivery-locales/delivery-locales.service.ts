@@ -14,4 +14,8 @@ export class DeliveryLocalesService {
   post(deliveryLocale: DeliveryLocale) : Observable<DeliveryLocale> {
     return this.httpClient.post<DeliveryLocale>('api/deliveryLocales', deliveryLocale);
   }
+  
+  getAll(): Observable<DeliveryLocale[]> {
+    return this.httpClient.get<DeliveryLocale[]>('api/deliveryLocales');
+  }
 }

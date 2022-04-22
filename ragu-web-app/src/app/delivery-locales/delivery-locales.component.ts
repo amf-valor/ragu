@@ -1,26 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DeliveryLocale } from './delivery-locale.model';
 import { DeliveryLocalesService } from './delivery-locales.service';
+
 
 @Component({
   selector: 'app-delivery-locales',
   templateUrl: './delivery-locales.component.html',
   styleUrls: ['./delivery-locales.component.css']
 })
-export class DeliveryLocalesComponent {
+export class DeliveryLocalesComponent implements OnInit{
 
   deliveryLocalesForm: FormGroup;
-  deliveryLocales: DeliveryLocale[] = [];
-  saving: boolean;
-
-  get hoodControl() : AbstractControl { 
+  
+  public get deliveryLocales(): DeliveryLocale[] {
+    return this._deliveryLocales;
+  }
+  
+  public get hoodControl() : AbstractControl { 
     return <AbstractControl>this.deliveryLocalesForm.get('hood'); 
   }
   
   public get taxControl() : AbstractControl {
     return <AbstractControl> this.deliveryLocalesForm.get('tax');
   }
+  
+  saving: boolean;
+  private _deliveryLocales: DeliveryLocale[] = [];
 
   constructor(private formBuilder: FormBuilder, private deliveryLocalesService: DeliveryLocalesService) { 
     this.deliveryLocalesForm = this.formBuilder.group({
@@ -29,6 +35,12 @@ export class DeliveryLocalesComponent {
     });
 
     this.saving = false;
+  }
+
+  ngOnInit(): void {
+    this.deliveryLocalesService.getAll().subscribe(deliveryLocales => {
+      this._deliveryLocales = deliveryLocales;
+    });
   }
 
   onSaveButtonClick(){

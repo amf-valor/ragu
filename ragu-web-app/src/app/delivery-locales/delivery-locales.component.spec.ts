@@ -122,6 +122,14 @@ describe('DeliveryLocalesComponent', () => {
     expect(saveButton.querySelector(".pi-spinner")).withContext('save button loading when save operation finished').toBeNull();
   });
 
+  it('GIVEN delivery locales previously registered WHEN user goes to Locais de entrega THEN all of them should be displayed', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.queryByText('itagua')).withContext('itagua should be displayed').not.toBeNull();
+    expect(screen.queryByText('centro')).withContext('centro should be displayed').not.toBeNull();
+  });
+
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
     return value.replace(/\u00A0/g, ' ');
   }
