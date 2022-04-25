@@ -13,10 +13,16 @@ export class DeliveryLocalesComponent implements OnInit{
 
   deliveryLocalesForm: FormGroup;
   
+  private _deliveryLocales: DeliveryLocale[] = [];
   public get deliveryLocales(): DeliveryLocale[] {
     return this._deliveryLocales;
   }
   
+  private _isFetching: boolean;
+  public get isFetching(): boolean {
+    return this._isFetching;
+  }
+
   public get hoodControl() : AbstractControl { 
     return <AbstractControl>this.deliveryLocalesForm.get('hood'); 
   }
@@ -26,7 +32,6 @@ export class DeliveryLocalesComponent implements OnInit{
   }
   
   saving: boolean;
-  private _deliveryLocales: DeliveryLocale[] = [];
 
   constructor(private formBuilder: FormBuilder, private deliveryLocalesService: DeliveryLocalesService) { 
     this.deliveryLocalesForm = this.formBuilder.group({
@@ -35,10 +40,14 @@ export class DeliveryLocalesComponent implements OnInit{
     });
 
     this.saving = false;
+    this._isFetching = false;
   }
 
   ngOnInit(): void {
+    this._isFetching = true;
+    
     this.deliveryLocalesService.getAll().subscribe(deliveryLocales => {
+      this._isFetching = false;
       this._deliveryLocales = deliveryLocales;
     });
   }

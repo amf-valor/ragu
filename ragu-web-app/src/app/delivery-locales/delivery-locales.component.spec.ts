@@ -130,6 +130,16 @@ describe('DeliveryLocalesComponent', () => {
     expect(screen.queryByText('centro')).withContext('centro should be displayed').not.toBeNull();
   });
 
+  it('GIVEN component is initializing WHEN is fetching all delivery locales THEN', async () => {
+    const table = screen.getByTestId('delivery-locales-table');
+    fixture.detectChanges();
+    expect(table.querySelector(".pi-spinner")).withContext("loading should appear when is fetching").not.toBeNull();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(table.querySelector(".pi-spinner")).withContext("loading should disappear after get all delivery locales").toBeNull();
+  });
+
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
     return value.replace(/\u00A0/g, ' ');
   }
