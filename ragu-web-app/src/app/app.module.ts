@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ToastModule } from 'primeng/toast';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuModule } from './menu/menu.module';
@@ -22,6 +22,7 @@ import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
     MenuModule,
     DeliveryLocalesModule,
     HttpClientModule,
+    ToastModule,
     environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(RaguInMemoryDbService)
   ],
   bootstrap: [AppComponent]

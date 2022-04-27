@@ -1,11 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import { fireEvent, screen} from '@testing-library/dom';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { fireEvent, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
+import { throwError } from 'rxjs';
+import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
 import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
-import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
-import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
+import { DeliveryLocalesService } from './delivery-locales.service';
 
 describe('DeliveryLocalesComponent', () => {
   let fixture: ComponentFixture<DeliveryLocalesComponent>;
@@ -138,6 +140,15 @@ describe('DeliveryLocalesComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(table.querySelector(".pi-spinner")).withContext("loading should disappear after get all delivery locales").toBeNull();
+  });
+
+  it('GIVEN some error ocurred WHEN save new delivery locale THEN isSaving should be false', () => {
+    spyOn(TestBed.inject(DeliveryLocalesService), 'post').and.returnValue(throwError(() => new Error("any")));
+    const component = fixture.componentInstance;
+
+    component.onSaveButtonClick();
+
+    expect(component.isSaving).toBeFalse();
   });
 
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
