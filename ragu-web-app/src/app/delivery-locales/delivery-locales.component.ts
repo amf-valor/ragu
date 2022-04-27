@@ -55,10 +55,18 @@ export class DeliveryLocalesComponent implements OnInit{
   ngOnInit(): void {
     this._isFetching = true;
     
-    this.deliveryLocalesService.getAll().subscribe(deliveryLocales => {
-      this._isFetching = false;
-      this._deliveryLocales = deliveryLocales;
-    });
+    this.deliveryLocalesService.getAll()
+      .pipe(finalize(() => this._isFetching = false ))
+      .subscribe({
+        next: deliveryLocales => {
+          this._deliveryLocales = deliveryLocales;
+        },
+        error: () => this.messageService.add({
+          severity:'error', 
+          summary:'Oops!', 
+          detail:'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
+        })
+      });
   }
 
   onSaveButtonClick(){
