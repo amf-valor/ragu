@@ -14,13 +14,18 @@ export class DeliveryLocalesService {
   post(deliveryLocale: DeliveryLocale) : Observable<DeliveryLocale> {
     return this.httpClient.post<DeliveryLocale>('api/deliveryLocales', deliveryLocale)
       .pipe(
-        catchError(() => {
-          return throwError(() => new Error('something unexpected occurred!'));
-        })
+        catchError(this.handleError)
       );
   }
   
   getAll(): Observable<DeliveryLocale[]> {
-    return this.httpClient.get<DeliveryLocale[]>('api/deliveryLocales');
+    return this.httpClient.get<DeliveryLocale[]>('api/deliveryLocales')
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  private handleError(){
+    return throwError(() => new Error('something unexpected occurred!'));
   }
 }

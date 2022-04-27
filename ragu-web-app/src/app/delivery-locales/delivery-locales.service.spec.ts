@@ -32,4 +32,16 @@ describe('DeliveryLocales service', () => {
         const req = httpTest.match('api/deliveryLocales')[0];
         req.flush('', new HttpErrorResponse({status: 500, statusText: 'Internal Server Error'}));
     });
+
+    it('GIVEN an error occurred WHEN get all delivery locales THEN should return the error something unexpected occured!', () => {
+        const httpTest =  TestBed.inject(HttpTestingController);
+        
+        deliveryLocaleService.getAll().subscribe({
+            next: () => fail('expected error, not post succeded'),
+            error: error => expect(error.message).toBe('something unexpected occurred!')
+        });
+        
+        const req = httpTest.match('api/deliveryLocales')[0];
+        req.flush('', new HttpErrorResponse({status: 500, statusText: 'Internal Server Error'}));
+    });
 });
