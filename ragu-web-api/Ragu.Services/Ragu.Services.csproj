@@ -2,6 +2,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ragu.Core\Ragu.Core.csproj" />
+    <ProjectReference Include="..\Ragu.InfraStructure\Ragu.InfraStructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -1,12 +1,26 @@
 using Ragu.Core;
+using Ragu.InfraStructure.Data;
 
 namespace Ragu.Services
 {
     public class DeliveryLocaleService
     {
-        public DeliveryLocale Create(string hood, decimal tax)
+        private readonly RaguDbContext _dbContext;
+
+        public DeliveryLocaleService(RaguDbContext dbContext)
         {
-            return new DeliveryLocale(1, hood, tax);
+            if(dbContext is null)
+                throw new ArgumentException("dbContext cannot be null");
+
+            _dbContext = dbContext;
+        }
+
+        public async Task<DeliveryLocale> Create(string hood, decimal tax)
+        {
+            var deliveryLocale = new DeliveryLocale(hood, tax);
+            _dbContext.DeliveryLocales?.Add(deliveryLocale);
+            await _dbContext.SaveChangesAsync();
+            return deliveryLocale;
         }
     }
 }

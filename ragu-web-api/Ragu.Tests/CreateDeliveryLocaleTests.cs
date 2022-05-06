@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ragu.InfraStructure.Data;
+using Ragu.Services;
 using Xunit;
 
 namespace Ragu.Tests
@@ -38,6 +39,7 @@ namespace Ragu.Tests
             using(var scope = serviceFactory?.CreateScope())
             {
                 RaguDbContext? dbContext = scope?.ServiceProvider.GetService<RaguDbContext>();
+                dbContext?.Database.EnsureDeleted();
                 dbContext?.Database.EnsureCreated();
                 dbContext?.Database.Migrate();
                 
@@ -71,10 +73,12 @@ namespace Ragu.Tests
                     {
                         builder.ConfigureServices(services =>
                         {
+                            
                             services.AddDbContext<RaguDbContext>(options => 
                             {
                                 options.UseSqlServer(_sqlTestContainer.ConnectionString + "Encrypt=false");    
                             });        
+                            services.AddScoped<DeliveryLocaleService>();
                         });
                     }
                 );
