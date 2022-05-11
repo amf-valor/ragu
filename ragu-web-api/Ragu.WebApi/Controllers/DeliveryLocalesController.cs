@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Ragu.Services;
 
@@ -16,7 +17,7 @@ namespace Ragu.WebApi.Controllers
 
         public async Task<ActionResult<PostDeliveryLocaleResponse>> Post(PostDeliveryLocaleRequest request)
         {
-            var newDeliveryLocale = await _service.Create(request.Hood, request.Tax);
+            var newDeliveryLocale = await _service.Create(request.Hood, request.Tax!.Value);
             
             var response = new PostDeliveryLocaleResponse()
             {
@@ -32,13 +33,16 @@ namespace Ragu.WebApi.Controllers
     public class PostDeliveryLocaleResponse
     {
         public int Id { get; set; }
-        public string Hood { get; set; }
+        public string Hood { get; set; } = null!;
         public decimal Tax { get; set; }
     }
 
     public class PostDeliveryLocaleRequest
     {
-        public string Hood { get; set; }
-        public decimal Tax { get; set; }
+        [Required]
+        public string Hood { get; set; } = null!;
+        
+        [Required]
+        public decimal? Tax { get; set; }
     }
 }

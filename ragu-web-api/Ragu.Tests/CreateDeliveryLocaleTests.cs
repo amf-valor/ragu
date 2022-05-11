@@ -31,8 +31,7 @@ namespace Ragu.Tests
         [Fact]
         public async Task Given_valid_delivery_locale_When_post_Then_should_be_created()
         {
-            var json = JsonSerializer.Serialize(new { hood = "são miguel", tax = 20.00 });
-            var content = new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);  
+            var content = CreateWithUtf8AndJson(new { hood = "são miguel", tax = 20.00 });
             var httpClient = _applicationFactory.CreateClient();
             var serviceFactory = _applicationFactory.Server.Services.GetService<IServiceScopeFactory>();
 
@@ -51,6 +50,23 @@ namespace Ragu.Tests
                 Assert.Equal("são miguel", actualEntity?.Hood);
                 Assert.Equal(20.00m, actualEntity?.Tax);
             }   
+        }
+
+        [Fact]
+        public async Task Given_invalid_request_When_post_Then_should_return_bad_request()
+        {
+            var content = CreateWithUtf8AndJson(new { hood = "", tax = 0 });
+            var httpClient = _applicationFactory.CreateClient();
+
+            var actual = await httpClient.PostAsync("api/deliveryLocales", content);
+
+            Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
+        }
+
+        private StringContent CreateWithUtf8AndJson(object @object)
+        {
+            var json = JsonSerializer.Serialize(@object);
+            return new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);
         }
 
         private T? DeserializeCamelCase<T>(string payload)

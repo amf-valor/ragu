@@ -19,9 +19,8 @@ namespace Ragu.InfraStructure.Data
                 b.HasKey("_id");
                 b.Property(p => p.Id).HasField("_id");
                 b.Property(p => p.Hood);
-                b.Property(p => p.Tax);
+                b.Property(p => p.Tax).HasPrecision(18, 2);
             });
-
         }
     }
 }
