@@ -5,7 +5,7 @@ namespace Ragu.InfraStructure.Data
 {
     public class RaguDbContext : DbContext
     {
-        public DbSet<DeliveryLocale>? DeliveryLocales { get; set; }
+        public DbSet<DeliveryLocale> DeliveryLocales => Set<DeliveryLocale>();
 
         public RaguDbContext(DbContextOptions<RaguDbContext> options): base(options)
         {
@@ -17,7 +17,6 @@ namespace Ragu.InfraStructure.Data
             modelBuilder.Entity<DeliveryLocale>(b => 
             {
                 b.HasKey("_id");
-                b.Property(p => p.Id).HasField("_id");
                 b.Property(p => p.Hood);
                 b.Property(p => p.Tax).HasPrecision(18, 2);
             });
