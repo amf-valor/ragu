@@ -28,6 +28,29 @@ namespace Ragu.WebApi.Controllers
 
             return Created("api/deliveryLocales", response);
         }
+
+        [HttpGet]
+        public async Task<ActionResult<ICollection<GetDeliveryLocaleResponse>>> Get()
+        {
+            var deliveryLocales = await _service.GetAll();
+            
+            var response = deliveryLocales
+                .Select(item => new GetDeliveryLocaleResponse
+                {
+                    Id = item.Id,
+                    Hood = item.Hood,
+                    Tax = item.Tax
+                });
+
+            return Ok(response);
+        }
+    }
+
+    public class GetDeliveryLocaleResponse
+    {
+        public int Id { get; internal set; }
+        public string Hood { get; internal set; } = null!;
+        public decimal Tax { get; internal set; }
     }
 
     public class PostDeliveryLocaleResponse

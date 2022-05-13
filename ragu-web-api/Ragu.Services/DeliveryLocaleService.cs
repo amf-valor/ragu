@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Ragu.Core;
 using Ragu.InfraStructure.Data;
 
@@ -18,9 +19,11 @@ namespace Ragu.Services
         public async Task<DeliveryLocale> Create(string hood, decimal tax)
         {
             var deliveryLocale = new DeliveryLocale(hood, tax);
-            _dbContext.DeliveryLocales?.Add(deliveryLocale);
+            _dbContext.DeliveryLocales.Add(deliveryLocale);
             await _dbContext.SaveChangesAsync();
             return deliveryLocale;
         }
+
+        public Task<List<DeliveryLocale>> GetAll() => _dbContext.DeliveryLocales.ToListAsync();
     }
 }
