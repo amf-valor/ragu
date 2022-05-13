@@ -16,6 +16,8 @@ namespace Ragu.Tests
 {
     public class Fixture : IDisposable
     {       
+        public const string Collection = "Fixture Collection";
+
         internal RaguDbContext DbContext;
 
         private readonly WebApplicationFactory<Program> _applicationFactory;
@@ -82,7 +84,7 @@ namespace Ragu.Tests
         }
     }
 
-    [CollectionDefinition("Fixture collection")]
+    [CollectionDefinition(Fixture.Collection)]
     public class FixtureCollection: ICollectionFixture<Fixture>
     {
         // This class has no code, and is never created. Its purpose is simply

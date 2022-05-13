@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Ragu.Tests
 {
-    [Collection("Fixture collection")]
+    [Collection(Fixture.Collection)]
     public class CreateDeliveryLocaleTests
     {
         private readonly Fixture _fixture;
@@ -24,7 +24,7 @@ namespace Ragu.Tests
             var content = CreateWithUtf8AndJson(new { hood = "são miguel", tax = 20.00 });
             var httpClient = _fixture.CreateClient();
             
-            var actualResponse = await httpClient.PostAsync("api/deliveryLocales", content);
+            var actualResponse = await httpClient.PostAsync(RaguWebApiRoutes.DeliveryLocales, content);
             string payload = await actualResponse.Content.ReadAsStringAsync();
             var actualEntity = _fixture.DbContext.DeliveryLocales?.Find(DeserializeCamelCase<PostDeliveryLocaleResponse>(payload)?.Id); 
 
@@ -39,7 +39,7 @@ namespace Ragu.Tests
             var content = CreateWithUtf8AndJson(new { hood = "", tax = 0 });
             var httpClient = _fixture.CreateClient();
 
-            var actual = await httpClient.PostAsync("api/deliveryLocales", content);
+            var actual = await httpClient.PostAsync(RaguWebApiRoutes.DeliveryLocales, content);
 
             Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         }
