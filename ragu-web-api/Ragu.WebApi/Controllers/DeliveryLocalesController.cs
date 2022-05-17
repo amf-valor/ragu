@@ -15,6 +15,7 @@ namespace Ragu.WebApi.Controllers
             _service = service;
         }
 
+        [HttpPost]
         public async Task<ActionResult<PostDeliveryLocaleResponse>> Post(PostDeliveryLocaleRequest request)
         {
             var newDeliveryLocale = await _service.Create(request.Hood, request.Tax!.Value);
