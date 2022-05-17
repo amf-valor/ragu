@@ -33,6 +33,7 @@ describe('AppComponent integration tests', () => {
     });
 
     it('GIVEN user goes to Locais de entrega WHEN save delivery locale fail THEN toast should be prompted', async () => {
+        const uri = '/api/deliveryLocales';
         await userEvent.click(screen.getByRole('menuitem', { name: 'Locais de entrega' }));
         await fixture.whenStable();
         fixture.detectChanges();
@@ -46,8 +47,10 @@ describe('AppComponent integration tests', () => {
         fireEvent.blur(taxInput);
         fixture.detectChanges();
         await userEvent.click(saveButton);
-        const req = httpController.match(req => (req.url === 'api/deliveryLocales' && req.method === 'POST'))[0];
-        req.flush('', {status: 500, statusText: 'Interlnal Server Error'});
+        const req = httpController.match(req => (req.url === uri && req.method === 'POST'))[0];
+        expect(req).withContext(`was not found any request for: ${uri}`).toBeDefined();
+
+        req.flush('', {status: 500, statusText: 'Internal Server Error'});
         await fixture.whenStable();
         fixture.detectChanges();
 

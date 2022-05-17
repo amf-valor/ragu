@@ -2,10 +2,12 @@ import { HttpClientModule, HttpErrorResponse } from "@angular/common/http";
 import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
 import { TestBed } from "@angular/core/testing";
 import { MessageService } from "primeng/api";
+import { environment } from "src/environments/environment";
 import { DeliveryLocalesService } from "./delivery-locales.service";
 
 let deliveryLocaleService: DeliveryLocalesService;
 
+const URI = `${environment.raguBaseUrl}/api/deliveryLocales`;
 
 describe('DeliveryLocales service', () => {
     beforeEach(() => { 
@@ -29,7 +31,8 @@ describe('DeliveryLocales service', () => {
             error: error => expect(error.message).toBe('something unexpected occurred!')
         });
         
-        const req = httpTest.match('api/deliveryLocales')[0];
+        const req = httpTest.match(URI)[0];
+        expect(req).withContext(`it was not found any request for: ${URI}`).toBeDefined();
         req.flush('', new HttpErrorResponse({status: 500, statusText: 'Internal Server Error'}));
     });
 
@@ -41,7 +44,8 @@ describe('DeliveryLocales service', () => {
             error: error => expect(error.message).toBe('something unexpected occurred!')
         });
         
-        const req = httpTest.match('api/deliveryLocales')[0];
+        const req = httpTest.match(URI)[0];
+        expect(req).withContext(`it was not found any request for: ${URI}`).toBeDefined();
         req.flush('', new HttpErrorResponse({status: 500, statusText: 'Internal Server Error'}));
     });
 });
