@@ -9,37 +9,42 @@ using Xunit;
 namespace Ragu.Tests
 {
     [Collection(Fixture.Collection)]
-    public class CreateDeliveryLocaleTests
+    public class CreateDeliveryLocaleTests : IAsyncLifetime
     {
         private readonly Fixture _fixture;
+        private readonly HttpClient _httpClient;
 
         public CreateDeliveryLocaleTests(Fixture fixture)
         {
             _fixture = fixture;
+            _httpClient = _fixture.CreateClient();        
         }
 
         [Fact]
         public async Task Given_valid_delivery_locale_When_post_Then_should_be_created()
         {
             var content = CreateWithUtf8AndJson(new { hood = "são miguel", tax = 20.00 });
-            var httpClient = _fixture.CreateClient();
             
-            var actualResponse = await httpClient.PostAsync(RaguWebApiRoutes.DeliveryLocales, content);
+            var actualResponse = await _httpClient.PostAsync(RaguWebApiRoutes.DeliveryLocales, content);
             string payload = await actualResponse.Content.ReadAsStringAsync();
-            var actualEntity = _fixture.DbContext.DeliveryLocales?.Find(DeserializeCamelCase<PostDeliveryLocaleResponse>(payload)?.Id); 
 
-            Assert.Equal(HttpStatusCode.Created, actualResponse.StatusCode);
-            Assert.Equal("são miguel", actualEntity?.Hood);
-            Assert.Equal(20.00m, actualEntity?.Tax);
+            using(var context = _fixture.CreateDbContext())
+            {
+                var actualEntity = context.DeliveryLocales?.Find(DeserializeCamelCase<PostDeliveryLocaleResponse>(payload)?.Id); 
+
+                Assert.NotNull(actualEntity);
+                Assert.Equal(HttpStatusCode.Created, actualResponse.StatusCode);
+                Assert.Equal("são miguel", actualEntity!.Hood);
+                Assert.Equal(20.00m, actualEntity.Tax);
+            }
         }
 
         [Fact]
         public async Task Given_invalid_request_When_post_Then_should_return_bad_request()
         {
             var content = CreateWithUtf8AndJson(new { hood = "", tax = 0 });
-            var httpClient = _fixture.CreateClient();
-
-            var actual = await httpClient.PostAsync(RaguWebApiRoutes.DeliveryLocales, content);
+            
+            var actual = await _httpClient.PostAsync(RaguWebApiRoutes.DeliveryLocales, content);
 
             Assert.Equal(HttpStatusCode.BadRequest, actual.StatusCode);
         }
@@ -60,6 +65,10 @@ namespace Ragu.Tests
 
             return JsonSerializer.Deserialize<T>(payload, serializeOptions);
         }
+
+        public Task InitializeAsync() => Task.CompletedTask;
+
+        public Task DisposeAsync() => _fixture.ResetDatabase();
 
         private class PostDeliveryLocaleResponse
         {

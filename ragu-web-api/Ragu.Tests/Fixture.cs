@@ -17,21 +17,24 @@ namespace Ragu.Tests
     public class Fixture : IDisposable
     {       
         public const string Collection = "Fixture Collection";
-
-        internal RaguDbContext DbContext;
-
         private readonly WebApplicationFactory<Program> _applicationFactory;
         private readonly MsSqlTestcontainer _sqlTestContainer;
-        private readonly IServiceScope _scope;
 
         public Fixture()
         {
             _sqlTestContainer = Task.Run(() => CreateAndStartDockerSqlContainer()).Result;
-            _applicationFactory = CreateApplicationFactory()!;
-            _scope = _applicationFactory.Server.Services.GetService<IServiceScopeFactory>()!.CreateScope();
-            DbContext = _scope.ServiceProvider.GetService<RaguDbContext>()!;
-            DbContext.Database.EnsureDeleted();
-            DbContext.Database.EnsureCreated();
+            _applicationFactory = CreateApplicationFactory();
+            using(var context = CreateDbContext())
+            context.Database.EnsureCreated();
+        }
+
+        internal RaguDbContext CreateDbContext()
+        {
+            var contextOptions = new DbContextOptionsBuilder<RaguDbContext>()
+                .UseSqlServer(_sqlTestContainer.ConnectionString + "Encrypt=false")
+                .Options;
+
+            return new RaguDbContext(contextOptions);
         }
 
         public HttpClient CreateClient() => _applicationFactory.CreateClient();
@@ -41,7 +44,6 @@ namespace Ragu.Tests
         {
             Task.Run(() => _sqlTestContainer.StopAsync()).Wait();
             Task.Run(() => _sqlTestContainer.CleanUpAsync()).Wait();
-            _scope.Dispose();
         }
 
         private async Task<MsSqlTestcontainer> CreateAndStartDockerSqlContainer()
@@ -59,7 +61,7 @@ namespace Ragu.Tests
             return container;
         }
 
-        private WebApplicationFactory<Program>? CreateApplicationFactory()
+        private WebApplicationFactory<Program> CreateApplicationFactory()
         {
             return new WebApplicationFactory<Program>()
                 .WithWebHostBuilder
@@ -81,6 +83,13 @@ namespace Ragu.Tests
                         });
                     }
                 );
+        }
+
+        internal async Task ResetDatabase()
+        {
+            //Consider Respawn
+            using(var context = CreateDbContext())
+            await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE DeliveryLocales;");
         }
     }
 
