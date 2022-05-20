@@ -13,10 +13,10 @@
             <small *ngIf="taxControl.invalid && (taxControl.dirty || taxControl.touched)" class="p-error block">Taxa é obrigatório</small>
         </span>
     </div>     
-    <p-button [disabled]="deliveryLocalesForm.invalid" (onClick)="onSaveButtonClick()" [loading]="saving">Salvar&nbsp;</p-button>
+    <p-button [disabled]="deliveryLocalesForm.invalid" (onClick)="onSaveButtonClick()" [loading]="isSaving">Salvar&nbsp;</p-button>
 </form>
 <div class="delivery-locales-table-container">
-    <p-table [value]="deliveryLocales">
+    <p-table [value]="deliveryLocales" [loading]="isFetching" data-testid="delivery-locales-table">
         <ng-template pTemplate="header">
             <tr>
                 <th>Bairro</th>

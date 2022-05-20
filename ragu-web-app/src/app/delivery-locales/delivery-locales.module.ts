@@ -8,6 +8,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
 
 registerLocaleData(localePt, 'pt');
 
@@ -22,7 +23,11 @@ registerLocaleData(localePt, 'pt');
     ReactiveFormsModule,
     ButtonModule
   ],
-  providers:[{provide: LOCALE_ID, useValue: 'pt'}, {provide: DEFAULT_CURRENCY_CODE, useValue:'BRL'}]
+  providers:[
+    { provide: LOCALE_ID, useValue: 'pt' }, 
+    { provide: DEFAULT_CURRENCY_CODE, useValue:'BRL' }, 
+    MessageService
+  ]
   
 })
 export class DeliveryLocalesModule { }

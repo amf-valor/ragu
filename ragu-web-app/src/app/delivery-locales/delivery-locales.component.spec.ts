@@ -1,14 +1,18 @@
 import { HttpClientModule } from '@angular/common/http';
-import { ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
-import { fireEvent, screen} from '@testing-library/dom';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { fireEvent, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
+import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
+import { Message, MessageService } from 'primeng/api';
+import { throwError } from 'rxjs';
+import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
 import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
-import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
-import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
+import { DeliveryLocalesService } from './delivery-locales.service';
 
 describe('DeliveryLocalesComponent', () => {
   let fixture: ComponentFixture<DeliveryLocalesComponent>;
+  let component: DeliveryLocalesComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -24,6 +28,7 @@ describe('DeliveryLocalesComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryLocalesComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -120,6 +125,57 @@ describe('DeliveryLocalesComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     expect(saveButton.querySelector(".pi-spinner")).withContext('save button loading when save operation finished').toBeNull();
+  });
+
+  it('GIVEN delivery locales previously registered WHEN user goes to Locais de entrega THEN all of them should be displayed', async() => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(screen.queryByText('itagua')).withContext('itagua should be displayed').not.toBeNull();
+    expect(screen.queryByText('centro')).withContext('centro should be displayed').not.toBeNull();
+  });
+
+  it('GIVEN component is initializing WHEN is fetching all delivery locales THEN', async () => {
+    const table = screen.getByTestId('delivery-locales-table');
+    fixture.detectChanges();
+    expect(table.querySelector(".pi-spinner")).withContext("loading should appear when is fetching").not.toBeNull();
+
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(table.querySelector(".pi-spinner")).withContext("loading should disappear after get all delivery locales").toBeNull();
+  });
+
+  it('GIVEN some error ocurred WHEN save new delivery locale THEN isSaving should be false', () => {
+    spyOn(TestBed.inject(DeliveryLocalesService), 'post').and.returnValue(throwError(() => new Error("any")));
+    
+    component.onSaveButtonClick();
+
+    expect(component.isSaving).toBeFalse();
+  });
+
+  it('GIVEN some error ocurred WHEN fetching delivery locales on init THEN should add error to MessageService', () => {
+    const messageService = TestBed.inject(MessageService);
+    let actual: Message = {};
+    const expected = {
+      severity:'error', 
+      summary:'Oops!', 
+      detail:'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
+    };
+    
+    spyOn(TestBed.inject(DeliveryLocalesService), 'getAll').and.returnValue(throwError(() =>  new Error("any")));
+    messageService.messageObserver.subscribe(message => actual = message as Message);
+    
+    component.ngOnInit();
+
+    expect(actual).toEqual(expected);
+  });
+
+  it('GIVEN some error ocurred WHEN fetching all delivery locales on init THEN isFetching should be false', () => {
+    spyOn(TestBed.inject(DeliveryLocalesService), 'getAll').and.returnValue(throwError(() =>  new Error("any")));
+
+    component.ngOnInit();
+
+    expect(component.isFetching).toBeFalse();
   });
 
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
