@@ -25,7 +25,10 @@ namespace Ragu.Tests
             _sqlTestContainer = Task.Run(() => CreateAndStartDockerSqlContainer()).Result;
             _applicationFactory = CreateApplicationFactory();
             using(var context = CreateDbContext())
-            context.Database.EnsureCreated();
+            {
+                context.Database.EnsureDeleted();
+                context.Database.Migrate();        
+            }
         }
 
         internal RaguDbContext CreateDbContext()

@@ -12,15 +12,14 @@ namespace Ragu.InfraStructure.Migrations
                 name: "DeliveryLocales",
                 columns: table => new
                 {
-                    _id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Hood = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Tax = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Tax = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeliveryLocales", x => x._id);
+                    table.PrimaryKey("PK_DeliveryLocales", x => x.Id);
                 });
         }
 

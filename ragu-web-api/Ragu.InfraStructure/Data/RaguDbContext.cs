@@ -16,9 +16,9 @@ namespace Ragu.InfraStructure.Data
         {
             modelBuilder.Entity<DeliveryLocale>(b => 
             {
-                b.HasKey("_id");
-                b.Property(p => p.Hood);
-                b.Property(p => p.Tax).HasPrecision(18, 2);
+                b.Property(p => p.Id).HasField("_id");
+                b.Property(p => p.Hood).HasField("_hood");
+                b.Property(p => p.Tax).HasPrecision(18, 2).HasField("_tax");
             });
         }
     }
