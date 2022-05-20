@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { DeliveryLocale } from './delivery-locale.model';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { DeliveryLocale } from './delivery-locale.model';
 })
 export class DeliveryLocalesService {
   
-  private readonly Uri = '/api/deliveryLocales';
+  private readonly Uri = `${environment.raguBaseUrl}/api/deliveryLocales`;
 
   constructor(private httpClient: HttpClient) { }
   

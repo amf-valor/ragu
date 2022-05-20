@@ -23,7 +23,7 @@ import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
     DeliveryLocalesModule,
     HttpClientModule,
     ToastModule,
-    environment.production ? [] : HttpClientInMemoryWebApiModule.forRoot(RaguInMemoryDbService)
+    environment.useInMemoryApi ? [] : HttpClientInMemoryWebApiModule.forRoot(RaguInMemoryDbService)
   ],
   bootstrap: [AppComponent]
 })

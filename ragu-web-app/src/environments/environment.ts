@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  raguBaseUrl: ''
+  raguBaseUrl: '',
+  useInMemoryApi: false
 };
 
 /*

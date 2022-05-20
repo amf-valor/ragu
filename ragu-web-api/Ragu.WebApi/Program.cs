@@ -2,8 +2,17 @@ using Microsoft.EntityFrameworkCore;
 using Ragu.InfraStructure.Data;
 using Ragu.Services;
 
+var corsPolicyName = "allowOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options => 
+{
+    options.AddPolicy(corsPolicyName, policy => {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    }); 
+});
 
 builder.Services.AddDbContext<RaguDbContext>(options => 
 {
@@ -18,6 +27,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(corsPolicyName);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

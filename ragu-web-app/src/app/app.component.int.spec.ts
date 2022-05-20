@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { fireEvent, screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { ToastModule } from "primeng/toast";
+import { environment } from "src/environments/environment";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { DeliveryLocalesComponent } from "./delivery-locales/delivery-locales.component";
@@ -33,7 +34,7 @@ describe('AppComponent integration tests', () => {
     });
 
     it('GIVEN user goes to Locais de entrega WHEN save delivery locale fail THEN toast should be prompted', async () => {
-        const uri = '/api/deliveryLocales';
+        const uri = `${environment.raguBaseUrl}/api/deliveryLocales`;
         await userEvent.click(screen.getByRole('menuitem', { name: 'Locais de entrega' }));
         await fixture.whenStable();
         fixture.detectChanges();
