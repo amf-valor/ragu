@@ -7,12 +7,12 @@ export class RaguInMemoryDbService extends InMemoryDbService{
             deliveryLocales:[
                 {
                     "id": 1, 
-                    "hood": "itagua", 
+                    "hood": "itagua - in memory", 
                     "tax": 3.00
                 },
                 {
                     "id": 2, 
-                    "hood": "centro", 
+                    "hood": "centro - in memory", 
                     "tax": 4.00
                 }
             ]
