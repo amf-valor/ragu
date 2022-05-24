@@ -11,6 +11,12 @@ import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
 import { DeliveryLocalesService } from './delivery-locales.service';
 
+const errorMessage: Message = {
+  severity: 'error',
+  summary: 'Oops!',
+  detail: 'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
+};
+
 describe('DeliveryLocalesComponent', () => {
   let fixture: ComponentFixture<DeliveryLocalesComponent>;
   let component: DeliveryLocalesComponent;
@@ -157,18 +163,13 @@ describe('DeliveryLocalesComponent', () => {
   it('GIVEN some error ocurred WHEN fetching delivery locales on init THEN should add error to MessageService', () => {
     const messageService = TestBed.inject(MessageService);
     let actual: Message = {};
-    const expected = {
-      severity:'error', 
-      summary:'Oops!', 
-      detail:'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
-    };
     
     spyOn(TestBed.inject(DeliveryLocalesService), 'getAll').and.returnValue(throwError(() =>  new Error("any")));
     messageService.messageObserver.subscribe(message => actual = message as Message);
     
     component.ngOnInit();
 
-    expect(actual).toEqual(expected);
+    expect(actual).toEqual(errorMessage);
   });
 
   it('GIVEN some error ocurred WHEN fetching all delivery locales on init THEN isFetching should be false', () => {
