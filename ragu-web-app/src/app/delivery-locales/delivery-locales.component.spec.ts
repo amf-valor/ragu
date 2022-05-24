@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { within } from '@testing-library/angular';
 import { fireEvent, screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
@@ -131,8 +132,8 @@ describe('DeliveryLocalesComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(screen.queryByText('itagua')).withContext('itagua should be displayed').not.toBeNull();
-    expect(screen.queryByText('centro')).withContext('centro should be displayed').not.toBeNull();
+    expect(screen.queryByText('itagua - in memory')).withContext('itagua should be displayed').not.toBeNull();
+    expect(screen.queryByText('centro - in memory')).withContext('centro should be displayed').not.toBeNull();
   });
 
   it('GIVEN component is initializing WHEN is fetching all delivery locales THEN', async () => {
@@ -177,6 +178,25 @@ describe('DeliveryLocalesComponent', () => {
 
     expect(component.isFetching).toBeFalse();
   });
+
+  it('GIVEN an existing delivery locale WHEN user click on remove THEN delivery locale should be removed from the list', async () => {
+    const saveButton = screen.getByRole('button', {name: 'Salvar'});
+    const taxInput = screen.getByLabelText('Taxa');
+    await userEvent.type(screen.getByLabelText('Bairro'), 'toDelete');
+    fireEvent.change(taxInput, {target:{value: "20"}});
+    fireEvent.blur(taxInput);
+    fixture.detectChanges();
+    await userEvent.click(saveButton);
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const deleteButton = within(screen.getByRole('row', {name: /todelete/i})).getByTestId("trashButton") 
+    await userEvent.click(deleteButton);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    
+    expect(screen.queryByRole('row', { name: /toDelete/i })).toBeNull();
+  })
 
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
     return value.replace(/\u00A0/g, ' ');

@@ -27,6 +27,14 @@
             <tr>
                 <td>{{deliveryLocale.hood}}</td>
                 <td>{{deliveryLocale.tax | currency}}</td>
+                <td>
+                    <p-button 
+                        icon="pi pi-trash" 
+                        data-testid="trashButton"
+                        (click)="onTrashButtonClick(deliveryLocale.id)"
+                    >
+                    </p-button>
+                </td>
             </tr>
         </ng-template>
     

@@ -87,4 +87,15 @@ export class DeliveryLocalesComponent implements OnInit{
       });
   }
 
+  onTrashButtonClick(id: number){
+    this.deliveryLocalesService.delete(id)
+      .subscribe(() => this.removeDeliveryLocaleById(id))
+  }
+    
+  private removeDeliveryLocaleById(id: number) {
+    const quantityOfItemsToRemove = 1;
+    const indexToRemove = this.deliveryLocales.findIndex(item => item.id === id);
+    this.deliveryLocales.splice(indexToRemove, quantityOfItemsToRemove);
+  }
+    
 }
