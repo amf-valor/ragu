@@ -82,7 +82,10 @@ export class DeliveryLocalesComponent implements OnInit{
   
   onTrashButtonClick(id: number){
     this.deliveryLocalesService.delete(id)
-    .subscribe(() => this.removeDeliveryLocaleById(id))
+    .subscribe({
+      next: () => this.removeDeliveryLocaleById(id),
+      error: () => this.addErrorMessage()
+    })
   }
   
   private addErrorMessage(): void {

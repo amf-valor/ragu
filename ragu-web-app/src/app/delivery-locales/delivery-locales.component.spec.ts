@@ -199,6 +199,18 @@ describe('DeliveryLocalesComponent', () => {
     expect(screen.queryByRole('row', { name: /toDelete/i })).toBeNull();
   })
 
+  it('GIVEN some error ocurred WHEN fetching delivery locales on init THEN should add error to MessageService', () => {
+    const messageService = TestBed.inject(MessageService);
+    let actual: Message = {};
+    
+    spyOn(TestBed.inject(DeliveryLocalesService), 'delete').and.returnValue(throwError(() =>  new Error("any")));
+    messageService.messageObserver.subscribe(message => actual = message as Message);
+    
+    component.onTrashButtonClick(0);
+
+    expect(actual).toEqual(errorMessage);
+  });
+
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
     return value.replace(/\u00A0/g, ' ');
   }
