@@ -172,12 +172,12 @@ describe('DeliveryLocalesComponent', () => {
     expect(actual).toEqual(errorMessage);
   });
 
-  it('GIVEN some error ocurred WHEN fetching all delivery locales on init THEN isFetching should be false', () => {
+  it('GIVEN some error ocurred WHEN fetching all delivery locales on init THEN isTableLoading should be false', () => {
     spyOn(TestBed.inject(DeliveryLocalesService), 'getAll').and.returnValue(throwError(() =>  new Error("any")));
 
     component.ngOnInit();
 
-    expect(component.isFetching).toBeFalse();
+    expect(component.isTableLoading).toBeFalse();
   });
 
   it('GIVEN an existing delivery locale WHEN user click on remove THEN delivery locale should be removed from the list', async () => {
@@ -199,7 +199,7 @@ describe('DeliveryLocalesComponent', () => {
     expect(screen.queryByRole('row', { name: /toDelete/i })).toBeNull();
   })
 
-  it('GIVEN some error ocurred WHEN fetching delivery locales on init THEN should add error to MessageService', () => {
+  it('GIVEN some error ocurred WHEN deleting delivery locales THEN should add error to MessageService', () => {
     const messageService = TestBed.inject(MessageService);
     let actual: Message = {};
     
@@ -209,6 +209,21 @@ describe('DeliveryLocalesComponent', () => {
     component.onTrashButtonClick(0);
 
     expect(actual).toEqual(errorMessage);
+  });
+
+  it('GIVEN trash button was clicked WHEN is removing THEN load spinner should appear and disappear', async () => {
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const trashButton = within(screen.getByRole('row', {name: /itagua - in memory/i})).getByTestId("trashButton")
+    const table = screen.getByTestId('delivery-locales-table');
+    
+    await userEvent.click(trashButton);
+    fixture.detectChanges();
+    expect(table.querySelector(".pi-spinner")).withContext('table loading after trash button clicked').not.toBeNull();
+    
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(table.querySelector(".pi-spinner")).withContext('table stop loading when delete operation finished').toBeNull();
   });
 
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {

@@ -20,9 +20,9 @@ export class DeliveryLocalesComponent implements OnInit{
     return this._deliveryLocales;
   }
   
-  private _isFetching: boolean;
-  public get isFetching(): boolean {
-    return this._isFetching;
+  private _isTableLoading: boolean;
+  public get isTableLoading(): boolean {
+    return this._isTableLoading;
   }
   
   public get hoodControl() : AbstractControl { 
@@ -48,15 +48,15 @@ export class DeliveryLocalesComponent implements OnInit{
       tax: [null, Validators.required]
     });
 
-    this._isFetching = false;
+    this._isTableLoading = false;
     this._isSaving = false;
   }
 
   ngOnInit(): void {
-    this._isFetching = true;
+    this._isTableLoading = true;
     
     this.deliveryLocalesService.getAll()
-      .pipe(finalize(() => this._isFetching = false ))
+      .pipe(finalize(() => this._isTableLoading = false ))
       .subscribe({
         next: deliveryLocales => {
           this._deliveryLocales = deliveryLocales;
@@ -81,7 +81,10 @@ export class DeliveryLocalesComponent implements OnInit{
   }
   
   onTrashButtonClick(id: number){
+    this._isTableLoading = true;
+
     this.deliveryLocalesService.delete(id)
+    .pipe(finalize(() => this._isTableLoading = false))
     .subscribe({
       next: () => this.removeDeliveryLocaleById(id),
       error: () => this.addErrorMessage()

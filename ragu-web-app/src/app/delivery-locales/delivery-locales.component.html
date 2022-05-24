@@ -16,7 +16,7 @@
     <p-button [disabled]="deliveryLocalesForm.invalid" (onClick)="onSaveButtonClick()" [loading]="isSaving">Salvar&nbsp;</p-button>
 </form>
 <div class="delivery-locales-table-container">
-    <p-table [value]="deliveryLocales" [loading]="isFetching" data-testid="delivery-locales-table">
+    <p-table [value]="deliveryLocales" [loading]="isTableLoading" data-testid="delivery-locales-table">
         <ng-template pTemplate="header">
             <tr>
                 <th>Bairro</th>
