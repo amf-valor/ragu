@@ -8,6 +8,7 @@ import { DeliveryLocalesService } from "./delivery-locales.service";
 let deliveryLocaleService: DeliveryLocalesService;
 
 const URI = `${environment.raguBaseUrl}/api/deliveryLocales`;
+const expectedErrorMessage = 'something unexpected occurred!';
 
 describe('DeliveryLocales service', () => {
     beforeEach(() => { 
@@ -28,7 +29,7 @@ describe('DeliveryLocales service', () => {
         
         deliveryLocaleService.post({ hood: 'any', tax:20.00 }).subscribe({
             next: () => fail('expected error, not post succeded'),
-            error: error => expect(error.message).toBe('something unexpected occurred!')
+            error: error => expect(error.message).toBe(expectedErrorMessage)
         });
         
         const req = httpTest.match(URI)[0];
@@ -41,11 +42,24 @@ describe('DeliveryLocales service', () => {
         
         deliveryLocaleService.getAll().subscribe({
             next: () => fail('expected error, not post succeded'),
-            error: error => expect(error.message).toBe('something unexpected occurred!')
+            error: error => expect(error.message).toBe(expectedErrorMessage)
         });
         
         const req = httpTest.match(URI)[0];
         expect(req).withContext(`it was not found any request for: ${URI}`).toBeDefined();
+        req.flush('', new HttpErrorResponse({status: 500, statusText: 'Internal Server Error'}));
+    });
+
+    it('GIVEN an error occurred WHEN delete delivery locales THEN should return the error something unexpected occured!', () => {
+        const httpTest =  TestBed.inject(HttpTestingController);
+        
+        deliveryLocaleService.delete(0).subscribe({
+            next: () => fail('expected error, not delete succeded'),
+            error: error => expect(error.message).toBe(expectedErrorMessage)
+        });
+        
+        const req = httpTest.match(`${URI}/0`)[0];
+        expect(req).withContext(`it was not found any request for: ${URI}/0`).toBeDefined();
         req.flush('', new HttpErrorResponse({status: 500, statusText: 'Internal Server Error'}));
     });
 });

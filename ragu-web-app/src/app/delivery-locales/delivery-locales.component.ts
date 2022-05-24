@@ -61,41 +61,42 @@ export class DeliveryLocalesComponent implements OnInit{
         next: deliveryLocales => {
           this._deliveryLocales = deliveryLocales;
         },
-        error: () => this.messageService.add({
-          severity:'error', 
-          summary:'Oops!', 
-          detail:'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
-        })
+        error: () => this.addErrorMessage()
       });
   }
 
+  
   onSaveButtonClick(){
     this._isSaving = true;
-
+    
     this.deliveryLocalesService.post({ hood: this.hoodControl.value, tax: this.taxControl.value })
-      .pipe(finalize(() => this._isSaving = false))
-      .subscribe({
-        next: deliveryLocale => {
+    .pipe(finalize(() => this._isSaving = false))
+    .subscribe({
+      next: deliveryLocale => {
           this.deliveryLocales.push(deliveryLocale);
           this.deliveryLocalesForm.reset();
         },
-        error: () => this.messageService.add({
-          severity:'error', 
-          summary:'Oops!', 
-          detail:'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
-        })
+        error: () => this.addErrorMessage()
       });
   }
-
+  
   onTrashButtonClick(id: number){
     this.deliveryLocalesService.delete(id)
-      .subscribe(() => this.removeDeliveryLocaleById(id))
+    .subscribe(() => this.removeDeliveryLocaleById(id))
   }
-    
+  
+  private addErrorMessage(): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Oops!',
+      detail: 'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
+    });
+  }
+
   private removeDeliveryLocaleById(id: number) {
     const quantityOfItemsToRemove = 1;
     const indexToRemove = this.deliveryLocales.findIndex(item => item.id === id);
     this.deliveryLocales.splice(indexToRemove, quantityOfItemsToRemove);
   }
-    
+  
 }
