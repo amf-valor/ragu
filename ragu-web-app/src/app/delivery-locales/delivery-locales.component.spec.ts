@@ -17,9 +17,25 @@ const errorMessage: Message = {
   detail: 'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
 };
 
+class DeliveryLocalesPage{
+  get hoodInput(): HTMLInputElement{
+    return screen.getByLabelText('Bairro');
+  }
+  
+  get taxInput(): HTMLInputElement{
+    return screen.getByLabelText('Taxa');
+  }
+  
+  get saveButton(): HTMLButtonElement {
+    return screen.getByRole('button', {name: 'Salvar'})
+  
+  }
+}
+
 describe('DeliveryLocalesComponent', () => {
   let fixture: ComponentFixture<DeliveryLocalesComponent>;
   let component: DeliveryLocalesComponent;
+  let page: DeliveryLocalesPage;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -37,39 +53,26 @@ describe('DeliveryLocalesComponent', () => {
     fixture = TestBed.createComponent(DeliveryLocalesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    page = new DeliveryLocalesPage();
   });
 
-  it(`GIVEN ragu loaded correctly WHEN user goes to Locais de entrega THEN bairro should be empty and taxa should be empty 
-  and save button should be disabled`, () => {
-
-    const hoodInput = screen.getByLabelText('Bairro') as HTMLInputElement;
-    const taxInput = screen.getByLabelText('Taxa') as HTMLInputElement;
-    const saveButton = screen.getByRole('button', {name: 'Salvar'}) as HTMLButtonElement;
-
-    expect(hoodInput.value).toBe('');
-    expect(taxInput.value).toBe('');
-    expect(saveButton.disabled).toBeTrue();
+  it(`GIVEN delivery locales is loaded WHEN save button THEN it should be disabled`, () => {
+    expect(page.saveButton.disabled).toBeTrue();
   });
 
   it('GIVEN tax input WHEN user types any letter THEN tax input should not accept and remain empty', async () => {
-    const taxInput = screen.getByLabelText('Taxa');
-    
-    await userEvent.type(taxInput, 'as');
-    
-    expect(taxInput.textContent).toBe('');
+    await userEvent.type(page.taxInput, 'as');
+    expect(page.taxInput.textContent).toBe('');
   });
 
   it('GIVEN tax input WHEN user types a number THEN tax input should format the number to currency real', async () => {
-    const taxInput = screen.getByLabelText('Taxa') as HTMLInputElement;
-    
-    fireEvent.change(taxInput, {target:{value: "20"}});
-    fireEvent.blur(taxInput);
+    fireEvent.change(page.taxInput, {target:{value: "20"}});
+    fireEvent.blur(page.taxInput);
 
-    //u00A0 is the unicode for &nbsp
     //the replace is needed because the value is an HTML string from input
-    //angular pipe, after formating, it turns R$&nbsp20,00 which was 
-    //breaking the comparision against R$ 20,00 and failing the test.
-    expect(replaceNbspByEmptySpace(taxInput.value)).toEqual('R$ 20,00');
+    //angular pipe, after formating, it turns to R$&nbsp20,00 which was 
+    //breaking the comparision against R$ 20,00 and failing the test silently.
+    expect(replaceNbspByEmptySpace(page.taxInput.value)).toEqual('R$ 20,00');
   });
 
   it('GIVEN neighbourhood and tax WHEN user clicks on salvar THEN should clear inputs and append new line to the hood list ', waitForAsync(async() => {
@@ -227,7 +230,8 @@ describe('DeliveryLocalesComponent', () => {
   });
 
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
-    return value.replace(/\u00A0/g, ' ');
+    const nbspUnicodePattern = /\u00A0/g;
+    return value.replace(nbspUnicodePattern, ' ');
   }
 
 });
