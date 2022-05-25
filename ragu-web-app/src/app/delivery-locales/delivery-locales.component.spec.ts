@@ -21,14 +21,25 @@ class DeliveryLocalesPage{
   get hoodInput(): HTMLInputElement{
     return screen.getByLabelText('Bairro');
   }
+
+  get saveButton(): HTMLButtonElement {
+    return screen.getByRole('button', {name: 'Salvar'})  
+  }
   
   get taxInput(): HTMLInputElement{
     return screen.getByLabelText('Taxa');
   }
   
-  get saveButton(): HTMLButtonElement {
-    return screen.getByRole('button', {name: 'Salvar'})
+  get table(): HTMLElement{
+    return screen.getByRole('table');
+  }
   
+  getCell(text: string): HTMLElement {
+    return screen.getByRole('cell',{ name: text })
+  }
+  
+  queryCell(text: string): HTMLElement | null {
+    return screen.queryByRole('cell', { name: text })
   }
 }
 
@@ -76,22 +87,19 @@ describe('DeliveryLocalesComponent', () => {
   });
 
   it('GIVEN neighbourhood and tax WHEN user clicks on salvar THEN should clear inputs and append new line to the hood list ', waitForAsync(async() => {
-    expect(screen.queryByText('Vila matilde')).toBeNull();
-
-    const taxInput = screen.getByLabelText('Taxa');
-    const saveButton = screen.getByRole('button', {name: 'Salvar'});
+    expect(page.queryCell('Vila matilde')).toBeNull();
     
-    await userEvent.type(screen.getByLabelText('Bairro'), 'Vila matilde');
-    fireEvent.change(taxInput, {target:{value: "20"}});
-    fireEvent.blur(taxInput);
+    await userEvent.type(page.hoodInput, 'Vila matilde');
+    fireEvent.change(page.taxInput, { target: { value: "20" } });
+    fireEvent.blur(page.taxInput);
     fixture.detectChanges();
-    await userEvent.click(saveButton);
-    fireEvent.change(screen.getByRole('table'));  
+    await userEvent.click(page.saveButton);
+    fireEvent.change(page.table);  
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect((screen.getByLabelText('Bairro') as HTMLInputElement).value).toBe('');
-    expect(screen.getByText('Vila matilde')).toBeDefined();
+    expect(page.hoodInput.value).toBe('');
+    expect(page.getCell('Vila matilde')).toBeDefined();
     expect(screen.getByText('R$ 20,00')).toBeDefined();
   }));
 
