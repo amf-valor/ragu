@@ -11,6 +11,8 @@ import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
 import { DeliveryLocalesService } from './delivery-locales.service';
 
+const SPINNER_CLASS = ".pi-spinner";
+
 const errorMessage: Message = {
   severity: 'error',
   summary: 'Oops!',
@@ -115,7 +117,7 @@ describe('DeliveryLocalesComponent', () => {
 
   it('GIVEN tax input WHEN user do not provide the tax THEN required error message should appear', async () => {
     expect(screen.queryByText('Taxa é obrigatório')).withContext('tax input required error message').toBeNull();
-    
+
     fireEvent.blur(page.taxInput);
     fixture.detectChanges();
 
@@ -123,22 +125,19 @@ describe('DeliveryLocalesComponent', () => {
   });
 
   it('GIVEN save button was clicked WHEN is saving THEN load spinner should appear and disappear', async () => {
-    const saveButton = screen.getByRole('button', {name: 'Salvar'});
-    expect(saveButton.querySelector(".pi-spinner")).withContext('save button loading when component appear').toBeNull();
+    expect(page.saveButton.querySelector(SPINNER_CLASS)).withContext('save button loading when component appear').toBeNull();
 
-    const taxInput = screen.getByLabelText('Taxa');
-    
     await userEvent.type(screen.getByLabelText('Bairro'), 'any');
-    fireEvent.change(taxInput, {target:{value: "2"}});
-    fireEvent.blur(taxInput);
+    fireEvent.change(page.taxInput, {target:{value: "2"}});
+    fireEvent.blur(page.taxInput);
     fixture.detectChanges();
-    await userEvent.click(saveButton);
+    await userEvent.click(page.saveButton);
     fixture.detectChanges();
-    expect(saveButton.querySelector(".pi-spinner")).withContext('save button loading just after clicked').not.toBeNull();
+    expect(page.saveButton.querySelector(SPINNER_CLASS)).withContext('save button loading just after clicked').not.toBeNull();
     
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(saveButton.querySelector(".pi-spinner")).withContext('save button loading when save operation finished').toBeNull();
+    expect(page.saveButton.querySelector(SPINNER_CLASS)).withContext('save button loading when save operation finished').toBeNull();
   });
 
   it('GIVEN delivery locales previously registered WHEN user goes to Locais de entrega THEN all of them should be displayed', async() => {
@@ -152,11 +151,11 @@ describe('DeliveryLocalesComponent', () => {
   it('GIVEN component is initializing WHEN is fetching all delivery locales THEN', async () => {
     const table = screen.getByTestId('delivery-locales-table');
     fixture.detectChanges();
-    expect(table.querySelector(".pi-spinner")).withContext("loading should appear when is fetching").not.toBeNull();
+    expect(table.querySelector(SPINNER_CLASS)).withContext("loading should appear when is fetching").not.toBeNull();
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(table.querySelector(".pi-spinner")).withContext("loading should disappear after get all delivery locales").toBeNull();
+    expect(table.querySelector(SPINNER_CLASS)).withContext("loading should disappear after get all delivery locales").toBeNull();
   });
 
   it('GIVEN some error ocurred WHEN save new delivery locale THEN isSaving should be false', () => {
@@ -226,11 +225,11 @@ describe('DeliveryLocalesComponent', () => {
     
     await userEvent.click(trashButton);
     fixture.detectChanges();
-    expect(table.querySelector(".pi-spinner")).withContext('table loading after trash button clicked').not.toBeNull();
+    expect(table.querySelector(SPINNER_CLASS)).withContext('table loading after trash button clicked').not.toBeNull();
     
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(table.querySelector(".pi-spinner")).withContext('table stop loading when delete operation finished').toBeNull();
+    expect(table.querySelector(SPINNER_CLASS)).withContext('table stop loading when delete operation finished').toBeNull();
   });
 
   function replaceNbspByEmptySpace(value: string): ArrayLike<string> {
