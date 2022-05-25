@@ -11,8 +11,9 @@ import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
 import { DeliveryLocalesService } from './delivery-locales.service';
 
-const SPINNER_CLASS = ".pi-spinner";
 const GET_ALL = 'getAll';
+const ITAGUA_IN_MEMORY_PATTERN = /itagua - in memory/i;
+const SPINNER_CLASS = ".pi-spinner";
 
 const errorMessage: Message = {
   severity: 'error',
@@ -24,7 +25,7 @@ class DeliveryLocalesPage{
   get hoodInput(): HTMLInputElement{
     return screen.getByLabelText('Bairro');
   }
-
+  
   get saveButton(): HTMLButtonElement {
     return screen.getByRole('button', {name: 'Salvar'})  
   }
@@ -41,8 +42,16 @@ class DeliveryLocalesPage{
     return screen.getByRole('cell',{ name: text })
   }
   
+  getTrashButtonByRowName(name: string | RegExp): HTMLElement {
+    return within(screen.getByRole('row', { name: name })).getByTestId("trashButton")
+  }
+  
   queryCell(text: string): HTMLElement | null {
     return screen.queryByRole('cell', { name: text })
+  }
+  
+  queryRow(name: string | RegExp): HTMLElement | null {
+    return screen.queryByRole('row', { name: name })
   }
 }
 
@@ -186,23 +195,16 @@ describe('DeliveryLocalesComponent', () => {
     expect(component.isTableLoading).toBeFalse();
   });
 
-  it('GIVEN an existing delivery locale WHEN user click on remove THEN delivery locale should be removed from the list', async () => {
-    const saveButton = screen.getByRole('button', {name: 'Salvar'});
-    const taxInput = screen.getByLabelText('Taxa');
-    await userEvent.type(screen.getByLabelText('Bairro'), 'toDelete');
-    fireEvent.change(taxInput, {target:{value: "20"}});
-    fireEvent.blur(taxInput);
-    fixture.detectChanges();
-    await userEvent.click(saveButton);
+  fit('GIVEN an existing delivery locale WHEN user click on trash button THEN delivery locale should be removed from the hood list', async () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    const deleteButton = within(screen.getByRole('row', {name: /todelete/i})).getByTestId("trashButton") 
+    const deleteButton = page.getTrashButtonByRowName(ITAGUA_IN_MEMORY_PATTERN); 
     await userEvent.click(deleteButton);
     await fixture.whenStable();
     fixture.detectChanges();
     
-    expect(screen.queryByRole('row', { name: /toDelete/i })).toBeNull();
+    expect(page.queryRow(ITAGUA_IN_MEMORY_PATTERN)).toBeNull();
   })
 
   it('GIVEN some error ocurred WHEN deleting delivery locales THEN should add error to MessageService', () => {
