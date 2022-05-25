@@ -12,6 +12,7 @@ import { DeliveryLocalesModule } from './delivery-locales.module';
 import { DeliveryLocalesService } from './delivery-locales.service';
 
 const SPINNER_CLASS = ".pi-spinner";
+const GET_ALL = 'getAll';
 
 const errorMessage: Message = {
   severity: 'error',
@@ -33,7 +34,7 @@ class DeliveryLocalesPage{
   }
   
   get table(): HTMLElement{
-    return screen.getByRole('table');
+    return screen.getByTestId('delivery-locales-table');
   }
   
   getCell(text: string): HTMLElement {
@@ -144,18 +145,17 @@ describe('DeliveryLocalesComponent', () => {
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(screen.queryByText('itagua - in memory')).withContext('itagua should be displayed').not.toBeNull();
-    expect(screen.queryByText('centro - in memory')).withContext('centro should be displayed').not.toBeNull();
+    expect(page.getCell('itagua - in memory')).withContext('itagua should be displayed').not.toBeNull();
+    expect(page.getCell('centro - in memory')).withContext('centro should be displayed').not.toBeNull();
   });
 
   it('GIVEN component is initializing WHEN is fetching all delivery locales THEN', async () => {
-    const table = screen.getByTestId('delivery-locales-table');
     fixture.detectChanges();
-    expect(table.querySelector(SPINNER_CLASS)).withContext("loading should appear when is fetching").not.toBeNull();
+    expect(page.table.querySelector(SPINNER_CLASS)).withContext("loading should appear when is fetching").not.toBeNull();
 
     await fixture.whenStable();
     fixture.detectChanges();
-    expect(table.querySelector(SPINNER_CLASS)).withContext("loading should disappear after get all delivery locales").toBeNull();
+    expect(page.table.querySelector(SPINNER_CLASS)).withContext("loading should disappear after get all delivery locales").toBeNull();
   });
 
   it('GIVEN some error ocurred WHEN save new delivery locale THEN isSaving should be false', () => {
@@ -170,7 +170,7 @@ describe('DeliveryLocalesComponent', () => {
     const messageService = TestBed.inject(MessageService);
     let actual: Message = {};
     
-    spyOn(TestBed.inject(DeliveryLocalesService), 'getAll').and.returnValue(throwError(() =>  new Error("any")));
+    spyOn(TestBed.inject(DeliveryLocalesService), GET_ALL).and.returnValue(throwError(() =>  new Error("any")));
     messageService.messageObserver.subscribe(message => actual = message as Message);
     
     component.ngOnInit();
@@ -179,7 +179,7 @@ describe('DeliveryLocalesComponent', () => {
   });
 
   it('GIVEN some error ocurred WHEN fetching all delivery locales on init THEN isTableLoading should be false', () => {
-    spyOn(TestBed.inject(DeliveryLocalesService), 'getAll').and.returnValue(throwError(() =>  new Error("any")));
+    spyOn(TestBed.inject(DeliveryLocalesService), GET_ALL).and.returnValue(throwError(() =>  new Error("any")));
 
     component.ngOnInit();
 
