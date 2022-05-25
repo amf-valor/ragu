@@ -106,10 +106,8 @@ describe('DeliveryLocalesComponent', () => {
   it('GIVEN hood input WHEN do not provide the neighborhood THEN required error message appear', async () => {
     expect(screen.queryByText('Bairro é obrigatório')).withContext('hood input required error message').toBeNull();
 
-    const hoodInput = screen.getByLabelText('Bairro');
-
-    await userEvent.type(hoodInput, 'any');
-    await userEvent.clear(hoodInput);
+    await userEvent.type(page.hoodInput, 'any');
+    await userEvent.clear(page.hoodInput);
     fixture.detectChanges();
 
     expect(screen.queryByText('Bairro é obrigatório')).withContext('hood input required error message').not.toBeNull();
@@ -117,10 +115,8 @@ describe('DeliveryLocalesComponent', () => {
 
   it('GIVEN tax input WHEN user do not provide the tax THEN required error message should appear', async () => {
     expect(screen.queryByText('Taxa é obrigatório')).withContext('tax input required error message').toBeNull();
-
-    const taxInput = screen.getByLabelText('Taxa');
-
-    fireEvent.blur(taxInput);
+    
+    fireEvent.blur(page.taxInput);
     fixture.detectChanges();
 
     expect(screen.queryByText('Taxa é obrigatório')).withContext('tax input required error message').not.toBeNull();
