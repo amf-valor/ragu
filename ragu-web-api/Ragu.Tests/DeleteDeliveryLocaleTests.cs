@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using FluentAssertions;
 using Ragu.Core;
 using Ragu.Services;
 using Xunit;
@@ -38,8 +39,8 @@ namespace Ragu.Tests
             
             using (var context = _fixture.CreateDbContext())
             {
-                Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-                Assert.Null(context.DeliveryLocales.Find(saoMiguel.Id));    
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                context.DeliveryLocales.Find(saoMiguel.Id).Should().BeNull();    
             } 
         }
 
@@ -49,7 +50,7 @@ namespace Ragu.Tests
             var response = await _httpClient
                 .DeleteAsync($"{RaguWebApiRoutes.DeliveryLocales}/{NON_EXISTENCE_ID}");
             
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
         [Fact]
@@ -61,7 +62,7 @@ namespace Ragu.Tests
 
                 Func<Task> actual = () => service.Remove(NON_EXISTENCE_ID);
 
-                await Assert.ThrowsAsync<InvalidOperationException>(actual);    
+                await actual.Should().ThrowAsync<InvalidOperationException>();    
             }
         }
 
