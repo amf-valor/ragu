@@ -12,46 +12,45 @@ import { DeliveryLocalesService } from './delivery-locales.service';
   styleUrls: ['./delivery-locales.component.css']
 })
 export class DeliveryLocalesComponent implements OnInit, OnDestroy {
-  deliveryLocalesForm: FormGroup;
+  private readonly _deliveryLocalesForm: FormGroup = this.formBuilder.group({
+    hood: ['', Validators.required],
+    tax: [null, Validators.required]
+  });
+
+  get deliveryLocalesForm(): FormGroup {
+    return this._deliveryLocalesForm;
+  }
 
   private _deliveryLocales: DeliveryLocale[] = [];
-  public get deliveryLocales(): DeliveryLocale[] {
+  get deliveryLocales(): DeliveryLocale[] {
     return this._deliveryLocales;
   }
 
-  private _isTableLoading: boolean;
-  public get isTableLoading(): boolean {
+  private _isTableLoading: boolean = false;
+  get isTableLoading(): boolean {
     return this._isTableLoading;
   }
 
-  private _isSaving: boolean;
-  public get isSaving(): boolean {
+  private _isSaving: boolean = false;
+  get isSaving(): boolean {
     return this._isSaving;
   }
 
-  public get hoodControl(): AbstractControl {
-    return <AbstractControl>this.deliveryLocalesForm.get('hood');
+  get hoodControl(): AbstractControl {
+    return <AbstractControl>this._deliveryLocalesForm.get('hood');
   }
   
-  public get taxControl(): AbstractControl {
-    return <AbstractControl>this.deliveryLocalesForm.get('tax');
+  get taxControl(): AbstractControl {
+    return <AbstractControl>this._deliveryLocalesForm.get('tax');
   }
   
   private _isAlive: boolean = true;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private deliveryLocalesService: DeliveryLocalesService,
-    private messageService: MessageService
-  ) {
-    this.deliveryLocalesForm = this.formBuilder.group({
-      hood: ['', Validators.required],
-      tax: [null, Validators.required]
-    });
-
-    this._isTableLoading = false;
-    this._isSaving = false;
-  }
+    private readonly formBuilder: FormBuilder,
+    private readonly deliveryLocalesService: DeliveryLocalesService,
+    private readonly messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this._isTableLoading = true;
@@ -62,7 +61,7 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
         finalize(() => this._isTableLoading = false),
       ).subscribe({
         next: deliveryLocales => {
-          this._deliveryLocales = deliveryLocales;
+          this._deliveryLocales = [...deliveryLocales];
         },
         error: () => this.addErrorMessage()
       });
@@ -78,8 +77,8 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
         takeWhile(() => this._isAlive)  
       ).subscribe({
         next: deliveryLocale => {
-          this.deliveryLocales.push(deliveryLocale);
-          this.deliveryLocalesForm.reset();
+          this._deliveryLocales.push({...deliveryLocale});
+          this._deliveryLocalesForm.reset();
         },
         error: () => this.addErrorMessage()
       });
@@ -108,9 +107,8 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
   }
 
   private removeDeliveryLocaleById(id: number) {
-    const quantityOfItemsToRemove = 1;
-    const indexToRemove = this.deliveryLocales.findIndex(item => item.id === id);
-    this.deliveryLocales.splice(indexToRemove, quantityOfItemsToRemove);
+    this._deliveryLocales = [...this._deliveryLocales
+      .filter(deliveryLocale => deliveryLocale.id !== id)]
   }
 
   ngOnDestroy(): void {
