@@ -3,20 +3,45 @@
         <span class="p-float-label field">
             <input id="hood-input" type="text" pInputText formControlName="hood"> 
             <label for="hood-input">Bairro</label>
-            <small  *ngIf="hoodControl.invalid && (hoodControl.dirty || hoodControl.touched )" class="p-error block">Bairro é obrigatório</small>
+            <small  
+                *ngIf="hoodControl.invalid && (hoodControl.dirty || hoodControl.touched )" 
+                class="p-error block"
+            >
+                Bairro é obrigatório
+            </small>
         </span>     
     </div>
     <div class="field">
         <span class="p-float-label">
-            <p-inputNumber mode="currency" currency="BRL" inputId="tax-input" locale="pt-BR" formControlName="tax"></p-inputNumber>
+            <p-inputNumber 
+                mode="currency" 
+                currency="BRL" 
+                inputId="tax-input" 
+                locale="pt-BR" 
+                formControlName="tax">
+            </p-inputNumber>
             <label for="tax-input">Taxa</label>
-            <small *ngIf="taxControl.invalid && (taxControl.dirty || taxControl.touched)" class="p-error block">Taxa é obrigatório</small>
+            <small 
+                *ngIf="taxControl.invalid && (taxControl.dirty || taxControl.touched)" 
+                class="p-error block"
+            >
+                Taxa é obrigatório
+            </small>
         </span>
     </div>     
-    <p-button [disabled]="deliveryLocalesForm.invalid" (onClick)="onSaveButtonClick()" [loading]="isSaving">Salvar&nbsp;</p-button>
+    <p-button 
+        [disabled]="deliveryLocalesForm.invalid" 
+        (onClick)="onSaveButtonClick()" 
+        [loading]="isSaving">
+        Salvar&nbsp;
+    </p-button>
 </form>
 <div class="delivery-locales-table-container">
-    <p-table [value]="deliveryLocales" [loading]="isTableLoading" data-testid="delivery-locales-table">
+    <p-table 
+        [value]="deliveryLocales" 
+        [loading]="isTableLoading" 
+        data-testid="delivery-locales-table"
+    >
         <ng-template pTemplate="header">
             <tr>
                 <th>Bairro</th>
@@ -37,7 +62,6 @@
                 </td>
             </tr>
         </ng-template>
-    
     </p-table>
 </div>
    
