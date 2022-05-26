@@ -45,6 +45,16 @@ namespace Ragu.WebApi.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            if(await _service.NotExists(id))
+                return NotFound();
+            
+            await _service.Remove(id);
+            return Ok();
+        }
     }
 
     public class GetDeliveryLocaleResponse
