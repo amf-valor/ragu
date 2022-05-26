@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Ragu.Tests
 {
-    [Collection(Fixture.Collection)]
+    [Collection(nameof(FixtureCollection))]
     public class CreateDeliveryLocaleTests : IAsyncLifetime
     {
         private readonly Fixture _fixture;

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Ragu.Tests
 {
-    [Collection(Fixture.Collection)]
+    [Collection(nameof(FixtureCollection))]
     public class GetAllDeliveryLocaleTests
     {
         private readonly Fixture _fixture;
