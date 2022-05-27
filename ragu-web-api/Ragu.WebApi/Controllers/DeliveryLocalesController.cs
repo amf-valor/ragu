@@ -2,81 +2,80 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Ragu.Services;
 
-namespace Ragu.WebApi.Controllers
+namespace Ragu.WebApi.Controllers;
+
+[Route("api/deliveryLocales")]
+[ApiController]
+public class DeliveryLocalesController : ControllerBase
 {
-    [Route("api/deliveryLocales")]
-    [ApiController]
-    public class DeliveryLocalesController : ControllerBase
+    private readonly DeliveryLocaleService _service;
+
+    public DeliveryLocalesController(DeliveryLocaleService service)
     {
-        private readonly DeliveryLocaleService _service;
+        _service = service;
+    }
 
-        public DeliveryLocalesController(DeliveryLocaleService service)
-        {
-            _service = service;
-        }
+    [HttpPost]
+    public async Task<ActionResult<PostDeliveryLocaleResponse>> Post(PostDeliveryLocaleRequest request)
+    {
+        var newDeliveryLocale = await _service.Create(request.Hood, request.Tax!.Value);
 
-        [HttpPost]
-        public async Task<ActionResult<PostDeliveryLocaleResponse>> Post(PostDeliveryLocaleRequest request)
+        var response = new PostDeliveryLocaleResponse()
         {
-            var newDeliveryLocale = await _service.Create(request.Hood, request.Tax!.Value);
-            
-            var response = new PostDeliveryLocaleResponse()
+            Id = newDeliveryLocale.Id,
+            Hood = newDeliveryLocale.Hood,
+            Tax = newDeliveryLocale.Tax
+        };
+
+        return Created("api/deliveryLocales", response);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<ICollection<GetDeliveryLocaleResponse>>> Get()
+    {
+        var deliveryLocales = await _service.GetAll();
+
+        var response = deliveryLocales
+            .Select(item => new GetDeliveryLocaleResponse
             {
-                Id = newDeliveryLocale.Id,
-                Hood = newDeliveryLocale.Hood,
-                Tax = newDeliveryLocale.Tax
-            };
+                Id = item.Id,
+                Hood = item.Hood,
+                Tax = item.Tax
+            });
 
-            return Created("api/deliveryLocales", response);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<ICollection<GetDeliveryLocaleResponse>>> Get()
-        {
-            var deliveryLocales = await _service.GetAll();
-            
-            var response = deliveryLocales
-                .Select(item => new GetDeliveryLocaleResponse
-                {
-                    Id = item.Id,
-                    Hood = item.Hood,
-                    Tax = item.Tax
-                });
-
-            return Ok(response);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
-        {
-            if(await _service.NotExists(id))
-                return NotFound();
-            
-            await _service.Remove(id);
-            return Ok();
-        }
+        return Ok(response);
     }
 
-    public class GetDeliveryLocaleResponse
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
     {
-        public int Id { get; internal set; }
-        public string Hood { get; internal set; } = null!;
-        public decimal Tax { get; internal set; }
-    }
+        if (await _service.NotExists(id))
+            return NotFound();
 
-    public class PostDeliveryLocaleResponse
-    {
-        public int Id { get; set; }
-        public string Hood { get; set; } = null!;
-        public decimal Tax { get; set; }
+        await _service.Remove(id);
+        return Ok();
     }
+}
 
-    public class PostDeliveryLocaleRequest
-    {
-        [Required]
-        public string Hood { get; set; } = null!;
-        
-        [Required]
-        public decimal? Tax { get; set; }
-    }
+public class GetDeliveryLocaleResponse
+{
+    public int Id { get; internal set; }
+    public string Hood { get; internal set; } = null!;
+    public decimal Tax { get; internal set; }
+}
+
+public class PostDeliveryLocaleResponse
+{
+    public int Id { get; set; }
+    public string Hood { get; set; } = null!;
+    public decimal Tax { get; set; }
+}
+
+public class PostDeliveryLocaleRequest
+{
+    [Required]
+    public string Hood { get; set; } = null!;
+
+    [Required]
+    public decimal? Tax { get; set; }
 }

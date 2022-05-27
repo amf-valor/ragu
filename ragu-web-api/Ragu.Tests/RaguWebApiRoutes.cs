@@ -1,8 +1,7 @@
-namespace Ragu.Tests
+namespace Ragu.Tests;
+
+public static class RaguWebApiRoutes
 {
-    public static class RaguWebApiRoutes
-    {
-        public const string DeliveryLocales = "api/deliveryLocales";
-        
-    }
+    public const string DeliveryLocales = "api/deliveryLocales";
+
 }
