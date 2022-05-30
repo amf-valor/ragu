@@ -1,0 +1,9 @@
+<div *ngFor="let order of orders$ | async">
+    <div data-testId="order">
+        <span>{{order.customerName}}</span>
+        <span>valor: {{order.value | currency}}</span>
+        <span>{{order.isPaid ? "Pago" : "Não pago"}}</span>
+        <span>entrega: {{order.deliveryTax | currency}}</span>
+        <span>total: {{order.total | currency}}</span>
+    </div>
+</div>
