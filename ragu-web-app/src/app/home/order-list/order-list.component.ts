@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Order } from './order.model';
-import { OrderService } from './order.service';
+import { OrderService } from './order-ragu.service';
 
 @Component({
   selector: 'ragu-order-list',

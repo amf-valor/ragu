@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { Mother } from 'src/testing/mother';
 import { OrderListComponent } from './order-list.component';
 import { Order } from './order.model';
-import { OrderService } from './order.service';
+import { OrderService } from './order-ragu.service';
 
 
 registerLocaleData(localePt, 'pt');
