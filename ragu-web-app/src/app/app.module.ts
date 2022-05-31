@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { environment } from 'src/environments/environment';
 import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
     DeliveryLocalesModule,
     HttpClientModule,
     ToastModule,
+    HomeModule,
     environment.useInMemoryApi ? HttpClientInMemoryWebApiModule.forRoot(RaguInMemoryDbService) : [] 
   ],
   bootstrap: [AppComponent]
