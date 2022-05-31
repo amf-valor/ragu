@@ -4,6 +4,7 @@ import { DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { screen, within } from '@testing-library/angular';
 import { of } from 'rxjs';
+import { Mother } from 'src/testing/mother';
 import { OrderListComponent } from './order-list.component';
 import { Order } from './order.model';
 import { OrderService } from './order.service';
@@ -16,23 +17,15 @@ describe('OrderListComponent', () => {
   const orderServiceStub = jasmine.createSpyObj('OrderService', ['getByCreation']);
   
   const ORDER_TEST_ID = "order";
-  
-  const ORDER_OF_JOAO: Order = {
-    customerName: "João",
-    value: 68.70,
-    deliveryTax: 4.00,
-    isPaid: false,
-    total: 72.70
-  };
 
   const PAID_ORDER: Partial<Order> = {
     isPaid : true
   };
 
   const ORDER_LIST: Order[] = [
-    ORDER_OF_JOAO,
-    ORDER_OF_JOAO,
-    ORDER_OF_JOAO
+    Mother.orderOfJoao(),
+    Mother.orderOfJoao(),
+    Mother.orderOfJoao()
   ];
 
   beforeEach(async () => {
@@ -62,7 +55,7 @@ describe('OrderListComponent', () => {
   });
 
   it('should show order info', async () => {
-    orderServiceStub.getByCreation.and.returnValue(of([ORDER_OF_JOAO]));
+    orderServiceStub.getByCreation.and.returnValue(of([Mother.orderOfJoao()]));
     
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
