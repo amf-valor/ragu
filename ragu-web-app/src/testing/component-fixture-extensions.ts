@@ -12,5 +12,3 @@ ComponentFixture.prototype.queryOnDebugElement = function(predicate: Predicate<D
   return this.debugElement.query(predicate);
 };
 
-export {};
-
