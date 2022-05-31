@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MessageService } from 'primeng/api';
 import { finalize, takeWhile } from 'rxjs';
 import { DeliveryLocale } from './delivery-locale.model';
-import { DeliveryLocalesService } from './delivery-locales.service';
+import { DeliveryLocalesRaguService } from './delivery-locales-ragu.service';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly deliveryLocalesService: DeliveryLocalesService,
+    private readonly deliveryLocalesService: DeliveryLocalesRaguService,
     private readonly messageService: MessageService
   ) {}
 

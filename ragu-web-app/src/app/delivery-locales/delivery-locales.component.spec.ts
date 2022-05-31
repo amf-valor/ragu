@@ -9,7 +9,7 @@ import { throwError } from 'rxjs';
 import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
 import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
-import { DeliveryLocalesService } from './delivery-locales.service';
+import { DeliveryLocalesRaguService } from './delivery-locales-ragu.service';
 
 const ERROR_MESSAGE: Message = {
   severity: 'error',
@@ -201,7 +201,7 @@ describe('DeliveryLocalesComponent', () => {
   it(`GIVEN some error ocurred WHEN save new delivery locale 
       THEN isSaving should be false`, () => {
     
-    spyOn(TestBed.inject(DeliveryLocalesService), 'post')
+    spyOn(TestBed.inject(DeliveryLocalesRaguService), 'post')
       .and.returnValue(throwError(() => new Error("any")));
     
     component.onSaveButtonClick();
@@ -215,7 +215,7 @@ describe('DeliveryLocalesComponent', () => {
     const messageService = TestBed.inject(MessageService);
     let actual: Message = {};
     
-    spyOn(TestBed.inject(DeliveryLocalesService), GET_ALL)
+    spyOn(TestBed.inject(DeliveryLocalesRaguService), GET_ALL)
       .and.returnValue(throwError(() =>  new Error("any")));
     
     messageService.messageObserver.subscribe(message => actual = message as Message);
@@ -228,7 +228,7 @@ describe('DeliveryLocalesComponent', () => {
   it(`GIVEN some error ocurred WHEN fetching all delivery locales on init 
       THEN isTableLoading should be false`, () => {
 
-    spyOn(TestBed.inject(DeliveryLocalesService), GET_ALL)
+    spyOn(TestBed.inject(DeliveryLocalesRaguService), GET_ALL)
       .and.returnValue(throwError(() =>  new Error("any")));
 
     component.ngOnInit();
@@ -256,7 +256,7 @@ describe('DeliveryLocalesComponent', () => {
     const messageService = TestBed.inject(MessageService);
     let actual: Message = {};
     
-    spyOn(TestBed.inject(DeliveryLocalesService), 'delete')
+    spyOn(TestBed.inject(DeliveryLocalesRaguService), 'delete')
       .and.returnValue(throwError(() =>  new Error("any")));
 
     messageService.messageObserver.subscribe(message => actual = message as Message);
