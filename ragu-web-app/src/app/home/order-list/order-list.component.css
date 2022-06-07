@@ -1,0 +1,25 @@
+.payment-badge {
+  border-radius: 2px;
+  padding: 0.25em 0.5rem;
+  font-weight: 700;
+  letter-spacing: .3px;
+  padding-top: 0.8rem;
+}
+
+.payment-badge.paid {
+  background: #C8E6C9;
+  color: #256029;
+}
+
+.payment-badge.unpaid {
+  background: #FFCDD2;
+  color: #c63737;
+}
+
+.order{
+  padding-top: 0.5rem;
+}
+
+.order-values-gutter{
+  padding-top: 0.3rem;
+}

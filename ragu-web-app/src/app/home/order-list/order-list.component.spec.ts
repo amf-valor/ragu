@@ -8,6 +8,7 @@ import { Mother } from 'src/testing/mother';
 import { OrderListComponent } from './order-list.component';
 import { Order } from './order.model';
 import { OrderService } from './order-ragu.service';
+import { DataViewModule } from 'primeng/dataview';
 
 
 registerLocaleData(localePt, 'pt');
@@ -35,7 +36,8 @@ describe('OrderListComponent', () => {
         { provide: LOCALE_ID, useValue: 'pt' },
         { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
         { provide: OrderService, useValue: orderServiceStub}
-      ]
+      ],
+      imports: [DataViewModule]
     })
       .compileComponents();
   });
@@ -50,7 +52,7 @@ describe('OrderListComponent', () => {
    
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
-
+    
     expect(screen.getAllByTestId(ORDER_TEST_ID)).toHaveSize(ORDER_LIST.length);
   });
 
@@ -62,10 +64,10 @@ describe('OrderListComponent', () => {
     const actual = within(screen.getByTestId(ORDER_TEST_ID));
 
     expect(actual.getByText("João")).toBeDefined();
-    expect(actual.getByText("valor: R$ 68,70")).toBeDefined();
+    expect(actual.getByText(/R\$ 68,70/i)).toBeDefined();
     expect(actual.getByText("Não pago")).toBeDefined();
-    expect(actual.getByText("entrega: R$ 4,00")).toBeDefined();
-    expect(actual.getByText("total: R$ 72,70")).toBeDefined();
+    expect(actual.getByText(/R\$ 4,00/i)).toBeDefined();
+    expect(actual.getByText(/R\$ 72,70/i)).toBeDefined();
   });
 
   it('should show pago when order is paid',() => {

@@ -1,9 +1,27 @@
-<div *ngFor="let order of orders$ | async">
-    <div data-testId="order">
-        <span>{{order.customerName}}</span>
-        <span>valor: {{order.value | currency}}</span>
-        <span>{{order.isPaid ? "Pago" : "Não pago"}}</span>
-        <span>entrega: {{order.deliveryTax | currency}}</span>
-        <span>total: {{order.total | currency}}</span>
-    </div>
+<div *ngIf="orders$| async as orders">
+  <p-dataView [value]="orders">
+    <ng-template let-order pTemplate="listItem">
+      <div class="grid col-12 order" data-testId="order">
+        <div class="col-2">
+          <div class="text-xl font-bold">{{order.customerName}}</div>
+          <div 
+            class="'text-sm payment-badge" 
+            [class]="order.isPaid ? ' paid' : 'unpaid'">
+              {{order.isPaid ? "Pago" : "Não pago"}}
+          </div>
+        </div>
+        <div class="col-4 col-offset-4">
+          <div>
+              <span class="font-bold">valor:</span> {{order.value | currency}}
+            </div>
+          <div class="order-values-gutter">
+            <span class="font-bold">entrega:</span> {{order.deliveryTax | currency}}
+          </div>
+          <div class="order-values-gutter">
+            <span class="font-bold">total:</span> {{order.total | currency}}
+          </div>  
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
 </div>

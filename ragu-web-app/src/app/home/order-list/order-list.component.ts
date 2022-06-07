@@ -14,6 +14,8 @@ export class OrderListComponent implements OnInit{
   constructor(private readonly orderService: OrderService){}
  
   ngOnInit() {
-    this.orders$ = this.orderService.getByCreation(new Date());
+    const today = new Date();
+		today.setHours(0, 0, 0, 0);
+    this.orders$ = this.orderService.getByCreation(today);
   }
 }
