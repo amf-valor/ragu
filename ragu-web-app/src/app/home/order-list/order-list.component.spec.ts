@@ -19,10 +19,6 @@ describe('OrderListComponent', () => {
   
   const ORDER_TEST_ID = "order";
 
-  const PAID_ORDER: Partial<Order> = {
-    isPaid : true
-  };
-
   const ORDER_LIST: Order[] = [
     Mother.orderOfJoao(),
     Mother.orderOfJoao(),
@@ -30,6 +26,8 @@ describe('OrderListComponent', () => {
   ];
 
   beforeEach(async () => {
+    orderServiceStub.getByCreation.and.returnValue(of(ORDER_LIST));
+
     await TestBed.configureTestingModule({
       declarations: [OrderListComponent],
       providers: [
@@ -48,8 +46,6 @@ describe('OrderListComponent', () => {
   });
 
   it('should show order list', () => {
-    orderServiceStub.getByCreation.and.returnValue(of(ORDER_LIST));
-   
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
     
@@ -72,7 +68,11 @@ describe('OrderListComponent', () => {
   });
 
   it('should show pago when order is paid',() => {
-    orderServiceStub.getByCreation.and.returnValue(of([PAID_ORDER]));
+    const paidOrder: Partial<Order> = {
+      isPaid : true
+    };
+
+    orderServiceStub.getByCreation.and.returnValue(of([paidOrder]));
     
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
@@ -80,5 +80,23 @@ describe('OrderListComponent', () => {
     const actual = within(screen.getByTestId(ORDER_TEST_ID));
 
     expect(actual.getByText("Pago")).toBeDefined();
+  });
+
+  it('should show ordered by booking time', async () => {
+    const unorderedOrders: Partial<Order>[] = [
+      { bookingTime: "12:30" },
+      { bookingTime: "11:00" },
+      { bookingTime: "12:00" }
+    ]; 
+
+    orderServiceStub.getByCreation.and.returnValue(of(unorderedOrders));
+
+    fixture.componentInstance.ngOnInit();
+    fixture.detectChanges();
+    const actual = screen.getAllByTestId(ORDER_TEST_ID);
+
+    expect(within(actual[0]).queryByText('11:00')).withContext('11:00 should be first').not.toBeNull();
+    expect(within(actual[1]).queryByText('12:00')).withContext('12:00 should be second').not.toBeNull();
+    expect(within(actual[2]).queryByText('12:30')).withContext('12:30 should be third').not.toBeNull();
   });
 });

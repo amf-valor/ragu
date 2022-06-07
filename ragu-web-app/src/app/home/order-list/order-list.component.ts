@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { Order } from './order.model';
 import { OrderService } from './order-ragu.service';
 
@@ -16,6 +16,19 @@ export class OrderListComponent implements OnInit{
   ngOnInit() {
     const today = new Date();
 		today.setHours(0, 0, 0, 0);
-    this.orders$ = this.orderService.getByCreation(today);
+
+    this.orders$ = this.orderService
+      .getByCreation(today)
+      .pipe(
+        map(orders => orders.sort((firstOrder, secondOrder) => {
+          const firstNumber = convertTimeToNumber(firstOrder.bookingTime);
+          const secondNumber = convertTimeToNumber(secondOrder.bookingTime);
+          return firstNumber - secondNumber;
+        }))
+      );
+
+    function convertTimeToNumber(time: string) {
+      return parseInt(time.replace(/:/g, ""));
+    }
   }
 }
