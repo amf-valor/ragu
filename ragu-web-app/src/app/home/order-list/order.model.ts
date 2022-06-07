@@ -3,5 +3,6 @@ export interface Order{
     value: number,
     deliveryTax: number,
     total: number,
-    isPaid: boolean
+    isPaid: boolean,
+    bookingTime: string
 }

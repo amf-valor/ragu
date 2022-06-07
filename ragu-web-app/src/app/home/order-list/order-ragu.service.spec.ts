@@ -33,7 +33,7 @@ describe('OrderService', () => {
     });
     
     const testRequest = httpTestingController
-      .expectOne(`${uri}?creation_date=2022-05-01T00:00:00.000Z`);
+      .expectOne(`${uri}?creationDate=2022-05-01T00:00:00.000Z`);
     
     expect(testRequest.request.method).toBe('GET');
     

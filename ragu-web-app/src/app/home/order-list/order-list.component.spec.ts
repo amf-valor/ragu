@@ -68,6 +68,7 @@ describe('OrderListComponent', () => {
     expect(actual.getByText("Não pago")).toBeDefined();
     expect(actual.getByText(/R\$ 4,00/i)).toBeDefined();
     expect(actual.getByText(/R\$ 72,70/i)).toBeDefined();
+    expect(actual.getByText(/12:30/i)).toBeDefined();
   });
 
   it('should show pago when order is paid',() => {

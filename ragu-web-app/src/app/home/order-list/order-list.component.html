@@ -10,7 +10,7 @@
               {{order.isPaid ? "Pago" : "Não pago"}}
           </div>
         </div>
-        <div class="col-4 col-offset-4">
+        <div class="col-5 col-offset-4">
           <div>
               <span class="font-bold">valor:</span> {{order.value | currency}}
             </div>
@@ -20,6 +20,9 @@
           <div class="order-values-gutter">
             <span class="font-bold">total:</span> {{order.total | currency}}
           </div>  
+        </div>
+        <div class="col-1">
+          <p class="font-italic font-bold">{{order.bookingTime}}</p>
         </div>
       </div>
     </ng-template>

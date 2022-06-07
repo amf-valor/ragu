@@ -4,7 +4,7 @@ import { Order } from "src/app/home/order-list/order.model";
 export class Mother {
 
   static internalServerError(): HttpErrorResponse {
-    return new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' })
+    return new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' });
   }
 
   static orderOfJoao(): Order {
@@ -13,7 +13,8 @@ export class Mother {
       value: 68.70,
       deliveryTax: 4.00,
       isPaid: false,
-      total: 72.70
+      total: 72.70,
+      bookingTime: "12:30"
     };
   }
 }

@@ -15,7 +15,7 @@ export class OrderService extends RaguService{
 
   getByCreation(creationDate: Date): Observable<Order[]> {
     return this.httpClient
-      .get<Order[]>(`${this.Uri}?creation_date=${creationDate.toISOString()}`)
+      .get<Order[]>(`${this.Uri}?creationDate=${creationDate.toISOString()}`)
       .pipe(catchError(this.handleError));
   }
 }
