@@ -24,7 +24,7 @@ public class GetOrdersByBookedFromTests
     [Fact]
     public async Task Should_get_all_orders_When_given_valid_booked_from()
     {
-        using var dateTimeContext = new DateTimeContext(new DateTime(2022, 06, 08));
+        using var dateTimeContext = Fixture.From2022JulyEight();
         using (var dbContext = _fixture.CreateDbContext())
         {
             dbContext.Orders.Add(Mother.OrderOfJohn());

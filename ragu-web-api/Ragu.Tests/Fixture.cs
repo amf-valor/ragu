@@ -8,6 +8,7 @@ using DotNet.Testcontainers.Containers.Modules.Databases;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ragu.InfraStructure;
 using Ragu.InfraStructure.Data;
 using Ragu.Services;
 using Xunit;
@@ -26,6 +27,11 @@ public sealed class Fixture : IDisposable
         using var context = CreateDbContext();
         context.Database.EnsureDeleted();
         context.Database.Migrate();
+    }
+
+    internal static DateTimeContext From2022JulyEight()
+    {
+        return new DateTimeContext(new DateTime(2022, 06, 08));
     }
 
     internal RaguDbContext CreateDbContext()

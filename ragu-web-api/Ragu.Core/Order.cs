@@ -9,6 +9,8 @@ public class Order
     public decimal DeliveryTax { get; private set; }
     public DateTimeOffset BookedAt { get; private set; }
     public bool IsPaid { get; private set; }
+    public decimal Total { get => Value + DeliveryTax; }
+
     public Order(string customerName, decimal value, decimal deliveryTax, DateTimeOffset bookedAt)
     {
         CustomerName = customerName;

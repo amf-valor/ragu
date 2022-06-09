@@ -5,21 +5,24 @@ using Ragu.Services;
 var corsPolicyName = "allowOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddCors(options => 
+builder.Services.AddCors(options =>
 {
-    options.AddPolicy(corsPolicyName, policy => {
+    options.AddPolicy(corsPolicyName, policy =>
+    {
         policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
-    }); 
+    });
 });
 
-builder.Services.AddDbContext<RaguDbContext>(options => 
+builder.Services.AddDbContext<RaguDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("RaguCs"));
 });
 
+//Services
 builder.Services.AddScoped<DeliveryLocaleService>();
+builder.Services.AddScoped<OrderService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

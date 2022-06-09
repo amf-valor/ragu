@@ -27,7 +27,11 @@ public static class Mother
         return new GetByBookedFromResponse
         {
             CustomerName = "John",
-            BookedAt = TodayAtMidDay()
+            BookedAt = TodayAtMidDay(),
+            Value = 10.0m,
+            DeliveryTax = 4.0m,
+            Total = 14.0m,
+            IsPaid = false
         };
     }
 }
