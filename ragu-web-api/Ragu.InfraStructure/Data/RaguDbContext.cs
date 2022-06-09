@@ -29,7 +29,7 @@ public class RaguDbContext : DbContext
         modelBuilder.Entity<Order>(b =>
         {
             b.Property(p => p.Id).HasField("_id");
-            b.Property(p => p.BookedTo);
+            b.Property(p => p.BookedAt);
             b.Property(p => p.CustomerName);
             b.Property(p => p.DeliveryTax).HasPrecision(defaultPrecision, defaultScale);
             b.Property(p => p.IsPaid);

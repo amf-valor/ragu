@@ -11,6 +11,8 @@ public static class HttpClientExtensions
     {
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         var responseMessage = await httpClient.GetAsync(uri);
+        responseMessage.EnsureSuccessStatusCode();
+
         var payload = await responseMessage.Content.ReadAsStringAsync();
 
         if (string.IsNullOrEmpty(payload))

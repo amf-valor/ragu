@@ -7,12 +7,14 @@ namespace Namespace;
 public class OrdersController : ControllerBase
 {
     [HttpGet]
-    public ActionResult GetByBookedTo([FromQuery(Name = "bookedTo")]DateTime bookedTo)
+    public ActionResult GetByBookedFrom(string bookedFrom)
     {
-        return Ok(new List<GetByBookedToResponse> { new GetByBookedToResponse() });
+        return Ok(new List<GetByBookedFromResponse> { new GetByBookedFromResponse() });
     }
 
-    private class GetByBookedToResponse
+    public class GetByBookedFromResponse
     {
+        public string CustomerName { get; set; } = default!;
+        public DateTime BookedAt { get; set; }
     }
 }

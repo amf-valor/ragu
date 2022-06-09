@@ -7,14 +7,14 @@ public class Order
     public string CustomerName { get; private set; }
     public decimal Value { get; private set; }
     public decimal DeliveryTax { get; private set; }
-    public DateTime BookedTo { get; private set; }
+    public DateTimeOffset BookedAt { get; private set; }
     public bool IsPaid { get; private set; }
-    public Order(string customerName, decimal value, decimal deliveryTax, DateTime bookedTo)
+    public Order(string customerName, decimal value, decimal deliveryTax, DateTimeOffset bookedAt)
     {
         CustomerName = customerName;
         Value = value;
         DeliveryTax = deliveryTax;
-        BookedTo = bookedTo;
+        BookedAt = bookedAt;
         IsPaid = false;
     }
 
