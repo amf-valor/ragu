@@ -24,16 +24,16 @@ describe('OrderService', () => {
 
   afterEach(() => { httpTestingController.verify(); });
 
-  it('should get by creation date', () => {
+  it('should get booked of whole day', () => {
     const firstMayOf22  = new Date(Date.UTC(2022, 4, 1, 0, 0, 0, 0));
     const ordersOfJoao = [Mother.orderOfJoao()];
     
-    orderService.getByCreation(firstMayOf22).subscribe(orders => {
+    orderService.getBookedOfWholeDay(firstMayOf22).subscribe(orders => {
       expect(orders).toEqual(ordersOfJoao);
     });
     
     const testRequest = httpTestingController
-      .expectOne(`${uri}?creationDate=2022-05-01T00:00:00.000Z`);
+      .expectOne(`${uri}?ofDay=2022-05-01T00:00:00.000Z`);
     
     expect(testRequest.request.method).toBe('GET');
     
@@ -41,7 +41,7 @@ describe('OrderService', () => {
   });
 
   it('should return the error when something unexpected occured!', () => {
-    expectErrorWithMessage(orderService.getByCreation(new Date()), GENERIC_ERROR_MESSAGE);
+    expectErrorWithMessage(orderService.getBookedOfWholeDay(new Date()), GENERIC_ERROR_MESSAGE);
 
     const testRequest = httpTestingControllerHelper.expectFirstStartsWith(uri);
     

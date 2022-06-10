@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataViewModule } from 'primeng/dataview';
-import { of } from 'rxjs';
 import { HomeComponent } from './home.component';
 import { OrderListComponent } from './order-list/order-list.component';
-import { OrderService } from './order-list/order-ragu.service';
 
 
 describe('HomeComponent', () => {
@@ -14,8 +13,7 @@ describe('HomeComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ HomeComponent, OrderListComponent ],
-      imports: [CommonModule, DataViewModule],
-      providers:[{provide: OrderService, useValue: { getByCreation: () => of([]) }}]
+      imports: [CommonModule, DataViewModule, HttpClientModule]
     })
     .compileComponents();
   });

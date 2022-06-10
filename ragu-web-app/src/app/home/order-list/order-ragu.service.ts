@@ -13,9 +13,9 @@ export class OrderService extends RaguService{
     super('orders');
   }
 
-  getByCreation(creationDate: Date): Observable<Order[]> {
+  getBookedOfWholeDay(ofDay: Date): Observable<Order[]> {
     return this.httpClient
-      .get<Order[]>(`${this.Uri}?creationDate=${creationDate.toISOString()}`)
+      .get<Order[]>(`${this.Uri}?ofDay=${ofDay.toISOString()}`)
       .pipe(catchError(this.handleError));
   }
 }

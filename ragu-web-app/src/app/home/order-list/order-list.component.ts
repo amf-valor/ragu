@@ -18,7 +18,7 @@ export class OrderListComponent implements OnInit{
 		today.setHours(0, 0, 0, 0);
 
     this.orders$ = this.orderService
-      .getByCreation(today)
+      .getBookedOfWholeDay(today)
       .pipe(
         map(orders => orders.sort((firstOrder, secondOrder) => {
           const firstNumber = convertTimeToNumber(firstOrder.bookingTime);
