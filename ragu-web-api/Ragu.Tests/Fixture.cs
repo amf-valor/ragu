@@ -20,6 +20,7 @@ public sealed class Fixture : IDisposable
     private readonly WebApplicationFactory<Program> _applicationFactory;
     private readonly MsSqlTestcontainer _sqlTestContainer;
 
+
     public Fixture()
     {
         _sqlTestContainer = Task.Run(() => CreateAndStartDockerSqlContainer()).Result;
@@ -28,10 +29,9 @@ public sealed class Fixture : IDisposable
         context.Database.EnsureDeleted();
         context.Database.Migrate();
     }
-
-    internal static DateTimeContext From2022JulyEight()
+    internal static void SetTo2022JunEight()
     {
-        return new DateTimeContext(new DateTime(2022, 06, 08));
+        DateTimeContext.Set(() => new DateTime(2022, 06, 08));
     }
 
     internal RaguDbContext CreateDbContext()

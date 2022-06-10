@@ -1,33 +1,12 @@
-using System.Collections;
-
 namespace Ragu.InfraStructure;
 
-public class DateTimeProvider
+public class DateTimeContext
 {
-    public static DateTime Now => DateTimeContext.GetCurrent().Now;
-}
+    private static Func<DateTime> dateTimeNowFunc = () => DateTime.Now;
+    public static DateTime Now => dateTimeNowFunc();
 
-public sealed class DateTimeContext : IDisposable
-{
-    internal readonly DateTime Now;
-    private static readonly ThreadLocal<Stack> threadScopeStack = new(() => new Stack());
-
-    public DateTimeContext(DateTime now)
+    public static void Set(Func<DateTime> dateTimeNowFunc)
     {
-        Now = now;
-        threadScopeStack.Value?.Push(this);
-    }
-
-    public static DateTimeContext GetCurrent()
-    {
-        return threadScopeStack.Value?.Count == 0
-            ? new DateTimeContext(DateTime.Now)
-            : (DateTimeContext)threadScopeStack.Value?.Peek()!;
-    }
-
-    public void Dispose()
-    {
-        if (threadScopeStack.Value?.Count > 0)
-            threadScopeStack.Value?.Pop();
+        DateTimeContext.dateTimeNowFunc = dateTimeNowFunc;
     }
 }

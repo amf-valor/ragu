@@ -1,14 +1,23 @@
+using Microsoft.EntityFrameworkCore;
 using Ragu.Core;
+using Ragu.InfraStructure;
+using Ragu.InfraStructure.Data;
 
 namespace Ragu.Services;
-
 public class OrderService
 {
-    public ICollection<Order> GetByBookedFrom(DateTimeOffset bookedFrom)
+    private readonly RaguDbContext _raguContext;
+
+    public OrderService(RaguDbContext raguContext)
     {
-        return new List<Order>
-        {
-            new Order("John", 10.0m, 4.0m, new DateTime(2022, 06, 08, 12, 0, 0))
-        };
+        _raguContext = raguContext;
+    }
+
+    public async Task<ICollection<Order>> GetBooked(DateTimeOffset ofDay)
+    {
+        return await _raguContext.Orders
+            .Where(order => order.BookedAt >= ofDay && order.BookedAt <= ofDay.AtEnd())
+            .ToListAsync();
     }
 }
+

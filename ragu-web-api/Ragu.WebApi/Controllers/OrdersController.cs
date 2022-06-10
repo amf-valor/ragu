@@ -15,12 +15,12 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult GetByBookedFrom(DateTimeOffset bookedFrom)
+    public async Task<ActionResult> GetBooked(DateTimeOffset ofDay)
     {
-        var orders = _orderService.GetByBookedFrom(bookedFrom);
+        var orders = await _orderService.GetBooked(ofDay);
 
         var response = orders
-            .Select(order => new GetByBookedFromResponse
+            .Select(order => new GetBookedResponse
             {
                 CustomerName = order.CustomerName,
                 BookedAt = order.BookedAt,
@@ -33,7 +33,7 @@ public class OrdersController : ControllerBase
         return Ok(response);
     }
 
-    public class GetByBookedFromResponse
+    public class GetBookedResponse
     {
         public string CustomerName { get; set; } = default!;
         public DateTimeOffset BookedAt { get; set; }

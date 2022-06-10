@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -10,33 +9,33 @@ using static Namespace.OrdersController;
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public class GetOrdersByBookedFromTests
+public class GetBookedOrdersOfTheDayTests
 {
     private readonly Fixture _fixture;
     private readonly HttpClient _httpClient;
 
-    public GetOrdersByBookedFromTests(Fixture fixture)
+    public GetBookedOrdersOfTheDayTests(Fixture fixture)
     {
         _fixture = fixture;
         _httpClient = fixture.CreateClient();
     }
 
     [Fact]
-    public async Task Should_get_all_orders_When_given_valid_booked_from()
+    public async Task Should_get_booked_orders_of_the_day()
     {
-        using var dateTimeContext = Fixture.From2022JulyEight();
+        Fixture.SetTo2022JunEight();
+
         using (var dbContext = _fixture.CreateDbContext())
         {
-            dbContext.Orders.Add(Mother.OrderOfJohn());
+            dbContext.Orders.AddRange(Mother.OrdersFromJohnJoanaAndBen());
             await dbContext.SaveChangesAsync();
         }
 
-        var today = DateOnly.FromDateTime(DateTimeProvider.Now);
-        var actual = await _httpClient.GetAsJson<ICollection<GetByBookedFromResponse>>($"api/orders?bookedFrom={today}");
+        var actual = await _httpClient.GetAsJson<ICollection<GetBookedResponse>>($"api/orders?ofDay={DateTimeContext.Now}");
 
-        var expected = new List<GetByBookedFromResponse>
+        var expected = new List<GetBookedResponse>
         {
-            Mother.GetByBookedFromResponseOfJohn()
+            Mother.GetBookedResponseOfJohn()
         };
 
         actual.Should().NotBeNull();
