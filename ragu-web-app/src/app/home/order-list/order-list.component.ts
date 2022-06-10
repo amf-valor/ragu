@@ -21,14 +21,8 @@ export class OrderListComponent implements OnInit{
       .getBookedOfWholeDay(today)
       .pipe(
         map(orders => orders.sort((firstOrder, secondOrder) => {
-          const firstNumber = convertTimeToNumber(firstOrder.bookingTime);
-          const secondNumber = convertTimeToNumber(secondOrder.bookingTime);
-          return firstNumber - secondNumber;
+          return firstOrder.bookedAt.getTime() - secondOrder.bookedAt.getTime();
         }))
       );
-
-    function convertTimeToNumber(time: string) {
-      return parseInt(time.replace(/:/g, ""));
-    }
   }
 }

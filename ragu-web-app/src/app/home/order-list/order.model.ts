@@ -3,6 +3,6 @@ export interface Order{
     value: number,
     deliveryTax: number,
     total: number,
-    isPaid: boolean,
-    bookingTime: string
+    isPaid: boolean
+    bookedAt: Date
 }

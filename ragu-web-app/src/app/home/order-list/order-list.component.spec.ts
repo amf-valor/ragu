@@ -82,19 +82,13 @@ describe('OrderListComponent', () => {
     expect(actual.getByText("Pago")).toBeDefined();
   });
 
-  it('should show ordered by booking time', async () => {
-    const unorderedOrders: Partial<Order>[] = [
-      { bookingTime: "12:30" },
-      { bookingTime: "11:00" },
-      { bookingTime: "12:00" }
-    ]; 
-
-    orderServiceStub.getBookedOfWholeDay.and.returnValue(of(unorderedOrders));
+  it('should show ordered by bookedAt', async () => {
+    orderServiceStub.getBookedOfWholeDay.and.returnValue(of(Mother.unorderedOrders()));
 
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
     const actual = screen.getAllByTestId(ORDER_TEST_ID);
-
+    
     expect(within(actual[0]).queryByText('11:00')).withContext('11:00 should be first').not.toBeNull();
     expect(within(actual[1]).queryByText('12:00')).withContext('12:00 should be second').not.toBeNull();
     expect(within(actual[2]).queryByText('12:30')).withContext('12:30 should be third').not.toBeNull();
