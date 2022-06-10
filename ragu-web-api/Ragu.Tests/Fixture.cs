@@ -95,7 +95,11 @@ public sealed class Fixture : IDisposable
     {
         //Consider Respawn
         using var context = CreateDbContext();
-        await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE DeliveryLocales;");
+        await context.Database.ExecuteSqlRawAsync
+        (
+            @"TRUNCATE TABLE DeliveryLocales;
+              TRUNCATE TABLE Orders;"
+        );
     }
 }
 

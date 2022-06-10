@@ -16,7 +16,7 @@ public class OrderService
     public async Task<ICollection<Order>> GetBooked(DateTimeOffset ofDay)
     {
         return await _raguContext.Orders
-            .Where(order => order.BookedAt >= ofDay && order.BookedAt <= ofDay.AtEnd())
+            .Where(order => order.BookedAt >= ofDay.AtBegin() && order.BookedAt <= ofDay.AtEnd())
             .ToListAsync();
     }
 }

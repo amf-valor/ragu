@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using static Namespace.OrdersController;
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public class GetBookedOrdersOfTheDayTests
+public class GetBookedOrdersOfTheDayTests : IAsyncLifetime
 {
     private readonly Fixture _fixture;
     private readonly HttpClient _httpClient;
@@ -20,18 +21,17 @@ public class GetBookedOrdersOfTheDayTests
         _httpClient = fixture.CreateClient();
     }
 
-    [Fact]
-    public async Task Should_get_booked_orders_of_the_day()
+    [Theory]
+    [MemberData(nameof(ShouldGetBookedOrdersOfTheDayCases))]
+    public async Task Should_get_booked_orders_of_the_day(DateTime ofDay)
     {
-        Fixture.SetTo2022JunEight();
-
         using (var dbContext = _fixture.CreateDbContext())
         {
             dbContext.Orders.AddRange(Mother.OrdersFromJohnJoanaAndBen());
             await dbContext.SaveChangesAsync();
         }
 
-        var actual = await _httpClient.GetAsJson<ICollection<GetBookedResponse>>($"api/orders?ofDay={DateTimeContext.Now}");
+        var actual = await _httpClient.GetAsJson<ICollection<GetBookedResponse>>($"api/orders?ofDay={ofDay}");
 
         var expected = new List<GetBookedResponse>
         {
@@ -41,4 +41,23 @@ public class GetBookedOrdersOfTheDayTests
         actual.Should().NotBeNull();
         actual.Should().BeEquivalentTo(expected);
     }
+
+    private static IEnumerable<object[]> ShouldGetBookedOrdersOfTheDayCases()
+    {
+        Fixture.SetTo2022JunEight();
+
+        yield return new object[]
+        {
+            DateTimeContext.Now
+        };
+
+        const int ToPassOrderOfJohnBookedAt = 13;
+        yield return new object[]
+        {
+            DateTimeContext.Now.AddHours(ToPassOrderOfJohnBookedAt)
+        };
+    }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+    public Task DisposeAsync() => _fixture.ResetDatabase();
 }
