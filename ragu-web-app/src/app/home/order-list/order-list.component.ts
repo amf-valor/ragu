@@ -21,7 +21,9 @@ export class OrderListComponent implements OnInit{
       .getBookedOfWholeDay(today)
       .pipe(
         map(orders => orders.sort((firstOrder, secondOrder) => {
-          return firstOrder.bookedAt.getTime() - secondOrder.bookedAt.getTime();
+          const firstBookedAt = new Date(firstOrder.bookedAt);
+          const secondBookedAt = new Date(secondOrder.bookedAt);
+          return firstBookedAt.getTime() - secondBookedAt.getTime();
         }))
       );
   }
