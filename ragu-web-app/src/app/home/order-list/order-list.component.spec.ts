@@ -15,7 +15,7 @@ registerLocaleData(localePt, 'pt');
 
 describe('OrderListComponent', () => {
   let fixture: ComponentFixture<OrderListComponent>;
-  const orderServiceStub = jasmine.createSpyObj('OrderService', ['getBookedOfWholeDay']);
+  let orderServiceStub: jasmine.SpyObj<OrderService>;
   
   const ORDER_TEST_ID = "order";
 
@@ -26,6 +26,7 @@ describe('OrderListComponent', () => {
   ];
 
   beforeEach(async () => {
+    orderServiceStub = jasmine.createSpyObj('OrderService', ['getBookedOfWholeDay']);
     orderServiceStub.getBookedOfWholeDay.and.returnValue(of(ORDER_LIST));
 
     await TestBed.configureTestingModule({
@@ -68,11 +69,7 @@ describe('OrderListComponent', () => {
   });
 
   it('should show pago when order is paid',() => {
-    const paidOrder: Partial<Order> = {
-      isPaid : true
-    };
-
-    orderServiceStub.getBookedOfWholeDay.and.returnValue(of([paidOrder]));
+    orderServiceStub.getBookedOfWholeDay.and.returnValue(of([Mother.orderOfJoana()]));
     
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();

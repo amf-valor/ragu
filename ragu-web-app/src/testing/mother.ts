@@ -2,11 +2,11 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Order } from "src/app/home/order-list/order.model";
 
 export class Mother {
-  static unorderedOrders(): Partial<Order>[] {
+  static unorderedOrders(): Order[] {
     return [
-      { bookedAt: Mother.FirstMayAt(12, 30) },
-      { bookedAt: Mother.FirstMayAt(11, 0) },
-      { bookedAt: Mother.FirstMayAt(12, 0) }
+      Mother.orderOfJoao(),
+      Mother.orderOfJoana(),
+      Mother.orderOfMarcelo() 
     ];
   }
 
@@ -15,16 +15,31 @@ export class Mother {
   }
 
   static orderOfJoao(): Order {
-    return {
-      customerName: "João",
-      value: 68.70,
-      deliveryTax: 4.00,
-      isPaid: false,
-      total: 72.70,
-      bookedAt: Mother.FirstMayAt(12, 30)
-    };
+    return this.createOrderOnFirstMay("João", false, 12, 30);
+  }
+
+  static orderOfJoana(): Order{
+    return Mother.createOrderOnFirstMay("Joana", true, 11, 0);
+  }
+
+  static orderOfMarcelo(): Order{
+    return Mother.createOrderOnFirstMay("Marcelo", false, 12, 0);
   }
   
+
+  private static createOrderOnFirstMay(customer: string,  
+                                       isPaid: boolean, 
+                                       hour: number, 
+                                       minute:number): Order {
+    return {
+      customerName: customer,
+      value: 68.70,
+      deliveryTax: 4.00,
+      isPaid: isPaid,
+      total: 72.70,
+      bookedAt: Mother.FirstMayAt(hour, minute)
+    };
+  }
 
   private static FirstMayAt(hours: number, minutes: number): Date {
     return new Date(2022, 4, 1, hours, minutes);
