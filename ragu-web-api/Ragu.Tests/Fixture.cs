@@ -31,7 +31,7 @@ public sealed class Fixture : IDisposable
     }
     internal static void SetTo2022JunEight()
     {
-        DateTimeContext.Set(() => new DateTime(2022, 06, 08));
+        DateTimeContext.SetNow(() => new DateTime(2022, 06, 08));
     }
 
     internal RaguDbContext CreateDbContext()

@@ -10,15 +10,20 @@ using static Namespace.OrdersController;
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public class GetBookedOrdersOfTheDayTests : IAsyncLifetime
+public sealed class GetBookedOrdersOfTheDayTests : IAsyncLifetime, IDisposable
 {
     private readonly Fixture _fixture;
     private readonly HttpClient _httpClient;
 
+    static GetBookedOrdersOfTheDayTests()
+    {
+        Fixture.SetTo2022JunEight();
+    }
     public GetBookedOrdersOfTheDayTests(Fixture fixture)
     {
         _fixture = fixture;
         _httpClient = fixture.CreateClient();
+        Fixture.SetTo2022JunEight();
     }
 
     [Theory]
@@ -44,8 +49,6 @@ public class GetBookedOrdersOfTheDayTests : IAsyncLifetime
 
     private static IEnumerable<object[]> ShouldGetBookedOrdersOfTheDayCases()
     {
-        Fixture.SetTo2022JunEight();
-
         yield return new object[]
         {
             DateTimeContext.Now
@@ -60,4 +63,6 @@ public class GetBookedOrdersOfTheDayTests : IAsyncLifetime
 
     public Task InitializeAsync() => Task.CompletedTask;
     public Task DisposeAsync() => _fixture.ResetDatabase();
+
+    public void Dispose() => DateTimeContext.Reset();
 }

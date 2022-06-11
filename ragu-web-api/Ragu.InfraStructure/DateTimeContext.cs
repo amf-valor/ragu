@@ -2,11 +2,18 @@ namespace Ragu.InfraStructure;
 
 public class DateTimeContext
 {
-    private static Func<DateTime> dateTimeNowFunc = () => DateTime.Now;
-    public static DateTime Now => dateTimeNowFunc();
+    private static readonly Func<DateTime> defaultNow = () => DateTime.Now;
+    private static Func<DateTime> now = defaultNow;
 
-    public static void Set(Func<DateTime> dateTimeNowFunc)
+    public static DateTime Now => now();
+
+    public static void SetNow(Func<DateTime> newNow)
     {
-        DateTimeContext.dateTimeNowFunc = dateTimeNowFunc;
+        now = newNow;
+    }
+
+    public static void Reset()
+    {
+        now = defaultNow;
     }
 }
