@@ -16,9 +16,12 @@ export class OrderListComponent implements OnInit{
   ngOnInit() {
     const today = new Date();
 		today.setHours(0, 0, 0, 0);
-
+    this.loadAndSortOrders(today);
+  }
+  
+  private loadAndSortOrders(ofDay: Date) {
     this.orders$ = this.orderService
-      .getBookedOfWholeDay(today)
+      .getBookedOfWholeDay(ofDay)
       .pipe(
         map(orders => orders.sort((firstOrder, secondOrder) => {
           const firstBookedAt = new Date(firstOrder.bookedAt);
@@ -26,5 +29,9 @@ export class OrderListComponent implements OnInit{
           return firstBookedAt.getTime() - secondBookedAt.getTime();
         }))
       );
+  }
+
+  onOrderCalendarSelect(selectedDay: Date){
+    this.loadAndSortOrders(selectedDay);
   }
 }

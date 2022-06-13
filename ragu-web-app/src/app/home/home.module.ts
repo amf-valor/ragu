@@ -1,15 +1,19 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrderListComponent } from './order-list/order-list.component';
+import { NgModule } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule } from 'primeng/calendar';
+import { DataViewModule } from 'primeng/dataview';
 import { HomeComponent } from './home.component';
-import {DataViewModule} from 'primeng/dataview';
+import { OrderListComponent } from './order-list/order-list.component';
 
 
 @NgModule({
   declarations: [OrderListComponent, HomeComponent],
   imports: [
     CommonModule,
-    DataViewModule
+    DataViewModule,
+    CalendarModule,
+    NoopAnimationsModule
   ]
 })
 export class HomeModule { }

@@ -1,30 +1,43 @@
-<div *ngIf="orders$| async as orders">
-  <p-dataView [value]="orders">
-    <ng-template let-order pTemplate="listItem">
-      <div class="grid col-12 order" data-testId="order">
-        <div class="col-2">
-          <div class="text-xl font-bold">{{order.customerName}}</div>
-          <div 
-            class="'text-sm payment-badge" 
-            [class]="order.isPaid ? ' paid' : 'unpaid'">
-              {{order.isPaid ? "Pago" : "Não pago"}}
-          </div>
-        </div>
-        <div class="col-5 col-offset-4">
-          <div>
-              <span class="font-bold">valor:</span> {{order.value | currency}}
+<div class="grid">
+  <div class="col-5">
+    <p-calendar 
+      [inline]="true" 
+      [showWeek]="true"
+      (onSelect)="onOrderCalendarSelect($event)" 
+      data-testId="order-calendar"
+    >
+    </p-calendar>
+  </div>
+  <div class="col-7">  
+    <div *ngIf="orders$| async as orders">
+      <p-dataView [value]="orders">
+        <ng-template let-order pTemplate="listItem">
+          <div class="grid col-12 order" data-testId="order">
+            <div class="col-2">
+              <div class="text-xl font-bold">{{order.customerName}}</div>
+              <div 
+                class="'text-sm payment-badge" 
+                [class]="order.isPaid ? ' paid' : 'unpaid'">
+                  {{order.isPaid ? "Pago" : "Não pago"}}
+              </div>
             </div>
-          <div class="order-values-gutter">
-            <span class="font-bold">entrega:</span> {{order.deliveryTax | currency}}
+            <div class="col-5 col-offset-4">
+              <div>
+                  <span class="font-bold">valor:</span> {{order.value | currency}}
+                </div>
+              <div class="order-values-gutter">
+                <span class="font-bold">entrega:</span> {{order.deliveryTax | currency}}
+              </div>
+              <div class="order-values-gutter">
+                <span class="font-bold">total:</span> {{order.total | currency}}
+              </div>  
+            </div>
+            <div class="col-1">
+              <p class="font-italic font-bold">{{order.bookedAt | date: 'h:mm'}}</p>
+            </div>
           </div>
-          <div class="order-values-gutter">
-            <span class="font-bold">total:</span> {{order.total | currency}}
-          </div>  
-        </div>
-        <div class="col-1">
-          <p class="font-italic font-bold">{{order.bookedAt | date: 'h:mm'}}</p>
-        </div>
-      </div>
-    </ng-template>
-  </p-dataView>
+        </ng-template>
+      </p-dataView>
+    </div>
+  </div>
 </div>

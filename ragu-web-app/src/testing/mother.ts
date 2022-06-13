@@ -2,16 +2,13 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { Order } from "src/app/home/order-list/order.model";
 
 export class Mother {
+  
   static unorderedOrders(): Order[] {
     return [
       Mother.orderOfJoao(),
       Mother.orderOfJoana(),
       Mother.orderOfMarcelo() 
     ];
-  }
-
-  static internalServerError(): HttpErrorResponse {
-    return new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' });
   }
 
   static orderOfJoao(): Order {
@@ -37,11 +34,19 @@ export class Mother {
       deliveryTax: 4.00,
       isPaid: isPaid,
       total: 72.70,
-      bookedAt: Mother.FirstMayAt(hour, minute)
+      bookedAt: Mother.mayFirstAt(hour, minute)
     };
   }
 
-  private static FirstMayAt(hours: number, minutes: number): Date {
+  private static mayFirstAt(hours: number, minutes: number): Date {
     return new Date(2022, 4, 1, hours, minutes);
+  }
+
+  static mayFirst(): Date {
+    return this.mayFirstAt(0, 0);
+  }
+
+  static internalServerError(): HttpErrorResponse {
+    return new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' });
   }
 }

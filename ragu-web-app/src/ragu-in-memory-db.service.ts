@@ -8,8 +8,8 @@ interface DbOrder{
 	deliveryTax: number,
 	isPaid: boolean,
 	total: number,
-	creationDate: string,
-	bookingTime: string
+	ofDay: string,
+	bookedAt: string
 } 
 
 export class RaguInMemoryDbService extends InMemoryDbService {
@@ -39,8 +39,8 @@ export class RaguInMemoryDbService extends InMemoryDbService {
 					deliveryTax: 4.00,
 					isPaid: false,
 					total: 72.70,
-					creationDate: today.toISOString(),
-					bookingTime: "12:00"
+					ofDay: today.toISOString(),
+					bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 12, 0, 0, 0).toISOString()
 				},
 				{
 					id: 2,
@@ -49,8 +49,8 @@ export class RaguInMemoryDbService extends InMemoryDbService {
 					deliveryTax: 4.00,
 					isPaid: true,
 					total: 72.70,
-					creationDate: today.toISOString(),
-					bookingTime: "11:00"
+					ofDay: today.toISOString(),
+					bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 11, 0, 0, 0).toISOString()
 				}
 			]
 		};
