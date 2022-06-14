@@ -11,6 +11,7 @@ import { HttpClientInMemoryWebApiModule } from "angular-in-memory-web-api";
 import { environment } from 'src/environments/environment';
 import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
 import { HomeModule } from './home/home.module';
+import { OrderDetailModule } from './order-detail/order-detail.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HomeModule } from './home/home.module';
     HttpClientModule,
     ToastModule,
     HomeModule,
+    OrderDetailModule,
     environment.useInMemoryApi ? HttpClientInMemoryWebApiModule.forRoot(RaguInMemoryDbService) : [] 
   ],
   bootstrap: [AppComponent]

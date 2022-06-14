@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { routes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 describe('AppRouting', () => {
   let appFixture: ComponentFixture<AppComponent>;
@@ -45,5 +46,13 @@ describe('AppRouting', () => {
 
     const homeComponent = appFixture.queryOnDebugElement(By.directive(HomeComponent));
     expect(homeComponent).not.toBeNull();
+  }));
+
+  fit('should redirect to order details', fakeAsync(() => {
+    router.navigate(['/order-details', 1]);
+    tick();
+
+    const orderDetailComponent = appFixture.queryOnDebugElement(By.directive(OrderDetailComponent));
+    expect(orderDetailComponent).not.toBeNull();
   }));
 });
