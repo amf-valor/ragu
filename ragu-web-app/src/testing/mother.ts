@@ -3,7 +3,7 @@ import { Order } from "src/app/home/order-list/order.model";
 
 export class Mother {
   
-  static unorderedOrders(): Order[] {
+  static ordersOfJoaoJoanaAndMarcelo(): Order[] {
     return [
       Mother.orderOfJoao(),
       Mother.orderOfJoana(),

@@ -10,7 +10,6 @@ import { of } from 'rxjs';
 import { Mother } from 'src/testing/mother';
 import { OrderListComponent } from './order-list.component';
 import { OrderService } from './order-ragu.service';
-import { Order } from './order.model';
 
 registerLocaleData(localePt, 'pt');
 
@@ -20,15 +19,9 @@ describe('OrderListComponent', () => {
 
   const ORDER_TEST_ID = "order";
 
-  const ORDER_LIST: Order[] = [
-    Mother.orderOfJoao(),
-    Mother.orderOfJoao(),
-    Mother.orderOfJoao()
-  ];
-
   beforeEach(async () => {
     orderServiceStub = jasmine.createSpyObj('OrderService', ['getBookedOfWholeDay']);
-    orderServiceStub.getBookedOfWholeDay.and.returnValue(of(ORDER_LIST));
+    orderServiceStub.getBookedOfWholeDay.and.returnValue(of(Mother.ordersOfJoaoJoanaAndMarcelo()));
 
     await TestBed.configureTestingModule({
       declarations: [OrderListComponent],
@@ -60,7 +53,7 @@ describe('OrderListComponent', () => {
     fixture.componentInstance.ngOnInit();
     fixture.detectChanges();
 
-    expect(screen.getAllByTestId(ORDER_TEST_ID)).toHaveSize(ORDER_LIST.length);
+    expect(screen.getAllByTestId(ORDER_TEST_ID)).toHaveSize(Mother.ordersOfJoaoJoanaAndMarcelo().length);
   });
 
   it('should show order info', async () => {
@@ -89,30 +82,24 @@ describe('OrderListComponent', () => {
   });
 
   it('should show ordered by bookedAt', async () => {
-    orderServiceStub.getBookedOfWholeDay.and.returnValue(of(Mother.unorderedOrders()));
-    fixture.componentInstance.ngOnInit();
-    fixture.detectChanges();
-
     const actual = screen.getAllByTestId(ORDER_TEST_ID);
-
     expectOrderedByTime(actual);
   });
 
-  function expectOrderedByTime(actual: HTMLElement[]) {
-    expect(within(actual[0]).queryByText('11:00')).withContext('11:00 should be first').not.toBeNull();
-    expect(within(actual[1]).queryByText('12:00')).withContext('12:00 should be second').not.toBeNull();
-    expect(within(actual[2]).queryByText('12:30')).withContext('12:30 should be third').not.toBeNull();
+  function expectOrderedByTime(orderElements: HTMLElement[]) {
+    expect(within(orderElements[0]).queryByText('11:00')).withContext('11:00 should be first').not.toBeNull();
+    expect(within(orderElements[1]).queryByText('12:00')).withContext('12:00 should be second').not.toBeNull();
+    expect(within(orderElements[2]).queryByText('12:30')).withContext('12:30 should be third').not.toBeNull();
   }
 
   it('should show ordered by bookedAt after May 10 is selected on calendar', () => {
-    orderServiceStub.getBookedOfWholeDay.and.returnValue(of(Mother.unorderedOrders()));
     const mayTenthSpan = within(screen.getByTestId('order-calendar')).getByText('10');
     mayTenthSpan.click();
     fixture.detectChanges();
 
     const actual = screen.getAllByTestId(ORDER_TEST_ID);
     const mayTenth = new Date(2022, 4, 10);
-    
+
     expect(orderServiceStub.getBookedOfWholeDay).toHaveBeenCalledWith(mayTenth);
     expectOrderedByTime(actual);
   });
