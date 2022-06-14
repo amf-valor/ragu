@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { map, Observable, of } from 'rxjs';
 import { Order } from './order.model';
 import { OrderService } from './order-ragu.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ragu-order-list',
@@ -11,7 +12,7 @@ import { OrderService } from './order-ragu.service';
 export class OrderListComponent implements OnInit{
   orders$: Observable<Order[]> = of([]);
 
-  constructor(private readonly orderService: OrderService){}
+  constructor(private readonly orderService: OrderService, private readonly router:Router){}
  
   ngOnInit() {
     const today = new Date();
@@ -33,5 +34,9 @@ export class OrderListComponent implements OnInit{
 
   onOrderCalendarSelect(selectedDay: Date){
     this.loadAndSortOrders(selectedDay);
+  }
+
+  onOrderClick(id: number){
+    this.router.navigate(['/order-details', id]);
   }
 }

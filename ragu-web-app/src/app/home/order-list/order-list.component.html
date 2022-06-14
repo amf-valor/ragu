@@ -12,7 +12,7 @@
     <div *ngIf="orders$| async as orders">
       <p-dataView [value]="orders">
         <ng-template let-order pTemplate="listItem">
-          <div class="grid col-12 order" data-testId="order">
+          <div class="grid col-12 order" data-testId="order" (click)="onOrderClick(order.id)">
             <div class="col-2">
               <div class="text-xl font-bold">{{order.customerName}}</div>
               <div 

@@ -12,23 +12,25 @@ export class Mother {
   }
 
   static orderOfJoao(): Order {
-    return this.createOrderOnFirstMay("João", false, 12, 30);
+    return this.createOrderOnFirstMay(1, "João", false, 12, 30);
   }
 
   static orderOfJoana(): Order{
-    return Mother.createOrderOnFirstMay("Joana", true, 11, 0);
+    return Mother.createOrderOnFirstMay(2, "Joana", true, 11, 0);
   }
 
   static orderOfMarcelo(): Order{
-    return Mother.createOrderOnFirstMay("Marcelo", false, 12, 0);
+    return Mother.createOrderOnFirstMay(3, "Marcelo", false, 12, 0);
   }
   
 
-  private static createOrderOnFirstMay(customer: string,  
+  private static createOrderOnFirstMay(id: number,
+                                       customer: string,  
                                        isPaid: boolean, 
                                        hour: number, 
                                        minute:number): Order {
     return {
+      id: id,
       customerName: customer,
       value: 68.70,
       deliveryTax: 4.00,

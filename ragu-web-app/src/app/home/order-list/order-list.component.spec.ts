@@ -1,12 +1,15 @@
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, Location } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { screen, within } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 import { CalendarModule } from 'primeng/calendar';
 import { DataViewModule } from 'primeng/dataview';
 import { of } from 'rxjs';
+import { routes } from 'src/app/app-routing.module';
 import { Mother } from 'src/testing/mother';
 import { OrderListComponent } from './order-list.component';
 import { OrderService } from './order-ragu.service';
@@ -33,7 +36,9 @@ describe('OrderListComponent', () => {
       imports: [
         DataViewModule,
         CalendarModule,
-        BrowserAnimationsModule]
+        BrowserAnimationsModule,
+        RouterTestingModule.withRoutes(routes)
+      ]
     })
       .compileComponents();
   });
@@ -103,5 +108,15 @@ describe('OrderListComponent', () => {
     expect(orderServiceStub.getBookedOfWholeDay).toHaveBeenCalledWith(mayTenth);
     expectOrderedByTime(actual);
   });
+
+  it('should redirect to order of joao details when is clicked', fakeAsync(() => {
+    const orderOfJoaoElement = screen.getAllByTestId(ORDER_TEST_ID)[2];
+    
+    const location = TestBed.inject(Location);
+    userEvent.click(orderOfJoaoElement);
+    tick();
+
+    expect(location.path()).toBe(`/order-details/${Mother.orderOfJoao().id}`);
+  }));
 });
 

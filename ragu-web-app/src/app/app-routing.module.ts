@@ -4,8 +4,9 @@ import { DeliveryLocalesComponent } from './delivery-locales/delivery-locales.co
 import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'delivery-locales', component: DeliveryLocalesComponent },
-  { path: '', component: HomeComponent }
+  { path: 'order-details/:id', component: HomeComponent,  }
 ];
 
 @NgModule({
