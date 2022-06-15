@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { OrderDetails } from '../models/order-detail.model';
 import { OrderService } from '../services/order-ragu.service';
-import { OrderDetails } from './order-detail.model';
 
 @Component({
   selector: 'ragu-order-detail',

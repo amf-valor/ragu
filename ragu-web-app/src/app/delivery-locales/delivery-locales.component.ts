@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { finalize, takeWhile } from 'rxjs';
-import { DeliveryLocale } from './delivery-locale.model';
+import { DeliveryLocale } from '../models/delivery-locale.model';
 import { DeliveryLocalesRaguService } from '../services/delivery-locales-ragu.service';
 
 

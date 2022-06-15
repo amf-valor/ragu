@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Order } from "src/app/home/order-list/order.model";
-import { OrderDetails } from "src/app/order-detail/order-detail.model";
+import { OrderDetails } from "src/app/models/order-detail.model";
+import { Order } from "src/app/models/order.model";
 
 export class Mother {
   static orderDetailsOfJoao() : OrderDetails {

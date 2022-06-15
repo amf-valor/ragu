@@ -1,5 +1,4 @@
 import { InMemoryDbService } from "angular-in-memory-web-api";
-import { DeliveryLocale } from "./app/delivery-locales/delivery-locale.model";
 
 interface DbOrder{
 	id: number,
@@ -12,9 +11,15 @@ interface DbOrder{
 	bookedAt: string
 } 
 
+interface DbDeliveryLocale{
+	id: number,
+	hood: string,
+	tax: number
+}
+
 export class RaguInMemoryDbService extends InMemoryDbService {
 	
-	createDb(): { deliveryLocales: DeliveryLocale[], orders: DbOrder[] } {
+	createDb(): { deliveryLocales: DbDeliveryLocale[], orders: DbOrder[] } {
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
 

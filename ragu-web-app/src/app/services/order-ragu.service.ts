@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
-import { OrderDetails } from "src/app/order-detail/order-detail.model";
+import { OrderDetails } from "src/app/models/order-detail.model";
 import { RaguService } from 'src/app/services/ragu.service';
-import { Order } from '../home/order-list/order.model';
+import { Order } from '../models/order.model';
 
 @Injectable({
   providedIn: 'root'

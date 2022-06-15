@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable } from 'rxjs';
+import { DeliveryLocale } from '../models/delivery-locale.model';
 import { RaguService } from './ragu.service';
-import { DeliveryLocale } from '../delivery-locales/delivery-locale.model';
 
 @Injectable({
   providedIn: 'root'
