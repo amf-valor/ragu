@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Ragu.Tests;
+namespace Ragu.Tests.Helpers;
 
 public static class HttpClientExtensions
 {

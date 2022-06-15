@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Ragu.Core;
+using Ragu.Tests.Helpers;
 using Xunit;
 
 namespace Ragu.Tests;

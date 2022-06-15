@@ -13,7 +13,7 @@ using Ragu.InfraStructure.Data;
 using Ragu.Services;
 using Xunit;
 
-namespace Ragu.Tests;
+namespace Ragu.Tests.Helpers;
 
 public sealed class Fixture : IDisposable
 {

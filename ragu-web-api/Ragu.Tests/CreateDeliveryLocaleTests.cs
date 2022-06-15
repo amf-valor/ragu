@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Ragu.Tests.Helpers;
 using Xunit;
 
 namespace Ragu.Tests;

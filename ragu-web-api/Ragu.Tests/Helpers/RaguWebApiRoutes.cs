@@ -1,4 +1,4 @@
-namespace Ragu.Tests;
+namespace Ragu.Tests.Helpers;
 
 public static class RaguWebApiRoutes
 {

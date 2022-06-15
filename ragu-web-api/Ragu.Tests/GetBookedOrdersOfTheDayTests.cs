@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Ragu.InfraStructure;
+using Ragu.Tests.Helpers;
 using Xunit;
 using static Namespace.OrdersController;
 

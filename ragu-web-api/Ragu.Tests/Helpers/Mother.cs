@@ -4,7 +4,7 @@ using Ragu.Core;
 using Ragu.InfraStructure;
 using static Namespace.OrdersController;
 
-namespace Ragu.Tests;
+namespace Ragu.Tests.Helpers;
 
 internal static class Mother
 {
