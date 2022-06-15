@@ -4,10 +4,10 @@ import { environment } from "src/environments/environment";
 
 export abstract class RaguService {
   
-  protected readonly Uri: string;
+  protected readonly uri: string;
 
   constructor(resource: string){
-    this.Uri = `${environment.raguBaseUrl}/api/${resource}`;
+    this.uri = `${environment.raguBaseUrl}/api/${resource}`;
   }
 
   protected handleError(httpBadResponse: HttpErrorResponse) : Observable<never> {

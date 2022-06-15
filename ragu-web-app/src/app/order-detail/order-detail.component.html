@@ -1,1 +1,16 @@
-<p>order-detail works!</p>
+<div class="grid col-12 ">
+  <div *ngIf="orderDetails$ | async as orderDetails" class="col-8">
+    <p-dataView [value]="orderDetails.products">
+      <ng-template let-product pTemplate="listItem">
+        <div data-testid="product" class="grid col-12">
+          <div class="col-8 font-bold text-xl">
+            {{product.name}}
+          </div>
+          <div class="col-4 font-bold">
+            {{product.value | currency}}
+          </div>
+        </div>
+      </ng-template>
+    </p-dataView>
+  </div>
+</div>

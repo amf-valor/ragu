@@ -1,7 +1,16 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Order } from "src/app/home/order-list/order.model";
+import { OrderDetails } from "src/app/order-detail/order-detail.model";
 
 export class Mother {
+  static orderDetailsOfJoao() : OrderDetails {
+    return { 
+      products: [{
+        name: 'ragu',
+        value: 10.0
+      }] 
+    };
+  }
   
   static ordersOfJoaoJoanaAndMarcelo(): Order[] {
     return [

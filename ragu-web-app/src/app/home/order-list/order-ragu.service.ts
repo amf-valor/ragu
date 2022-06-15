@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable } from 'rxjs';
+import { OrderDetails } from "src/app/order-detail/order-detail.model";
 import { RaguService } from 'src/app/shared/ragu.service';
 import { Order } from './order.model';
 
@@ -15,7 +16,11 @@ export class OrderService extends RaguService{
 
   getBookedOfWholeDay(ofDay: Date): Observable<Order[]> {
     return this.httpClient
-      .get<Order[]>(`${this.Uri}?ofDay=${ofDay.toISOString()}`)
-      .pipe(catchError(this.handleError));
+    .get<Order[]>(`${this.uri}?ofDay=${ofDay.toISOString()}`)
+    .pipe(catchError(this.handleError));
+  }
+
+  getOrderDetails(id: number): Observable<OrderDetails> {
+    return this.httpClient.get<OrderDetails>(`${this.uri}/${id}`);
   }
 }

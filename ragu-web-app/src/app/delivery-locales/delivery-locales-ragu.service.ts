@@ -14,17 +14,17 @@ export class DeliveryLocalesRaguService extends RaguService {
   }
   
   delete(id: number) : Observable<void> {
-    return this.httpClient.delete(`${this.Uri}/${id}`)
+    return this.httpClient.delete(`${this.uri}/${id}`)
       .pipe(map(() => undefined), catchError(this.handleError));
   }
 
   post(deliveryLocale: DeliveryLocale) : Observable<DeliveryLocale> {
-    return this.httpClient.post<DeliveryLocale>(this.Uri, deliveryLocale)
+    return this.httpClient.post<DeliveryLocale>(this.uri, deliveryLocale)
       .pipe(catchError(this.handleError));
   }
     
   getAll(): Observable<DeliveryLocale[]> {
-    return this.httpClient.get<DeliveryLocale[]>(this.Uri)
+    return this.httpClient.get<DeliveryLocale[]>(this.uri)
       .pipe(catchError(this.handleError));
   }
 }

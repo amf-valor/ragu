@@ -3,10 +3,13 @@ import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { routes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { OrderService } from './home/order-list/order-ragu.service';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import { OrderDetailModule } from './order-detail/order-detail.module';
 
 describe('AppRouting', () => {
   let appFixture: ComponentFixture<AppComponent>;
@@ -22,15 +25,19 @@ describe('AppRouting', () => {
   class OrderListDummyComponent{}
 
   beforeEach(async () => {
+    const orderServiceStub: jasmine.SpyObj<OrderService> = jasmine.createSpyObj('OrderService', ['getOrderDetails']);
+    orderServiceStub.getOrderDetails.and.returnValue(of());
+
     await TestBed.configureTestingModule({
       declarations: [ 
         AppComponent, 
         HomeComponent, 
         MenuDummyComponent, 
         ToastDummyComponent,
-        OrderListDummyComponent 
+        OrderListDummyComponent
       ],
-      imports: [RouterTestingModule.withRoutes(routes)]
+      imports: [RouterTestingModule.withRoutes(routes), OrderDetailModule],
+      providers:[{ provide:OrderService, useValue: orderServiceStub }]
     })
     .compileComponents();
   });
@@ -48,7 +55,7 @@ describe('AppRouting', () => {
     expect(homeComponent).not.toBeNull();
   }));
 
-  fit('should redirect to order details', fakeAsync(() => {
+  it('should redirect to order details', fakeAsync(() => {
     router.navigate(['/order-details', 1]);
     tick();
 

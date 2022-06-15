@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { CalendarModule } from 'primeng/calendar';
 import { DataViewModule } from 'primeng/dataview';
@@ -14,7 +14,7 @@ import { OrderListComponent } from './order-list/order-list.component';
     CommonModule,
     DataViewModule,
     CalendarModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     RouterModule
   ]
 })
