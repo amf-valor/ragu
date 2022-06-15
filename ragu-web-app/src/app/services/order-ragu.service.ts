@@ -16,11 +16,13 @@ export class OrderService extends RaguService{
 
   getBookedOfWholeDay(ofDay: Date): Observable<Order[]> {
     return this.httpClient
-    .get<Order[]>(`${this.uri}?ofDay=${ofDay.toISOString()}`)
-    .pipe(catchError(this.handleError));
+      .get<Order[]>(`${this.uri}?ofDay=${ofDay.toISOString()}`)
+      .pipe(catchError(this.handleError));
   }
 
   getOrderDetails(id: number): Observable<OrderDetails> {
-    return this.httpClient.get<OrderDetails>(`${this.uri}/${id}`);
+    return this.httpClient
+      .get<OrderDetails>(`${this.uri}/${id}`)
+      .pipe(catchError(this.handleError));
   }
 }

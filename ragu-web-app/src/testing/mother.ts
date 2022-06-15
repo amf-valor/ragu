@@ -1,8 +1,17 @@
 import { HttpErrorResponse } from "@angular/common/http";
+import { Message } from "primeng/api";
 import { OrderDetails } from "src/app/models/order-detail.model";
 import { Order } from "src/app/models/order.model";
 
 export class Mother {
+  static errorMessage(): Message{
+    return {
+      severity: 'error',
+      summary: 'Oops!',
+      detail: 'Desculpe o transtorno, mas algo inesperado ocorreu. Tente novamente mais tarde.'
+    };
+  }
+  
   static orderDetailsOfJoao() : OrderDetails {
     return { 
       products: [{

@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { OrderService } from './services/order-ragu.service';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderDetailModule } from './order-detail/order-detail.module';
+import { MessageService } from 'primeng/api';
 
 describe('AppRouting', () => {
   let appFixture: ComponentFixture<AppComponent>;
@@ -37,7 +38,7 @@ describe('AppRouting', () => {
         OrderListDummyComponent
       ],
       imports: [RouterTestingModule.withRoutes(routes), OrderDetailModule],
-      providers:[{ provide:OrderService, useValue: orderServiceStub }]
+      providers:[{ provide:OrderService, useValue: orderServiceStub }, MessageService]
     })
     .compileComponents();
   });

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of } from 'rxjs';
 import { OrderDetails } from '../models/order-detail.model';
+import { NotificationService } from '../services/notification.service';
 import { OrderService } from '../services/order-ragu.service';
 
 @Component({
@@ -14,11 +15,18 @@ export class OrderDetailComponent implements OnInit {
 
   orderDetails$: Observable<OrderDetails> = of();
   
-  constructor(private readonly orderService: OrderService, private readonly route: ActivatedRoute) { }
+  constructor(private readonly orderService: OrderService, 
+              private readonly route: ActivatedRoute,
+              private readonly notificationService: NotificationService) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.params['id']);
-    this.orderDetails$ = this.orderService.getOrderDetails(id);
+    this.orderDetails$ = this.orderService
+      .getOrderDetails(id)
+      .pipe(catchError(() => {
+        this.notificationService.notifyError();
+        return of();
+      }));
   }
 
 }
