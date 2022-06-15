@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { HttpTestingControllerHelper, Mother } from 'src/testing';
 import { OrderDetailComponent } from './order-detail.component';
 
-fdescribe('OrderDetailComponent', () => {
+describe('OrderDetailComponent', () => {
   let fixture: ComponentFixture<OrderDetailComponent>;
   let httpTestingControllerHelper: HttpTestingControllerHelper;
 

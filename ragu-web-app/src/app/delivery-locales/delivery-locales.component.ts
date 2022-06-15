@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MessageService } from 'primeng/api';
 import { finalize, takeWhile } from 'rxjs';
 import { DeliveryLocale } from './delivery-locale.model';
-import { DeliveryLocalesRaguService } from './delivery-locales-ragu.service';
+import { DeliveryLocalesRaguService } from '../services/delivery-locales-ragu.service';
 
 
 @Component({
@@ -26,12 +26,12 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
     return this._deliveryLocales;
   }
 
-  private _isTableLoading: boolean = false;
+  private _isTableLoading = false;
   get isTableLoading(): boolean {
     return this._isTableLoading;
   }
 
-  private _isSaving: boolean = false;
+  private _isSaving = false;
   get isSaving(): boolean {
     return this._isSaving;
   }
@@ -44,7 +44,7 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
     return <AbstractControl>this._deliveryLocalesForm.get('tax');
   }
   
-  private _isAlive: boolean = true;
+  private _isAlive = true;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -95,7 +95,7 @@ export class DeliveryLocalesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => this.removeDeliveryLocaleById(id),
         error: () => this.addErrorMessage()
-      })
+      });
   }
 
   private addErrorMessage(): void {

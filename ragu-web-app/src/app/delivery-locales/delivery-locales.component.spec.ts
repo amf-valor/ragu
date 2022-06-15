@@ -9,7 +9,7 @@ import { throwError } from 'rxjs';
 import { RaguInMemoryDbService } from 'src/ragu-in-memory-db.service';
 import { DeliveryLocalesComponent } from './delivery-locales.component';
 import { DeliveryLocalesModule } from './delivery-locales.module';
-import { DeliveryLocalesRaguService } from './delivery-locales-ragu.service';
+import { DeliveryLocalesRaguService } from '../services/delivery-locales-ragu.service';
 
 const ERROR_MESSAGE: Message = {
   severity: 'error',

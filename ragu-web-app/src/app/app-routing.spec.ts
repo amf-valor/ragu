@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { routes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { OrderService } from './home/order-list/order-ragu.service';
+import { OrderService } from './services/order-ragu.service';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderDetailModule } from './order-detail/order-detail.module';
 

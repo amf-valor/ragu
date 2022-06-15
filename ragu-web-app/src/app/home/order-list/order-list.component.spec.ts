@@ -12,7 +12,7 @@ import { of } from 'rxjs';
 import { routes } from 'src/app/app-routing.module';
 import { Mother } from 'src/testing/mother';
 import { OrderListComponent } from './order-list.component';
-import { OrderService } from './order-ragu.service';
+import { OrderService } from '../../services/order-ragu.service';
 
 registerLocaleData(localePt, 'pt');
 
