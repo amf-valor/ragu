@@ -19,5 +19,12 @@ public class OrderService
             .Where(order => order.BookedAt >= ofDay.AtBegin() && order.BookedAt <= ofDay.AtEnd())
             .ToListAsync();
     }
+
+    public Task<Order?> GetById(int id)
+    {
+        return _raguContext.Orders
+            .Include(_ => _.Products).Where(_ => _.Id == id)
+            .FirstOrDefaultAsync();
+    }
 }
 

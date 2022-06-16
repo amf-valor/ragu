@@ -1,15 +1,19 @@
+using System.Collections.ObjectModel;
+
 namespace Ragu.Core;
 
 public class Order
 {
-    private readonly int _id;
     public int Id { get => _id; }
+    private readonly int _id;
     public string CustomerName { get; private set; }
     public decimal Value { get; private set; }
     public decimal DeliveryTax { get; private set; }
     public DateTimeOffset BookedAt { get; private set; }
     public bool IsPaid { get; private set; }
     public decimal Total { get => Value + DeliveryTax; }
+    public IReadOnlyCollection<Product> Products { get => _products.AsReadOnly(); }
+    private readonly List<Product> _products;
 
     public Order(string customerName, decimal value, decimal deliveryTax, DateTimeOffset bookedAt)
     {
@@ -18,6 +22,11 @@ public class Order
         DeliveryTax = deliveryTax;
         BookedAt = bookedAt;
         IsPaid = false;
+        _products = new List<Product>();
     }
 
+    public void AddItem(Product newItem)
+    {
+        _products.Add(newItem);
+    }
 }

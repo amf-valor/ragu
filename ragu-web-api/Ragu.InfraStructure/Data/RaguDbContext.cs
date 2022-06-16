@@ -6,8 +6,8 @@ namespace Ragu.InfraStructure.Data;
 public class RaguDbContext : DbContext
 {
     public DbSet<DeliveryLocale> DeliveryLocales => Set<DeliveryLocale>();
-
     public DbSet<Order> Orders => Set<Order>();
+    public DbSet<Product> Products => Set<Product>();
 
     public RaguDbContext(DbContextOptions<RaguDbContext> options) : base(options)
     {
@@ -34,6 +34,13 @@ public class RaguDbContext : DbContext
             b.Property(p => p.DeliveryTax).HasPrecision(defaultPrecision, defaultScale);
             b.Property(p => p.IsPaid);
             b.Property(p => p.Value).HasPrecision(defaultPrecision, defaultScale);
+        });
+
+        modelBuilder.Entity<Product>(b =>
+        {
+            b.Property(p => p.Id).HasField("_id");
+            b.Property(p => p.Name);
+            b.Property(p => p.Price).HasPrecision(defaultPrecision, defaultScale);
         });
     }
 }

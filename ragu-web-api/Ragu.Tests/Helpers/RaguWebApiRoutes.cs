@@ -2,6 +2,8 @@ namespace Ragu.Tests.Helpers;
 
 public static class RaguWebApiRoutes
 {
-    public const string DeliveryLocales = "api/deliveryLocales";
+    private const string Api = "api";
+    public const string DeliveryLocales = $"{Api}/deliveryLocales";
+    public const string Orders = $"{Api}/orders";
 
 }

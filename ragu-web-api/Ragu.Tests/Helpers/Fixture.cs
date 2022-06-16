@@ -18,6 +18,14 @@ namespace Ragu.Tests.Helpers;
 public sealed class Fixture : IDisposable
 {
     private readonly WebApplicationFactory<Program> _applicationFactory;
+
+    internal async Task GivenEntity<T>(T order) where T : class
+    {
+        using var dbContext = CreateDbContext();
+        dbContext.Set<T>().Add(order);
+        await dbContext.SaveChangesAsync();
+    }
+
     private readonly MsSqlTestcontainer _sqlTestContainer;
 
 

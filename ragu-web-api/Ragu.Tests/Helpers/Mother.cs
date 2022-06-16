@@ -38,7 +38,12 @@ internal static class Mother
 
     internal static Order OrderOfBen()
     {
-        return new Order("Ben", 12.0m, 5.0m, new DateTime(2022, 06, 07));
+        var feijoada = new Product("feijoada", 15.0m);
+        var ragu = new Product("ragu", 10.0m);
+        var order = new Order("Ben", 12.0m, 5.0m, new DateTime(2022, 06, 07));
+        order.AddItem(feijoada);
+        order.AddItem(ragu);
+        return order;
     }
 
     internal static ICollection<Order> OrdersFromJohnJoanaAndBen()
