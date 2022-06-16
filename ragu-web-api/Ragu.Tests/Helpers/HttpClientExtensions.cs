@@ -7,9 +7,9 @@ namespace Ragu.Tests.Helpers;
 
 public static class HttpClientExtensions
 {
-    public static async Task<T?> GetAsJson<T>(this HttpClient httpClient, string uri)
+    public static async Task<T?> GetAsJsonToObject<T>(this HttpClient httpClient, string uri)
     {
-        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        AddHeaderApplicationJson(httpClient);
         var responseMessage = await httpClient.GetAsync(uri);
         responseMessage.EnsureSuccessStatusCode();
 
@@ -25,5 +25,16 @@ public static class HttpClientExtensions
         };
 
         return JsonSerializer.Deserialize<T>(payload, serializeOptions);
+    }
+
+    public static Task<HttpResponseMessage> GetAsJson(this HttpClient httpClient, string uri)
+    {
+        AddHeaderApplicationJson(httpClient);
+        return httpClient.GetAsync(uri);
+    }
+
+    private static void AddHeaderApplicationJson(HttpClient httpClient)
+    {
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
 }

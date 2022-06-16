@@ -37,7 +37,7 @@ public sealed class GetBookedOrdersOfTheDayTests : IAsyncLifetime, IDisposable
             await dbContext.SaveChangesAsync();
         }
 
-        var actual = await _httpClient.GetAsJson<ICollection<GetBookedResponse>>($"api/orders?ofDay={ofDay}");
+        var actual = await _httpClient.GetAsJsonToObject<ICollection<GetBookedResponse>>($"api/orders?ofDay={ofDay}");
 
         var expected = new List<GetBookedResponse>
         {

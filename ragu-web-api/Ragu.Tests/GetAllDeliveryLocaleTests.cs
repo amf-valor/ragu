@@ -36,7 +36,7 @@ public class GetAllDeliveryLocaleTests
 
 
         var actual = await _httpClient
-            .GetAsJson<List<GetDeliveryLocaleResponse>>(RaguWebApiRoutes.DeliveryLocales);
+            .GetAsJsonToObject<List<GetDeliveryLocaleResponse>>(RaguWebApiRoutes.DeliveryLocales);
 
         actual.Should().NotBeNull();
         actual.Should().BeEquivalentTo(expected);

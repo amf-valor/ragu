@@ -38,6 +38,12 @@ public class OrdersController : ControllerBase
     public async Task<ActionResult<GetOrderDetailsResponse>> GetOrderDetails(int id)
     {
         var order = await _orderService.GetById(id);
+
+        if (order is null)
+        {
+            return NotFound();
+        }
+        
         return Ok(MapFrom(order));
     }
 
