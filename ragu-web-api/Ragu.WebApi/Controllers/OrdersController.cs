@@ -25,7 +25,7 @@ public class OrdersController : ControllerBase
             {
                 CustomerName = order.CustomerName,
                 BookedAt = order.BookedAt,
-                Value = order.Value,
+                SubTotal = order.SubTotal,
                 DeliveryTax = order.DeliveryTax,
                 Total = order.Total,
                 IsPaid = order.IsPaid
@@ -43,7 +43,7 @@ public class OrdersController : ControllerBase
         {
             return NotFound();
         }
-        
+
         return Ok(MapFrom(order));
     }
 
@@ -64,7 +64,7 @@ public class OrdersController : ControllerBase
     {
         public string CustomerName { get; set; } = string.Empty;
         public DateTimeOffset BookedAt { get; set; }
-        public decimal Value { get; set; }
+        public decimal SubTotal { get; set; }
         public decimal DeliveryTax { get; set; }
         public decimal Total { get; set; }
         public bool IsPaid { get; set; }

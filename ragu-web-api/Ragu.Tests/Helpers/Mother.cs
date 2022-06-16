@@ -10,7 +10,7 @@ internal static class Mother
 {
     public static Order OrderOfJohn()
     {
-        return new Order("John", 10.0m, 4.0m, TodayAtMidDay());
+        return new Order("John", 4.0m, TodayAtMidDay());
     }
 
     private static DateTime TodayAtMidDay()
@@ -29,18 +29,18 @@ internal static class Mother
         {
             CustomerName = "John",
             BookedAt = TodayAtMidDay(),
-            Value = 10.0m,
+            SubTotal = 0m,
             DeliveryTax = 4.0m,
-            Total = 14.0m,
+            Total = 4.0m,
             IsPaid = false
         };
     }
 
     internal static Order OrderOfBen()
     {
+        var order = new Order("Ben", 5.0m, new DateTime(2022, 06, 07));
         var feijoada = new Product("feijoada", 15.0m);
         var ragu = new Product("ragu", 10.0m);
-        var order = new Order("Ben", 12.0m, 5.0m, new DateTime(2022, 06, 07));
         order.AddItem(feijoada);
         order.AddItem(ragu);
         return order;
@@ -58,6 +58,6 @@ internal static class Mother
 
     internal static Order OrderOfJoana()
     {
-        return new Order("Joana", 2.0m, 3.0m, new DateTime(2022, 06, 09));
+        return new Order("Joana", 3.0m, new DateTime(2022, 06, 09));
     }
 }

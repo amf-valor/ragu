@@ -106,7 +106,9 @@ public sealed class Fixture : IDisposable
         await context.Database.ExecuteSqlRawAsync
         (
             @"TRUNCATE TABLE DeliveryLocales;
-              TRUNCATE TABLE Orders;"
+              TRUNCATE TABLE OrderProduct;
+              DELETE FROM Orders;
+              DELETE FROM Products"
         );
     }
 }

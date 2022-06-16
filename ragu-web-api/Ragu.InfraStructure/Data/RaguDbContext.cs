@@ -33,7 +33,6 @@ public class RaguDbContext : DbContext
             b.Property(p => p.CustomerName);
             b.Property(p => p.DeliveryTax).HasPrecision(defaultPrecision, defaultScale);
             b.Property(p => p.IsPaid);
-            b.Property(p => p.Value).HasPrecision(defaultPrecision, defaultScale);
         });
 
         modelBuilder.Entity<Product>(b =>
