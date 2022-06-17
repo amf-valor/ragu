@@ -16,7 +16,7 @@ export class Mother {
     return { 
       products: [{
         name: 'ragu',
-        value: 10.0
+        price: 10.0
       }] 
     };
   }
@@ -50,7 +50,7 @@ export class Mother {
     return {
       id: id,
       customerName: customer,
-      value: 68.70,
+      subTotal: 68.70,
       deliveryTax: 4.00,
       isPaid: isPaid,
       total: 72.70,

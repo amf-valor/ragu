@@ -1,7 +1,7 @@
 export interface Order{
     id: number,
     customerName: string,
-    value: number,
+    subTotal: number,
     deliveryTax: number,
     total: number,
     isPaid: boolean
