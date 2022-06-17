@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using DotNet.Testcontainers.Containers.Modules.Databases;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ragu.Core;
 using Ragu.InfraStructure;
 using Ragu.InfraStructure.Data;
 using Ragu.Services;
@@ -19,12 +21,6 @@ public sealed class Fixture : IDisposable
 {
     private readonly WebApplicationFactory<Program> _applicationFactory;
 
-    internal async Task GivenEntity<T>(T order) where T : class
-    {
-        using var dbContext = CreateDbContext();
-        dbContext.Set<T>().Add(order);
-        await dbContext.SaveChangesAsync();
-    }
 
     private readonly MsSqlTestcontainer _sqlTestContainer;
 
@@ -37,6 +33,20 @@ public sealed class Fixture : IDisposable
         context.Database.EnsureDeleted();
         context.Database.Migrate();
     }
+    internal async Task GivenEntity<T>(T entity) where T : class
+    {
+        using var dbContext = CreateDbContext();
+        dbContext.Set<T>().Add(entity);
+        await dbContext.SaveChangesAsync();
+    }
+
+    internal async Task GivenEntities<T>(ICollection<T> entities) where T : class
+    {
+        using var dbContext = CreateDbContext();
+        dbContext.Set<T>().AddRange(entities);
+        await dbContext.SaveChangesAsync();
+    }
+
     internal static void SetTo2022JunEight()
     {
         DateTimeContext.SetNow(() => new DateTime(2022, 06, 08));

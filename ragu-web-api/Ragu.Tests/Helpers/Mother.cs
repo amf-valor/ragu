@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Ragu.Core;
 using Ragu.InfraStructure;
-using static Namespace.OrdersController;
+using static Ragu.Tests.GetBookedOrdersOfTheDayTests;
 
 namespace Ragu.Tests.Helpers;
 
@@ -23,10 +23,11 @@ internal static class Mother
                             0);
     }
 
-    internal static GetBookedResponse GetBookedResponseOfJohn()
+    internal static GetBookedResponse GetBookedResponseOfJohn(int orderId)
     {
         return new GetBookedResponse
         {
+            Id = orderId,
             CustomerName = "John",
             BookedAt = TodayAtMidDay(),
             SubTotal = 0m,

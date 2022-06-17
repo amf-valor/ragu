@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Ragu.InfraStructure;
 using Ragu.Tests.Helpers;
 using Xunit;
-using static Namespace.OrdersController;
 
 namespace Ragu.Tests;
 
@@ -31,19 +31,18 @@ public sealed class GetBookedOrdersOfTheDayTests : IAsyncLifetime, IDisposable
     [MemberData(nameof(ShouldGetBookedOrdersOfTheDayCases))]
     public async Task Should_get_booked_orders_of_the_day(DateTime ofDay)
     {
-        using (var dbContext = _fixture.CreateDbContext())
-        {
-            dbContext.Orders.AddRange(Mother.OrdersFromJohnJoanaAndBen());
-            await dbContext.SaveChangesAsync();
-        }
-
+        //Given
+        var orders = Mother.OrdersFromJohnJoanaAndBen();
+        await _fixture.GivenEntities(orders);
+        //When
         var actual = await _httpClient.GetAsJsonToObject<ICollection<GetBookedResponse>>($"api/orders?ofDay={ofDay}");
 
+        var orderOfJohn = orders.First();
         var expected = new List<GetBookedResponse>
         {
-            Mother.GetBookedResponseOfJohn()
+            Mother.GetBookedResponseOfJohn(orderOfJohn.Id)
         };
-
+        //Then
         actual.Should().NotBeNull();
         actual.Should().BeEquivalentTo(expected);
     }
@@ -66,4 +65,15 @@ public sealed class GetBookedOrdersOfTheDayTests : IAsyncLifetime, IDisposable
     public Task DisposeAsync() => _fixture.ResetDatabase();
 
     public void Dispose() => DateTimeContext.Reset();
+
+    internal class GetBookedResponse
+    {
+        public int Id { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
+        public DateTimeOffset BookedAt { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal DeliveryTax { get; set; }
+        public decimal Total { get; set; }
+        public bool IsPaid { get; set; }
+    }
 }

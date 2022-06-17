@@ -23,6 +23,7 @@ public class OrdersController : ControllerBase
         var response = orders
             .Select(order => new GetBookedResponse
             {
+                Id = order.Id,
                 CustomerName = order.CustomerName,
                 BookedAt = order.BookedAt,
                 SubTotal = order.SubTotal,
@@ -62,6 +63,7 @@ public class OrdersController : ControllerBase
 
     public class GetBookedResponse
     {
+        public int Id { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public DateTimeOffset BookedAt { get; set; }
         public decimal SubTotal { get; set; }
