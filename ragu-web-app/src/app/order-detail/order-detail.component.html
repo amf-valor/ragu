@@ -18,7 +18,7 @@
       {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
     </p-card>
     <p-card [header]="orderDetails.customerName" class="col-12 text-center">
-      
+      {{orderDetails.customerPhone | phone}}
     </p-card>  
   </div>
 </div>

@@ -14,7 +14,8 @@ export class Mother {
   
   static orderDetailsOfJoao() : OrderDetails {
     return {
-      customerName: 'João', 
+      customerName: 'João',
+      customerPhone: 12986254104, 
       bookedAt: this.mayFirstAt(13, 0),
       products: [{
         name: 'ragu',

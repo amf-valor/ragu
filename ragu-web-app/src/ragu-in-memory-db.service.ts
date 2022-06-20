@@ -8,6 +8,7 @@ interface DbProduct{
 interface DbOrder{
 	id: number,
 	customerName: string,
+	customerPhone: number,
 	subTotal: number,
 	deliveryTax: number,
 	isPaid: boolean,
@@ -46,6 +47,7 @@ export class RaguInMemoryDbService extends InMemoryDbService {
 				{
 					id: 1,
 					customerName: "João",
+					customerPhone: 15986254196,
 					subTotal: 68.70,
 					deliveryTax: 4.00,
 					isPaid: false,
@@ -59,6 +61,7 @@ export class RaguInMemoryDbService extends InMemoryDbService {
 				{
 					id: 2,
 					customerName: "Natalia",
+					customerPhone: 12986254104,
 					subTotal: 68.70,
 					deliveryTax: 4.00,
 					isPaid: true,

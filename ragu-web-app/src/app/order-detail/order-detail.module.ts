@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
+import { SharedModule } from '../shared/shared.module';
 import { OrderDetailComponent } from './order-detail.component';
 
 
@@ -11,7 +12,8 @@ import { OrderDetailComponent } from './order-detail.component';
   imports: [
     CommonModule,
     DataViewModule,
-    CardModule
+    CardModule,
+    SharedModule
   ]
 })
 export class OrderDetailModule { }

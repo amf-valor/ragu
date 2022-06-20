@@ -9,6 +9,7 @@ import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { environment } from 'src/environments/environment';
 import { HttpTestingControllerHelper, Mother } from 'src/testing';
+import { SharedModule } from '../shared/shared.module';
 import { OrderDetailComponent } from './order-detail.component';
 
 describe('OrderDetailComponent', () => {
@@ -25,7 +26,8 @@ describe('OrderDetailComponent', () => {
         DataViewModule, 
         HttpClientTestingModule,
         RouterTestingModule,
-        CardModule
+        CardModule,
+        SharedModule
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'pt' }, 
@@ -50,7 +52,7 @@ describe('OrderDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should show all details', () =>{
+  it('should show all details', () =>{
     httpTestingControllerHelper.expectOneAndFlush(JOAO_ORDER_DETAIL_URI, Mother.orderDetailsOfJoao());
     fixture.detectChanges();
 
@@ -58,6 +60,7 @@ describe('OrderDetailComponent', () => {
     
     expect(screen.getByText(element => element.endsWith('01 de maio, 01:00 PM'))).toBeDefined();
     expect(screen.getByText('João')).toBeDefined();
+    expect(screen.getByText('(12) 98625-4104')).toBeDefined();
     expect(productElement.getByText('ragu')).toBeDefined();
     expect(productElement.getByText(/R\$ 10,00/i));
   });
