@@ -1,5 +1,5 @@
-<div class="grid col-12 ">
-  <div *ngIf="orderDetails$ | async as orderDetails" class="col-8">
+<div *ngIf="orderDetails$ | async as orderDetails" class="grid col-12 ">
+  <div class="col-8">
     <p-dataView [value]="orderDetails.products">
       <ng-template let-product pTemplate="listItem">
         <div data-testid="product" class="grid col-12">
@@ -13,4 +13,7 @@
       </ng-template>
     </p-dataView>
   </div>
+  <p-card header="Agendamento" class="col-4 text-center">
+    {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
+  </p-card>
 </div>

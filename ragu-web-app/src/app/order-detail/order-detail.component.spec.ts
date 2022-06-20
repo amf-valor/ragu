@@ -48,12 +48,14 @@ describe('OrderDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should show product', () =>{
+  it('should show all details', () =>{
     httpTestingControllerHelper.expectOneAndFlush(JOAO_ORDER_DETAIL_URI, Mother.orderDetailsOfJoao());
     fixture.detectChanges();
 
+    const bookedAtElement = screen.getByText(element => element.endsWith('01 maio, 01:00 PM'));
     const productElement = within(screen.getByTestId('product'));
     
+    expect(bookedAtElement).toBeDefined();
     expect(productElement.getByText('ragu')).toBeDefined();
     expect(productElement.getByText(/R\$ 10,00/i));
   });
@@ -62,7 +64,8 @@ describe('OrderDetailComponent', () => {
     let actual: Message = {};
     messageService.messageObserver.subscribe(message => actual = message as Message);
     
-    httpTestingControllerHelper.expectFirstStartsWithAndFlush(JOAO_ORDER_DETAIL_URI, Mother.internalServerError());
+    httpTestingControllerHelper
+      .expectFirstStartsWithAndFlush(JOAO_ORDER_DETAIL_URI, Mother.internalServerError());
     
     expect(actual).toEqual(Mother.errorMessage());
   });

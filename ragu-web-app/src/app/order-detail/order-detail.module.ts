@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrderDetailComponent } from './order-detail.component';
+import { NgModule } from '@angular/core';
+import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
+import { OrderDetailComponent } from './order-detail.component';
 
 
 
@@ -9,7 +10,8 @@ import { DataViewModule } from 'primeng/dataview';
   declarations: [OrderDetailComponent],
   imports: [
     CommonModule,
-    DataViewModule
+    DataViewModule,
+    CardModule
   ]
 })
 export class OrderDetailModule { }

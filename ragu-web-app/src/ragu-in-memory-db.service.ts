@@ -1,14 +1,20 @@
 import { InMemoryDbService } from "angular-in-memory-web-api";
 
+interface DbProduct{
+	name: string,
+	price: number
+}
+
 interface DbOrder{
 	id: number,
 	customerName: string,
-	value: number,
+	subTotal: number,
 	deliveryTax: number,
 	isPaid: boolean,
 	total: number,
 	ofDay: string,
-	bookedAt: string
+	bookedAt: string,
+	products: DbProduct[]
 } 
 
 interface DbDeliveryLocale{
@@ -40,22 +46,28 @@ export class RaguInMemoryDbService extends InMemoryDbService {
 				{
 					id: 1,
 					customerName: "João",
-					value: 68.70,
+					subTotal: 68.70,
 					deliveryTax: 4.00,
 					isPaid: false,
 					total: 72.70,
 					ofDay: today.toISOString(),
-					bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 12, 0, 0, 0).toISOString()
+					bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 12, 0, 0, 0).toISOString(),
+					products: [
+						{ name : 'ragu', price: 10.0 }
+					]
 				},
 				{
 					id: 2,
 					customerName: "Natalia",
-					value: 68.70,
+					subTotal: 68.70,
 					deliveryTax: 4.00,
 					isPaid: true,
 					total: 72.70,
 					ofDay: today.toISOString(),
-					bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 11, 0, 0, 0).toISOString()
+					bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 11, 0, 0, 0).toISOString(),
+					products: [
+						{ name : 'feijoada', price: 30.0 }
+					]
 				}
 			]
 		};
