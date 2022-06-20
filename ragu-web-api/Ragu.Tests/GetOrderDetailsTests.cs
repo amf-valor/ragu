@@ -33,6 +33,7 @@ public sealed class GetOrderDetailsTests
         actual.Should().NotBeNull();
         actual!.Products.Should().BeEquivalentTo(orderOfBen.Products, _ => _.Excluding(_ => _.Orders));
         actual.BookedAt.Should().Be(orderOfBen.BookedAt);
+        actual.CustomerName.Should().Be(orderOfBen.CustomerName);
     }
 
     [Fact]
@@ -57,5 +58,6 @@ public sealed class GetOrderDetailsTests
         }
         public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
         public DateTimeOffset BookedAt { get; set; }
+        public string CustomerName { get; set; } = string.Empty;
     }
 }
