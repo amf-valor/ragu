@@ -21,7 +21,7 @@ public class OrderService
             .ToListAsync();
     }
 
-    public Task<Order?> GetById(int id)
+    public Task<Order?> GetDetails(int id)
     {
         return _raguContext.Orders
             .Include(_ => _.Products).Where(_ => _.Id == id)

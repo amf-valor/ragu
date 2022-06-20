@@ -38,7 +38,7 @@ public class OrdersController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<GetOrderDetailsResponse>> GetOrderDetails(int id)
     {
-        var order = await _orderService.GetById(id);
+        var order = await _orderService.GetDetails(id);
 
         if (order is null)
         {
@@ -52,6 +52,7 @@ public class OrdersController : ControllerBase
     {
         return new GetOrderDetailsResponse
         {
+            BookedAt = order.BookedAt,
             Products = order.Products.Select(_ => new GetOrderDetailsResponse.ProductResponse
             {
                 Id = _.Id,
@@ -81,5 +82,6 @@ public class OrdersController : ControllerBase
             public decimal Price { get; set; }
         }
         public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
+        public DateTimeOffset BookedAt { get; set; }
     }
 }

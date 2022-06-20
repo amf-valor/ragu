@@ -1,15 +1,16 @@
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Ragu.Tests.Helpers;
 using Xunit;
-using static Namespace.OrdersController;
 
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public class GetOrderDetailsTests
+public sealed class GetOrderDetailsTests
 {
     private readonly Fixture _fixture;
     private readonly HttpClient _httpClient;
@@ -31,6 +32,7 @@ public class GetOrderDetailsTests
         // Then
         actual.Should().NotBeNull();
         actual!.Products.Should().BeEquivalentTo(orderOfBen.Products, _ => _.Excluding(_ => _.Orders));
+        actual.BookedAt.Should().Be(orderOfBen.BookedAt);
     }
 
     [Fact]
@@ -43,5 +45,17 @@ public class GetOrderDetailsTests
         //Then
         actual.Should().NotBeNull();
         actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    internal class GetOrderDetailsResponse
+    {
+        internal class ProductResponse
+        {
+            public int Id { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public decimal Price { get; set; }
+        }
+        public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
+        public DateTimeOffset BookedAt { get; set; }
     }
 }
