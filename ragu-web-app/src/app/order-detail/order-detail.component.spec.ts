@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { screen, within } from '@testing-library/angular';
 import { Message, MessageService } from 'primeng/api';
+import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { environment } from 'src/environments/environment';
 import { HttpTestingControllerHelper, Mother } from 'src/testing';
@@ -23,7 +24,8 @@ describe('OrderDetailComponent', () => {
       imports: [
         DataViewModule, 
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        CardModule
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'pt' }, 
@@ -48,14 +50,14 @@ describe('OrderDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should show all details', () =>{
+  fit('should show all details', () =>{
     httpTestingControllerHelper.expectOneAndFlush(JOAO_ORDER_DETAIL_URI, Mother.orderDetailsOfJoao());
     fixture.detectChanges();
 
-    const bookedAtElement = screen.getByText(element => element.endsWith('01 maio, 01:00 PM'));
     const productElement = within(screen.getByTestId('product'));
     
-    expect(bookedAtElement).toBeDefined();
+    expect(screen.getByText(element => element.endsWith('01 de maio, 01:00 PM'))).toBeDefined();
+    expect(screen.getByText('João')).toBeDefined();
     expect(productElement.getByText('ragu')).toBeDefined();
     expect(productElement.getByText(/R\$ 10,00/i));
   });

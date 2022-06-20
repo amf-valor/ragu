@@ -13,7 +13,12 @@
       </ng-template>
     </p-dataView>
   </div>
-  <p-card header="Agendamento" class="col-4 text-center">
-    {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
-  </p-card>
+  <div class="col-4">
+    <p-card header="Agendamento" class="col-12 text-center">
+      {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
+    </p-card>
+    <p-card [header]="orderDetails.customerName" class="col-12 text-center">
+      
+    </p-card>  
+  </div>
 </div>
