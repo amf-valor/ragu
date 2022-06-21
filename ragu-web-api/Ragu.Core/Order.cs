@@ -11,6 +11,8 @@ public class Order
     public bool IsPaid { get; private set; }
     public decimal Total { get => SubTotal + DeliveryTax; }
     public IReadOnlyCollection<Product> Products { get => _products.AsReadOnly(); }
+    public long CustomerPhoneNumber { get; set; }
+
     private readonly List<Product> _products;
 
     public Order(string customerName, decimal deliveryTax, DateTimeOffset bookedAt)

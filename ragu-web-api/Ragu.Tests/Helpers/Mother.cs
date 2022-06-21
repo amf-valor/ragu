@@ -45,7 +45,11 @@ internal static class Mother
 
     internal static Order OrderOfBen()
     {
-        var order = new Order("Ben", 5.0m, new DateTime(2022, 06, 07));
+        var order = new Order("Ben", 5.0m, new DateTime(2022, 06, 07))
+        {
+            CustomerPhoneNumber = 12986254104
+        };
+
         var feijoada = new Product("feijoada", 15.0m);
         order.AddItem(feijoada);
         order.AddItem(Ragu());

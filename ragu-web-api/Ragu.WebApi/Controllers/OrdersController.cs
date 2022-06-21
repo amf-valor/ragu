@@ -54,6 +54,7 @@ public class OrdersController : ControllerBase
         {
             BookedAt = order.BookedAt,
             CustomerName = order.CustomerName,
+            CustomerPhoneNumber = order.CustomerPhoneNumber,
             Products = order.Products.Select(_ => new GetOrderDetailsResponse.ProductResponse
             {
                 Id = _.Id,
@@ -85,5 +86,6 @@ public class OrdersController : ControllerBase
         public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
         public DateTimeOffset BookedAt { get; set; }
         public string CustomerName { get; set; } = string.Empty;
+        public long CustomerPhoneNumber { get; set; }
     }
 }
