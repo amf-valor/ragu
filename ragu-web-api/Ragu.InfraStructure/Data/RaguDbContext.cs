@@ -8,6 +8,7 @@ public class RaguDbContext : DbContext
     public DbSet<DeliveryLocale> DeliveryLocales => Set<DeliveryLocale>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Customer> Customers => Set<Customer>();
 
     public RaguDbContext(DbContextOptions<RaguDbContext> options) : base(options)
     {
@@ -30,7 +31,6 @@ public class RaguDbContext : DbContext
         {
             b.Property(p => p.Id).HasField("_id");
             b.Property(p => p.BookedAt);
-            b.Property(p => p.CustomerName);
             b.Property(p => p.DeliveryTax).HasPrecision(defaultPrecision, defaultScale);
             b.Property(p => p.IsPaid);
         });
@@ -40,6 +40,11 @@ public class RaguDbContext : DbContext
             b.Property(p => p.Id).HasField("_id");
             b.Property(p => p.Name);
             b.Property(p => p.Price).HasPrecision(defaultPrecision, defaultScale);
+        });
+
+        modelBuilder.Entity<Customer>(b =>
+        {
+            b.Property(p => p.Id);
         });
     }
 }

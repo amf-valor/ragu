@@ -24,7 +24,7 @@ public class OrdersController : ControllerBase
             .Select(order => new GetBookedResponse
             {
                 Id = order.Id,
-                CustomerName = order.CustomerName,
+                CustomerName = order.Owner.Name,
                 BookedAt = order.BookedAt,
                 SubTotal = order.SubTotal,
                 DeliveryTax = order.DeliveryTax,
@@ -53,8 +53,12 @@ public class OrdersController : ControllerBase
         return new GetOrderDetailsResponse
         {
             BookedAt = order.BookedAt,
-            CustomerName = order.CustomerName,
-            CustomerPhoneNumber = order.CustomerPhoneNumber,
+            Customer = new GetOrderDetailsResponse.CustomerResponse
+            {
+                Id = order.Owner.Id,
+                Name = order.Owner.Name,
+                PhoneNumber = order.Owner.PhoneNumber
+            },
             Products = order.Products.Select(_ => new GetOrderDetailsResponse.ProductResponse
             {
                 Id = _.Id,
@@ -77,15 +81,22 @@ public class OrdersController : ControllerBase
 
     public class GetOrderDetailsResponse
     {
+        public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
+        public DateTimeOffset BookedAt { get; set; }
+        public CustomerResponse Customer { get; set; } = new CustomerResponse();
+        public string CustomerName { get; set; } = string.Empty;
         public class ProductResponse
         {
             public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
             public decimal Price { get; set; }
         }
-        public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
-        public DateTimeOffset BookedAt { get; set; }
-        public string CustomerName { get; set; } = string.Empty;
-        public long CustomerPhoneNumber { get; set; }
+
+        public class CustomerResponse
+        {
+            public int Id { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public long PhoneNumber { get; internal set; }
+        }
     }
 }

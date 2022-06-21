@@ -33,8 +33,7 @@ public sealed class GetOrderDetailsTests
         actual.Should().NotBeNull();
         actual!.Products.Should().BeEquivalentTo(orderOfBen.Products, _ => _.Excluding(_ => _.Orders));
         actual.BookedAt.Should().Be(orderOfBen.BookedAt);
-        actual.CustomerName.Should().Be(orderOfBen.CustomerName);
-        actual.CustomerPhoneNumber.Should().Be(orderOfBen.CustomerPhoneNumber);
+        actual.Customer.Should().BeEquivalentTo(orderOfBen.Owner);
     }
 
     [Fact]
@@ -51,15 +50,22 @@ public sealed class GetOrderDetailsTests
 
     internal class GetOrderDetailsResponse
     {
+        public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
+        public DateTimeOffset BookedAt { get; set; }
+        public CustomerResponse Customer { get; set; } = new CustomerResponse();
+
+        internal class CustomerResponse
+        {
+            public int Id { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public long PhoneNumber { get; set; }
+        }
+
         internal class ProductResponse
         {
             public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
             public decimal Price { get; set; }
         }
-        public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
-        public DateTimeOffset BookedAt { get; set; }
-        public string CustomerName { get; set; } = string.Empty;
-        public long CustomerPhoneNumber { get; set; }
     }
 }

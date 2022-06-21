@@ -16,6 +16,7 @@ public class OrderService
     public async Task<ICollection<Order>> GetBooked(DateTimeOffset ofDay)
     {
         return await _raguContext.Orders
+            .Include(_ => _.Owner)
             .Include(_ => _.Products)
             .Where(order => order.BookedAt >= ofDay.AtBegin() && order.BookedAt <= ofDay.AtEnd())
             .ToListAsync();
@@ -24,8 +25,9 @@ public class OrderService
     public Task<Order?> GetDetails(int id)
     {
         return _raguContext.Orders
+            .Include(_ => _.Owner)
             .Include(_ => _.Products).Where(_ => _.Id == id)
-            .FirstOrDefaultAsync();
+            .SingleOrDefaultAsync();
     }
 }
 

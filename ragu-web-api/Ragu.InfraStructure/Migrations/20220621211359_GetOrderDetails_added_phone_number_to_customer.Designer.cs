@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ragu.InfraStructure.Data;
 
@@ -11,9 +12,10 @@ using Ragu.InfraStructure.Data;
 namespace Ragu.InfraStructure.Migrations
 {
     [DbContext(typeof(RaguDbContext))]
-    partial class RaguDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220621211359_GetOrderDetails_added_phone_number_to_customer")]
+    partial class GetOrderDetails_added_phone_number_to_customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,6 +90,9 @@ namespace Ragu.InfraStructure.Migrations
 
                     b.Property<DateTimeOffset>("BookedAt")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<long>("CustomerPhoneNumber")
+                        .HasColumnType("bigint");
 
                     b.Property<decimal>("DeliveryTax")
                         .HasPrecision(18, 2)
