@@ -57,7 +57,11 @@ public class OrdersController : ControllerBase
             {
                 Id = order.Owner.Id,
                 Name = order.Owner.Name,
-                PhoneNumber = order.Owner.PhoneNumber
+                PhoneNumber = order.Owner.PhoneNumber,
+                Street = order.Owner.Street,
+                StreetNumber = order.Owner.StreetNumber,
+                Neighborhood = order.Owner.Neighborhood,
+                City = order.Owner.City
             },
             Products = order.Products.Select(_ => new GetOrderDetailsResponse.ProductResponse
             {
@@ -97,6 +101,10 @@ public class OrdersController : ControllerBase
             public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
             public long? PhoneNumber { get; set; }
+            public string Street { get; set; } = string.Empty;
+            public int StreetNumber { get; set; }
+            public string Neighborhood { get; set; } = string.Empty;
+            public string City { get; set; } = string.Empty;
         }
     }
 }

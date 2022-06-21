@@ -16,7 +16,7 @@ public class Order
 
     private Order()
     {
-        Owner = new Customer(string.Empty);
+        Owner = new Customer();
         _products = new List<Product>();
     }
 

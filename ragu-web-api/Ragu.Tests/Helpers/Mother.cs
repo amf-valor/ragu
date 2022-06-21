@@ -15,7 +15,17 @@ internal static class Mother
         return order;
     }
 
-    private static Customer CreateCustomer(string name = "", long phoneNumber = default) => new(name) { PhoneNumber = phoneNumber };
+    private static Customer CreateCustomer(
+        string name = "",
+        long phoneNumber = default,
+        string street = "",
+        int streetNumber = default,
+        string neighborhood = "",
+        string city = "")
+            => new(name, street, streetNumber, neighborhood, city)
+            {
+                PhoneNumber = phoneNumber
+            };
 
     private static Product Ragu() => new("ragu", 10.0m);
 
@@ -40,7 +50,8 @@ internal static class Mother
 
     internal static Order OrderOfBen()
     {
-        var order = new Order(CreateCustomer("Ben", 12986254104), 5.0m, new DateTime(2022, 06, 07));
+        var ben = CreateCustomer("Ben", 12986254104, "Rua ernesto evans", 578, "São miguel", "São Paulo");
+        var order = new Order(ben, 5.0m, new DateTime(2022, 06, 07));
         var feijoada = new Product("feijoada", 15.0m);
         order.AddItem(feijoada);
         order.AddItem(Ragu());
