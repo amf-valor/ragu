@@ -17,8 +17,9 @@
     <p-card header="Agendamento" class="col-12 text-center">
       {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
     </p-card>
-    <p-card [header]="orderDetails.customerName" class="col-12 text-center">
-      {{orderDetails.customerPhone | phone}}
+    <p-card [header]="customer.name" class="col-12 text-center">
+      <p>{{customer.phone | phone}}</p>
+      <p>{{customer.street}}, {{customer.streetNumber}} {{customer.neighborhood | uppercase}} - {{customer.city}}</p>
     </p-card>  
   </div>
 </div>

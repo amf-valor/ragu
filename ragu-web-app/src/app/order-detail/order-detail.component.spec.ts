@@ -17,7 +17,8 @@ describe('OrderDetailComponent', () => {
   let httpTestingControllerHelper: HttpTestingControllerHelper;
   let messageService: MessageService;
 
-  const JOAO_ORDER_DETAIL_URI = `${environment.raguBaseUrl}/api/orders/1`;
+  const ORDER_OF_JOAO_ID = '1';
+  const JOAO_ORDER_DETAIL_URI = `${environment.raguBaseUrl}/api/orders/${ORDER_OF_JOAO_ID}`;
   
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,7 +36,7 @@ describe('OrderDetailComponent', () => {
         { provide: ActivatedRoute, useValue: {
           snapshot:{
             params:{
-              'id': '1'
+              'id': ORDER_OF_JOAO_ID
             }
           }
         }},
@@ -61,6 +62,7 @@ describe('OrderDetailComponent', () => {
     expect(screen.getByText(element => element.endsWith('01 de maio, 01:00 PM'))).toBeDefined();
     expect(screen.getByText('João')).toBeDefined();
     expect(screen.getByText('(12) 98625-4104')).toBeDefined();
+    expect(screen.getByText('Rua maracatu, 383 CENTRO - São Paulo'));
     expect(productElement.getByText('ragu')).toBeDefined();
     expect(productElement.getByText(/R\$ 10,00/i));
   });

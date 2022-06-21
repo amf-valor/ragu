@@ -14,8 +14,14 @@ export class Mother {
   
   static orderDetailsOfJoao() : OrderDetails {
     return {
-      customerName: 'João',
-      customerPhone: 12986254104, 
+      customer: {
+        name: 'João',
+        phone: 12986254104,
+        street: 'Rua maracatu',
+        streetNumber: 383,
+        neighborhood: 'centro',
+        city: 'São Paulo'
+      }, 
       bookedAt: this.mayFirstAt(13, 0),
       products: [{
         name: 'ragu',

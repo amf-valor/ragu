@@ -1,9 +1,9 @@
+import { Customer } from "./customer.model";
 import { Product } from "./product.model";
 
 
 export interface OrderDetails {
-  customerName: string;
-  customerPhone: number; 
+  customer: Customer; 
   bookedAt: Date;
   products: Product[];
 }
