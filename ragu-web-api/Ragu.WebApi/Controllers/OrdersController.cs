@@ -96,7 +96,7 @@ public class OrdersController : ControllerBase
         {
             public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
-            public long PhoneNumber { get; internal set; }
+            public long? PhoneNumber { get; set; }
         }
     }
 }

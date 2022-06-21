@@ -15,7 +15,7 @@ internal static class Mother
         return order;
     }
 
-    private static Customer CreateCustomer(string name = "", long phoneNumber = 0L) => new(name, phoneNumber);
+    private static Customer CreateCustomer(string name = "", long phoneNumber = default) => new(name) { PhoneNumber = phoneNumber };
 
     private static Product Ragu() => new("ragu", 10.0m);
 

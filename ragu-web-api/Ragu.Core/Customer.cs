@@ -4,11 +4,10 @@ public class Customer
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
-    public long PhoneNumber { get; private set; }
+    public long? PhoneNumber { get; set; }
 
-    public Customer(string name, long phoneNumber)
+    public Customer(string name)
     {
         Name = name;
-        PhoneNumber = phoneNumber;
     }
 }
