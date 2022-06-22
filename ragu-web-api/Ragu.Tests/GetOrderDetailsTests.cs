@@ -31,8 +31,14 @@ public sealed class GetOrderDetailsTests
         var actual = await _httpClient.GetAsJsonToObject<GetOrderDetailsResponse>($"{RaguWebApiRoutes.Orders}/{orderOfBen.Id}");
         // Then
         actual.Should().NotBeNull();
+
+        actual.Should().BeEquivalentTo
+        (
+            orderOfBen, _ => _.Excluding(_ => _.Products)
+                              .Excluding(_ => _.Owner)
+        );
+
         actual!.Products.Should().BeEquivalentTo(orderOfBen.Products, _ => _.Excluding(_ => _.Orders));
-        actual.BookedAt.Should().Be(orderOfBen.BookedAt);
         actual.Customer.Should().BeEquivalentTo(orderOfBen.Owner);
     }
 
@@ -50,26 +56,31 @@ public sealed class GetOrderDetailsTests
 
     internal class GetOrderDetailsResponse
     {
+        public int Id { get; set; }
         public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
         public DateTimeOffset BookedAt { get; set; }
         public CustomerResponse Customer { get; set; } = new CustomerResponse();
-
-        internal class CustomerResponse
-        {
-            public int Id { get; set; }
-            public string Name { get; set; } = string.Empty;
-            public long PhoneNumber { get; set; }
-            public string Street { get; set; } = string.Empty;
-            public int StreetNumber { get; set; }
-            public string Neighborhood { get; set; } = string.Empty;
-            public string City { get; set; } = string.Empty;
-        }
+        public decimal Subtotal { get; set; }
+        public decimal DeliveryTax { get; set; }
+        public bool IsPaid { get; set; }
+        public decimal Total { get; set; }
 
         internal class ProductResponse
         {
             public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
             public decimal Price { get; set; }
+        }
+
+        internal class CustomerResponse
+        {
+            public int Id { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public long? PhoneNumber { get; set; }
+            public string Street { get; set; } = string.Empty;
+            public int StreetNumber { get; set; }
+            public string Neighborhood { get; set; } = string.Empty;
+            public string City { get; set; } = string.Empty;
         }
     }
 }

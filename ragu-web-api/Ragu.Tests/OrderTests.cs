@@ -13,7 +13,7 @@ public class OrderTests
         var orderOfBen = Mother.OrderOfBen();
         var expectedSumOfProductPrices = 25.0m;
         // When
-        var actual = orderOfBen.SubTotal;
+        var actual = orderOfBen.Subtotal;
         // Then
         actual.Should().Be(expectedSumOfProductPrices);
     }

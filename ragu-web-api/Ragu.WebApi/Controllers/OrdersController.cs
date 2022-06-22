@@ -26,7 +26,7 @@ public class OrdersController : ControllerBase
                 Id = order.Id,
                 CustomerName = order.Owner.Name,
                 BookedAt = order.BookedAt,
-                SubTotal = order.SubTotal,
+                SubTotal = order.Subtotal,
                 DeliveryTax = order.DeliveryTax,
                 Total = order.Total,
                 IsPaid = order.IsPaid
@@ -52,7 +52,12 @@ public class OrdersController : ControllerBase
     {
         return new GetOrderDetailsResponse
         {
+            Id = order.Id,
             BookedAt = order.BookedAt,
+            Subtotal = order.Subtotal,
+            DeliveryTax = order.DeliveryTax,
+            IsPaid = order.IsPaid,
+            Total = order.Total,
             Customer = new GetOrderDetailsResponse.CustomerResponse
             {
                 Id = order.Owner.Id,
@@ -85,10 +90,15 @@ public class OrdersController : ControllerBase
 
     public class GetOrderDetailsResponse
     {
+        public int Id { get; set; }
         public ICollection<ProductResponse> Products { get; set; } = new List<ProductResponse>();
         public DateTimeOffset BookedAt { get; set; }
         public CustomerResponse Customer { get; set; } = new CustomerResponse();
-        public string CustomerName { get; set; } = string.Empty;
+        public decimal Subtotal { get; set; }
+        public decimal DeliveryTax { get; set; }
+        public bool IsPaid { get; set; }
+        public decimal Total { get; internal set; }
+
         public class ProductResponse
         {
             public int Id { get; set; }
