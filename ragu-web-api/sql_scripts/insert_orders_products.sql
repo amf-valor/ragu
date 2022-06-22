@@ -1,45 +1,69 @@
+USE Ragu;
+GO
+
+INSERT INTO [ragu].dbo.Customers
+(
+    [Name],
+    [Street],
+    [StreetNumber],
+    [City],
+    [Neighborhood],
+    [PhoneNumber]
+)
+VALUES
+(
+    'alan',
+    'rua ernesto evans',
+    578,
+    'São Paulo',
+    'São miguel',
+    11986254104
+)
+
+DECLARE @CustomerId INT = @@identity;
 
 INSERT INTO [ragu].[dbo].[Orders]
-    (
-      [CustomerName]
-      ,[DeliveryTax]
-      ,[IsPaid]
-      ,[BookedAt]
-    ) 
+(
+    [OwnerId]
+    ,[DeliveryTax]
+    ,[IsPaid]
+    ,[BookedAt]
+) 
 VALUES
-    (
-        'alan',
-        4.0,
-        0,
-        GETDATE()
-    )
+(
+    @CustomerId,
+    4.0,
+    0,
+    GETDATE()
+)
 
 DECLARE @OrdersId INT = @@identity
 
 INSERT INTO [ragu].[dbo].[Products]
-    (
-        [Name]
-        ,[Price]
-    )
+(
+    [Name]
+    ,[Price]
+)
 VALUES
-    (
-        'feijoada',
-        10.0
-    )
+(
+    'feijoada',
+    10.0
+)
 
 DECLARE @ProductsId INT = @@identity
 
 INSERT INTO [ragu].[dbo].[OrderProduct]
-    (
-        OrdersId,
-        ProductsId
-    )
+(
+    OrdersId,
+    ProductsId
+)
 VALUES
-    (
-        @OrdersId,
-        @ProductsId
-    )
+(
+    @OrdersId,
+    @ProductsId
+)
 
+SELECT * FROM Customers
 SELECT * FROM Orders
 SELECT * FROM Products
 SELECT * FROM OrderProduct
