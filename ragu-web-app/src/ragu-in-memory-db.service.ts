@@ -18,7 +18,7 @@ interface DbOrder {
   id: number,
   customerName: string,
   customer: DbCustomer
-  subTotal: number,
+  subtotal: number,
   deliveryTax: number,
   isPaid: boolean,
   total: number,
@@ -64,7 +64,7 @@ export class RaguInMemoryDbService extends InMemoryDbService {
             neighborhood: 'Itagua',
             streetNumber: 55
           },
-          subTotal: 68.70,
+          subtotal: 68.70,
           deliveryTax: 4.00,
           isPaid: false,
           total: 72.70,
@@ -85,7 +85,7 @@ export class RaguInMemoryDbService extends InMemoryDbService {
             neighborhood: 'Sao miguel',
             streetNumber: 578
           },
-          subTotal: 68.70,
+          subtotal: 68.70,
           deliveryTax: 4.00,
           isPaid: true,
           total: 72.70,

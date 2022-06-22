@@ -1,5 +1,5 @@
 <div *ngIf="orderDetails$ | async as orderDetails" class="grid col-12 ">
-  <div class="col-8">
+  <div class="col-9">
     <p-dataView [value]="orderDetails.products">
       <ng-template let-product pTemplate="listItem">
         <div data-testid="product" class="grid col-12">
@@ -13,13 +13,28 @@
       </ng-template>
     </p-dataView>
   </div>
-  <div class="col-4">
+  <div class="col-3">
     <p-card header="Agendamento" class="col-12 text-center">
       {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
     </p-card>
     <p-card [header]="customer.name" class="col-12 text-center">
       <p data-testid="phoneNumber" *ngIf="customer.phoneNumber">{{customer.phoneNumber | phone}}</p>
       <p>{{customer.street}}, {{customer.streetNumber}} {{customer.neighborhood | uppercase}} - {{customer.city}}</p>
+    </p-card>
+    <p-card data-testid="orderPaymentDetails">
+      <div class="grid col-12">
+        <div class="col-6">
+          <p><span class="font-bold">Subtotal:&nbsp;</span>{{orderDetails.subtotal | currency}}</p>
+          <p><span class="font-bold">Entrega:&nbsp;</span>{{orderDetails.deliveryTax | currency}}</p>
+          <p><span class="font-bold">Total:&nbsp;</span>{{orderDetails.total | currency}}</p>
+        </div>
+        <div class="col-1">
+          <p-divider layout="vertical"></p-divider>
+        </div>
+        <div class="col-5 text-right" style="padding-top: 25px;">
+          <p-checkbox [(ngModel)]="orderDetails.isPaid" label="Pago?" [binary]="true" inputId="Pago?"></p-checkbox>
+        </div>
+      </div>
     </p-card>  
   </div>
 </div>

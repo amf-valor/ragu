@@ -4,8 +4,9 @@ import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
 import { SharedModule } from '../shared/shared.module';
 import { OrderDetailComponent } from './order-detail.component';
-
-
+import { DividerModule } from 'primeng/divider';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [OrderDetailComponent],
@@ -13,7 +14,10 @@ import { OrderDetailComponent } from './order-detail.component';
     CommonModule,
     DataViewModule,
     CardModule,
-    SharedModule
+    SharedModule,
+    DividerModule,
+    CheckboxModule,
+    FormsModule
   ]
 })
 export class OrderDetailModule { }

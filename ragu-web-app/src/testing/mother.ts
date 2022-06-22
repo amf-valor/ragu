@@ -25,7 +25,11 @@ export class Mother {
       products: [{
         name: 'feijoada',
         price: 15.0
-      }] 
+      }],
+      subtotal: 15.0,
+      deliveryTax: 9.0,
+      total: 24.0,
+      isPaid: true
     };
   }
   
@@ -43,7 +47,11 @@ export class Mother {
       products: [{
         name: 'ragu',
         price: 10.0
-      }] 
+      }],
+      subtotal: 10.0,
+      deliveryTax: 6.0,
+      total: 16.0,
+      isPaid: false 
     };
   }
   
