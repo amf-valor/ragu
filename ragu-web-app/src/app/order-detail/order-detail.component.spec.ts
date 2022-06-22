@@ -12,13 +12,14 @@ import { HttpTestingControllerHelper, Mother } from 'src/testing';
 import { SharedModule } from '../shared/shared.module';
 import { OrderDetailComponent } from './order-detail.component';
 
-describe('OrderDetailComponent', () => {
+fdescribe('OrderDetailComponent', () => {
   let fixture: ComponentFixture<OrderDetailComponent>;
   let httpTestingControllerHelper: HttpTestingControllerHelper;
   let messageService: MessageService;
-
-  const ORDER_OF_JOAO_ID = '1';
-  const JOAO_ORDER_DETAIL_URI = `${environment.raguBaseUrl}/api/orders/${ORDER_OF_JOAO_ID}`;
+  
+  const ORDER_ID = '1';
+  const ORDER_DETAIL_URI = `${environment.raguBaseUrl}/api/orders/${ORDER_ID}`;
+  const PHONE_NUMBER_TEST_ID = 'phoneNumber';
   
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -36,7 +37,7 @@ describe('OrderDetailComponent', () => {
         { provide: ActivatedRoute, useValue: {
           snapshot:{
             params:{
-              'id': ORDER_OF_JOAO_ID
+              'id': ORDER_ID
             }
           }
         }},
@@ -54,14 +55,15 @@ describe('OrderDetailComponent', () => {
   });
 
   it('should show all details', () =>{
-    httpTestingControllerHelper.expectOneAndFlush(JOAO_ORDER_DETAIL_URI, Mother.orderDetailsOfJoao());
+    httpTestingControllerHelper.expectOneAndFlush(ORDER_DETAIL_URI, Mother.orderDetailsOfJoao());
     fixture.detectChanges();
 
     const productElement = within(screen.getByTestId('product'));
+    const phoneNumberElement = within(screen.getByTestId(PHONE_NUMBER_TEST_ID));
     
     expect(screen.getByText(element => element.endsWith('01 de maio, 01:00 PM'))).toBeDefined();
     expect(screen.getByText('João')).toBeDefined();
-    expect(screen.getByText('(12) 98625-4104')).toBeDefined();
+    expect(phoneNumberElement.getByText('(12) 98625-4104')).toBeDefined();
     expect(screen.getByText('Rua maracatu, 383 CENTRO - São Paulo'));
     expect(productElement.getByText('ragu')).toBeDefined();
     expect(productElement.getByText(/R\$ 10,00/i));
@@ -72,8 +74,18 @@ describe('OrderDetailComponent', () => {
     messageService.messageObserver.subscribe(message => actual = message as Message);
     
     httpTestingControllerHelper
-      .expectFirstStartsWithAndFlush(JOAO_ORDER_DETAIL_URI, Mother.internalServerError());
+      .expectFirstStartsWithAndFlush(ORDER_DETAIL_URI, Mother.internalServerError());
     
     expect(actual).toEqual(Mother.errorMessage());
+  });
+
+  it('should not show phone number when customer does not provide', () => 
+  {
+    httpTestingControllerHelper.expectOneAndFlush(ORDER_DETAIL_URI, Mother.orderDetailsOfJoana());
+    fixture.detectChanges();
+
+    const actual = screen.queryByTestId(PHONE_NUMBER_TEST_ID);
+
+    expect(actual).toBeNull();
   });
 });

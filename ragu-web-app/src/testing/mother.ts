@@ -12,11 +12,28 @@ export class Mother {
     };
   }
   
+  static orderDetailsOfJoana(): OrderDetails {
+    return {
+      customer: {
+        name: 'Joana',
+        street: 'Rua euclides da cunha',
+        streetNumber: 55,
+        neighborhood: 'itagua',
+        city: 'Ubatuba'
+      }, 
+      bookedAt: this.mayFirstAt(11, 0),
+      products: [{
+        name: 'feijoada',
+        price: 15.0
+      }] 
+    };
+  }
+  
   static orderDetailsOfJoao() : OrderDetails {
     return {
       customer: {
         name: 'João',
-        phone: 12986254104,
+        phoneNumber: 12986254104,
         street: 'Rua maracatu',
         streetNumber: 383,
         neighborhood: 'centro',

@@ -1,6 +1,6 @@
 export interface Customer{
     name: string,
-    phone: number,
+    phoneNumber?: number,
     street: string,
     streetNumber: number,
     neighborhood: string,
@@ -9,7 +9,7 @@ export interface Customer{
 
 export const defaultCustomer : Customer = {
     name: "",
-    phone: 0,
+    phoneNumber: 0,
     street: "",
     streetNumber: 0,
     neighborhood: "",

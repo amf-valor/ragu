@@ -18,7 +18,7 @@
       {{orderDetails.bookedAt | date: 'dd \'de\' MMMM, hh:mm a'}}
     </p-card>
     <p-card [header]="customer.name" class="col-12 text-center">
-      <p>{{customer.phone | phone}}</p>
+      <p data-testid="phoneNumber" *ngIf="customer.phoneNumber">{{customer.phoneNumber | phone}}</p>
       <p>{{customer.street}}, {{customer.streetNumber}} {{customer.neighborhood | uppercase}} - {{customer.city}}</p>
     </p-card>  
   </div>
