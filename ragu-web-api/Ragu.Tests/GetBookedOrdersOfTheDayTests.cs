@@ -71,7 +71,7 @@ public sealed class GetBookedOrdersOfTheDayTests : IAsyncLifetime, IDisposable
         public int Id { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public DateTimeOffset BookedAt { get; set; }
-        public decimal SubTotal { get; set; }
+        public decimal Subtotal { get; set; }
         public decimal DeliveryTax { get; set; }
         public decimal Total { get; set; }
         public bool IsPaid { get; set; }

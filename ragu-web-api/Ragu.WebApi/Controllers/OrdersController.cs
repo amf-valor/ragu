@@ -26,7 +26,7 @@ public class OrdersController : ControllerBase
                 Id = order.Id,
                 CustomerName = order.Owner.Name,
                 BookedAt = order.BookedAt,
-                SubTotal = order.Subtotal,
+                Subtotal = order.Subtotal,
                 DeliveryTax = order.DeliveryTax,
                 Total = order.Total,
                 IsPaid = order.IsPaid
@@ -82,7 +82,7 @@ public class OrdersController : ControllerBase
         public int Id { get; set; }
         public string CustomerName { get; set; } = string.Empty;
         public DateTimeOffset BookedAt { get; set; }
-        public decimal SubTotal { get; set; }
+        public decimal Subtotal { get; set; }
         public decimal DeliveryTax { get; set; }
         public decimal Total { get; set; }
         public bool IsPaid { get; set; }

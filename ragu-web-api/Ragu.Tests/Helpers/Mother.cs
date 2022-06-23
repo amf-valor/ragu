@@ -42,7 +42,7 @@ internal static class Mother
         Id = orderId,
         CustomerName = "John",
         BookedAt = TodayAtMidDay(),
-        SubTotal = 10.0m,
+        Subtotal = 10.0m,
         DeliveryTax = 4.0m,
         Total = 14.0m,
         IsPaid = false
