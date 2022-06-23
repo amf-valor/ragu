@@ -84,7 +84,7 @@ export class Mother {
     return {
       id: id,
       customerName: customer,
-      subTotal: 68.70,
+      subtotal: 68.70,
       deliveryTax: 4.00,
       isPaid: isPaid,
       total: 72.70,
