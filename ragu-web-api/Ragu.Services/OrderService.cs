@@ -29,5 +29,16 @@ public class OrderService
             .Include(_ => _.Products).Where(_ => _.Id == id)
             .SingleOrDefaultAsync();
     }
+
+    public async Task Delete(int id)
+    {
+        var toBeDeleted = await _raguContext.Orders.FindAsync(id) ??
+            throw new InvalidOperationException($"order with id: {id} was not found!");
+
+        _raguContext.Orders.Remove(toBeDeleted);
+        await _raguContext.SaveChangesAsync();
+    }
+
+    public Task<bool> Exists(int id) => _raguContext.Orders.AnyAsync(_ => _.Id == id);
 }
 

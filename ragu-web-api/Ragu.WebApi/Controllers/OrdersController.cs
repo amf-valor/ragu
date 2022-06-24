@@ -48,6 +48,18 @@ public class OrdersController : ControllerBase
         return Ok(MapFrom(order));
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        if (!await _orderService.Exists(id))
+        {
+            return NotFound();
+        }
+
+        await _orderService.Delete(id);
+        return Ok();
+    }
+
     private static GetOrderDetailsResponse MapFrom(Order order)
     {
         return new GetOrderDetailsResponse
