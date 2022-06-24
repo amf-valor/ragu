@@ -1,4 +1,4 @@
-import { registerLocaleData, Location } from '@angular/common';
+import { Location, registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { DEFAULT_CURRENCY_CODE, LOCALE_ID } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
@@ -6,24 +6,27 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
+import { MessageService } from 'primeng/api';
 import { CalendarModule } from 'primeng/calendar';
 import { DataViewModule } from 'primeng/dataview';
-import { of } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 import { routes } from 'src/app/app-routing.module';
+import { NotificationService } from 'src/app/services/notification.service';
 import { Mother } from 'src/testing/mother';
-import { OrderListComponent } from './order-list.component';
 import { OrderService } from '../../services/order-ragu.service';
+import { OrderListComponent } from './order-list.component';
 
 registerLocaleData(localePt, 'pt');
 
 describe('OrderListComponent', () => {
   let fixture: ComponentFixture<OrderListComponent>;
   let orderServiceStub: jasmine.SpyObj<OrderService>;
-
+  
   const ORDER_TEST_ID = "order";
+  const ORDER_OF_JOAO_ID = Mother.orderOfJoao().id;
 
   beforeEach(async () => {
-    orderServiceStub = jasmine.createSpyObj('OrderService', ['getBookedOfWholeDay']);
+    orderServiceStub = jasmine.createSpyObj('OrderService', ['getBookedOfWholeDay', 'remove']);
     orderServiceStub.getBookedOfWholeDay.and.returnValue(of(Mother.ordersOfJoaoJoanaAndMarcelo()));
 
     await TestBed.configureTestingModule({
@@ -31,7 +34,9 @@ describe('OrderListComponent', () => {
       providers: [
         { provide: LOCALE_ID, useValue: 'pt' },
         { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
-        { provide: OrderService, useValue: orderServiceStub }
+        { provide: OrderService, useValue: orderServiceStub },
+        NotificationService,
+        MessageService
       ],
       imports: [
         DataViewModule,
@@ -110,13 +115,43 @@ describe('OrderListComponent', () => {
   });
 
   it('should redirect to order of joao details when is clicked', fakeAsync(() => {
-    const orderOfJoaoElement = screen.getAllByTestId(ORDER_TEST_ID)[2];
-    
     const location = TestBed.inject(Location);
-    userEvent.click(orderOfJoaoElement);
+    
+    userEvent.click(screen.getByText('João'));
     tick();
 
     expect(location.path()).toBe(`/order-details/${Mother.orderOfJoao().id}`);
   }));
+
+  it('should remove order of joão when remove button is clicked', fakeAsync(() => {
+    orderServiceStub.remove.and.returnValue(EMPTY);
+    const orderOfJoaoDiv = within(getOrderOfJoaoDiv());
+    const removeOrderButton = orderOfJoaoDiv.getByRole('button', { name: 'remove' });
+
+    userEvent.click(removeOrderButton);
+    tick();
+    fixture.detectChanges();
+    const actual = screen.queryByText('João');
+
+    expect(actual).toBeNull();
+    expect(orderServiceStub.remove).toHaveBeenCalledOnceWith(ORDER_OF_JOAO_ID);
+  }));
+
+  it('should call notifyError when remove throw any error', fakeAsync(() => {
+    orderServiceStub.remove.and.returnValue(throwError(() => new Error('error')));
+    const notifyErrorSpy = spyOn(TestBed.inject(NotificationService), 'notifyError');
+    const orderOfJoaoDiv = within(getOrderOfJoaoDiv());
+    const removeOrderButton = orderOfJoaoDiv.getByRole('button', { name: 'remove' });
+
+    userEvent.click(removeOrderButton);
+    tick();
+    
+    expect(notifyErrorSpy).toHaveBeenCalledTimes(1);
+  }));
+  
+  function getOrderOfJoaoDiv(): HTMLElement {
+    return screen.getAllByTestId(ORDER_TEST_ID)[2];
+  }
 });
+
 

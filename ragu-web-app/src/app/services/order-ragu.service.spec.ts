@@ -40,8 +40,25 @@ describe('OrderService', () => {
     testRequest.flush(ordersOfJoao);
   });
 
-  it('should return the error when something unexpected occured!', () => {
+  it('should throw generic error when getBookedOfWholeDay', () => {
     expectErrorWithMessage(orderService.getBookedOfWholeDay(new Date()), GENERIC_ERROR_MESSAGE);
+
+    const testRequest = httpTestingControllerHelper.expectFirstStartsWith(uri);
+    
+    testRequest.flush('', Mother.internalServerError());
+  });
+
+  it('should call delete once when remove', () => {
+    const orderOfJoaoId = Mother.orderOfJoao().id;
+
+    orderService.remove(orderOfJoaoId).subscribe();
+
+    const testRequest = httpTestingController.expectOne(`${uri}/${orderOfJoaoId}`);
+    expect(testRequest.request.method).toBe('DELETE');
+  });
+
+  it('should throw generic error when remove', () => {
+    expectErrorWithMessage(orderService.remove(0), GENERIC_ERROR_MESSAGE);
 
     const testRequest = httpTestingControllerHelper.expectFirstStartsWith(uri);
     
