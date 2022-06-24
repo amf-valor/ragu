@@ -10,7 +10,7 @@ using Xunit;
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public class CreateProductTests
+public class CreateProductTests : IAsyncLifetime
 {
     private readonly HttpClient _httpClient;
     private readonly Fixture _fixture;
@@ -75,4 +75,8 @@ public class CreateProductTests
             }
         };
     }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public Task DisposeAsync() => _fixture.ResetDatabase();
 }

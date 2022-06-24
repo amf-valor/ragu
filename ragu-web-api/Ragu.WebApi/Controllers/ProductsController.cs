@@ -31,6 +31,21 @@ public class ProductsController : ControllerBase
         return Created(ResourceUri, response);
     }
 
+    [HttpGet]
+    public async Task<ActionResult<ICollection<GetProductResponse>>> Get()
+    {
+        var products = await _productService.GetAll();
+
+        var response = products.Select(product => new GetProductResponse
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price
+        });
+
+        return Ok(response);
+    }
+
     public class PostProductRequest
     {
         [Required]
@@ -41,6 +56,13 @@ public class ProductsController : ControllerBase
     }
 
     public class PostProductResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+    }
+
+    public class GetProductResponse
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

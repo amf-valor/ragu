@@ -10,7 +10,7 @@ using Xunit;
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public sealed class GetOrderDetailsTests
+public sealed class GetOrderDetailsTests : IAsyncLifetime
 {
     private readonly Fixture _fixture;
     private readonly HttpClient _httpClient;
@@ -53,6 +53,10 @@ public sealed class GetOrderDetailsTests
         actual.Should().NotBeNull();
         actual.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
+
+    public Task DisposeAsync() => _fixture.ResetDatabase();
+
+    public Task InitializeAsync() => Task.CompletedTask;
 
     internal class GetOrderDetailsResponse
     {

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Ragu.Core;
 using Ragu.InfraStructure.Data;
 
@@ -19,4 +20,6 @@ public class ProductService
         _ = await _dbContext.SaveChangesAsync();
         return product;
     }
+
+    public Task<List<Product>> GetAll() => _dbContext.Products.ToListAsync();
 }

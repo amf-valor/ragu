@@ -30,7 +30,20 @@ internal static class Mother
                 PhoneNumber = phoneNumber
             };
 
+    internal static ICollection<Product> RaguFeijoadaAndGalinhada()
+        => new List<Product>
+        {
+            Ragu(),
+            Feijoada(),
+            Galinhada()
+        };
+
+
     private static Product Ragu() => new("ragu", 10.0m);
+
+    private static Product Feijoada() => new("feijoada", 15.0m);
+
+    private static Product Galinhada() => new("galinhada", 20.0m);
 
     private static DateTime TodayAtMidDay() => new(DateTimeContext.Now.Year,
                                                    DateTimeContext.Now.Month,
@@ -55,11 +68,11 @@ internal static class Mother
     {
         var ben = CreateCustomer("Ben", 12986254104, "Rua ernesto evans", 578, "São miguel", "São Paulo");
         var order = new Order(ben, 5.0m, new DateTime(2022, 06, 07));
-        var feijoada = new Product("feijoada", 15.0m);
-        order.AddItem(feijoada);
+        order.AddItem(Feijoada());
         order.AddItem(Ragu());
         return order;
     }
+
 
     internal static ICollection<Order> OrdersFromJohnJoanaAndBen() => new List<Order>
     {

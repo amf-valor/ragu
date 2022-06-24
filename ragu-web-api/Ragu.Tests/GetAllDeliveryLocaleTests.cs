@@ -9,7 +9,7 @@ using Xunit;
 namespace Ragu.Tests;
 
 [Collection(nameof(FixtureCollection))]
-public class GetAllDeliveryLocaleTests
+public class GetAllDeliveryLocaleTests : IAsyncLifetime
 {
     private readonly Fixture _fixture;
     private readonly HttpClient _httpClient;
@@ -41,6 +41,10 @@ public class GetAllDeliveryLocaleTests
         actual.Should().NotBeNull();
         actual.Should().BeEquivalentTo(expected);
     }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public Task DisposeAsync() => _fixture.ResetDatabase();
 }
 
 internal class GetDeliveryLocaleResponse
