@@ -23,6 +23,7 @@ builder.Services.AddDbContext<RaguDbContext>(options =>
 //Services
 builder.Services.AddScoped<DeliveryLocaleService>();
 builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

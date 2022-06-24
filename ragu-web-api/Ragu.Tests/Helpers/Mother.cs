@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using Ragu.Core;
 using Ragu.InfraStructure;
+using Ragu.Tests.Dtos;
 using static Ragu.Tests.GetBookedOrdersOfTheDayTests;
 
 namespace Ragu.Tests.Helpers;
 
 internal static class Mother
 {
-    public static Order OrderOfJohn()
+    internal static Order OrderOfJohn()
     {
         var order = new Order(CreateCustomer("John"), 4.0m, TodayAtMidDay());
         order.AddItem(Ragu());
         return order;
     }
+
+    internal static PostProductRequest RaguRequest() => new() { Name = "Ragu", Price = 10.0m };
 
     private static Customer CreateCustomer(
         string name = "",
