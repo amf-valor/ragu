@@ -34,7 +34,7 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<ICollection<GetProductResponse>>> Get()
     {
-        var products = await _productService.GetAll();
+        var products = await _productService.GetNotDeleteds();
 
         var response = products.Select(product => new GetProductResponse
         {

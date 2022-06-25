@@ -21,7 +21,8 @@ public class ProductService
         return newProduct;
     }
 
-    public Task<List<Product>> GetAll() => _dbContext.Products.ToListAsync();
+    public Task<List<Product>> GetNotDeleteds()
+        => _dbContext.Products.Where(_ => !_.IsDeleted).ToListAsync();
 
     public async Task MarkAsDeleted(int id)
     {

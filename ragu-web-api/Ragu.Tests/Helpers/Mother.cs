@@ -45,6 +45,22 @@ internal static class Mother
 
     private static Product Galinhada() => new("galinhada", 20.0m);
 
+    internal static ICollection<Product> RaguAndDeletedTapioca()
+        => new List<Product>
+        {
+            Ragu(),
+            DeletedTapioca()
+        };
+
+    private static Product DeletedTapioca() => new("tapioca", 6.0m) { IsDeleted = true };
+
+    internal static GetProductResponse RaguResponse(int id) => new()
+    {
+        Id = id,
+        Name = "ragu",
+        Price = 10.0m
+    };
+
     private static DateTime TodayAtMidDay() => new(DateTimeContext.Now.Year,
                                                    DateTimeContext.Now.Month,
                                                    DateTimeContext.Now.Day,
