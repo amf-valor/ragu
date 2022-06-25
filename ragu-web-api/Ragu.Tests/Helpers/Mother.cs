@@ -39,7 +39,7 @@ internal static class Mother
         };
 
 
-    private static Product Ragu() => new("ragu", 10.0m);
+    public static Product Ragu() => new("ragu", 10.0m);
 
     private static Product Feijoada() => new("feijoada", 15.0m);
 

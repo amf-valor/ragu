@@ -15,11 +15,22 @@ public class ProductService
 
     public async Task<Product> Create(string name, decimal price)
     {
-        var product = new Product(name, price);
-        _dbContext.Products.Add(product);
+        var newProduct = new Product(name, price);
+        _dbContext.Products.Add(newProduct);
         _ = await _dbContext.SaveChangesAsync();
-        return product;
+        return newProduct;
     }
 
     public Task<List<Product>> GetAll() => _dbContext.Products.ToListAsync();
+
+    public async Task MarkAsDeleted(int id)
+    {
+        var toBeMarked = await _dbContext.Products.FindAsync(id)
+            ?? throw new InvalidOperationException($"cannot find product with id:{id}");
+
+        toBeMarked.IsDeleted = true;
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public Task<bool> Exists(int id) => _dbContext.Products.AnyAsync(_ => _.Id == id);
 }

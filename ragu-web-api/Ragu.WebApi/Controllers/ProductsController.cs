@@ -46,6 +46,18 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        if (!await _productService.Exists(id))
+        {
+            return NotFound();
+        }
+
+        await _productService.MarkAsDeleted(id);
+        return Ok();
+    }
+
     public class PostProductRequest
     {
         [Required]

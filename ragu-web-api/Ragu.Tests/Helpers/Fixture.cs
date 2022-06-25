@@ -9,7 +9,6 @@ using DotNet.Testcontainers.Containers.Modules.Databases;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Ragu.Core;
 using Ragu.InfraStructure;
 using Ragu.InfraStructure.Data;
 using Ragu.Services;
@@ -24,6 +23,7 @@ public sealed class Fixture : IDisposable
 
     private readonly MsSqlTestcontainer _sqlTestContainer;
 
+    public const int NonExistentId = 0;
 
     public Fixture()
     {
