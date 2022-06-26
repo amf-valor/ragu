@@ -1,43 +1,46 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { screen } from '@testing-library/angular';
-import { MenubarModule } from 'primeng/menubar';
-import { MenuComponent } from './menu.component';
-import  userEvent from '@testing-library/user-event';
 import { Location } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
+import { MenubarModule } from 'primeng/menubar';
 import { routes } from '../app-routing.module';
+import { MenuComponent } from './menu.component';
 
-describe('MenuComponent', () => {
+fdescribe('MenuComponent', () => {
   let fixture: ComponentFixture<MenuComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MenuComponent],
-      imports:[
+      imports: [
         MenubarModule,
         RouterTestingModule.withRoutes(routes)
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenuComponent);
     fixture.detectChanges();
   });
-  
-  it('should show menu item Locais de entrega', () => {
-    const menuItem = screen.queryByText('Locais de entrega');
-    expect(menuItem).toBeTruthy();
-  })
 
   it('should redirect to delivery-locales when clicked', async () => {
-    const user = userEvent.setup();
-    const menuItem = screen.getByText('Locais de entrega');
+    await givenMenuItemShouldRedirecTo('Locais de entrega', '/delivery-locales');
+  });
+  
+  it('should redirect to products when produtos menu item is clicked', async () =>{
+    await givenMenuItemShouldRedirecTo('Produtos', '/products');
+  });
+  
+  async function givenMenuItemShouldRedirecTo(menuItemText: string, expectedPath: string) {
+    const menuItem = screen.getByText(menuItemText);
     const location = TestBed.inject(Location);
 
-    await user.click(menuItem)
+    await userEvent.click(menuItem);
 
-    expect(location.path()).toBe('/delivery-locales')
-  })
+    expect(location.path()).toBe(expectedPath);
+  }
 });
+

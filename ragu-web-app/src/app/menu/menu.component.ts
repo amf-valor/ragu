@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuItem, PrimeIcons } from 'primeng/api';
 
 @Component({
@@ -6,18 +6,21 @@ import { MenuItem, PrimeIcons } from 'primeng/api';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent{
   items: MenuItem[];
 
   constructor() { 
-    this.items = [{
-      label: 'Locais de entrega',
-      icon: PrimeIcons.MAP,
-      routerLink: ['/delivery-locales']
-    }];
-  }
-  
-  ngOnInit(): void {
-    
+    this.items = [
+      {
+        label: 'Locais de entrega',
+        icon: PrimeIcons.MAP,
+        routerLink: ['/delivery-locales']
+      },
+      {
+        label: 'Produtos',
+        icon: PrimeIcons.STAR,
+        routerLink: ['/products']
+      }
+    ];
   }
 }
