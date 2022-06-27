@@ -58,7 +58,7 @@ const PRODUCTS_RESOURCE = '/api/products';
 const postRequestFn = (request: HttpRequest<unknown>) => 
   request.method === 'POST' && request.url === PRODUCTS_RESOURCE;
 
-  fdescribe('ProductsComponent', () => {
+  describe('ProductsComponent', () => {
     let fixture: ComponentFixture<ProductsComponent>;
     let page: ProductsPage;
     let httpTestingController: HttpTestingController;
@@ -173,6 +173,21 @@ const postRequestFn = (request: HttpRequest<unknown>) =>
       request.method === 'GET');
     
     expect(notifyErrorSpy).toHaveBeenCalledOnceWith();
+  });
+
+  it('should render new product when saved', async () => {
+    const tapioca = {
+      name: 'tapioca',
+      price: 6.0
+    };
+
+    await page.fillFormAndSave('any', '6');
+    httpTestingControllerHelper.expectOneAndFlush(postRequestFn, tapioca);
+    fixture.detectChanges();
+
+    const actual = screen.getByText(tapioca.name);
+
+    expect(actual).toBeDefined();
   });
 
   function expectProductFormInitialState(elements: ProductFormElements) {

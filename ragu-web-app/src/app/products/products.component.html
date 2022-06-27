@@ -38,7 +38,7 @@
 <div *ngIf="products$ | async as products" style="padding-top: 20px;">
   <p-dataView [value]="products">
     <ng-template let-product pTemplate="listItem">
-      <div data-testid="product" class="grid col-12">
+      <div data-testid="product" class="grid col-12" style="padding: 10px;">
         <div class="col-8 font-bold text-xl">
           {{product.name}}
         </div>

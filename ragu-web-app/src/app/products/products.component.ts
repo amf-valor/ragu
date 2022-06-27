@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { catchError, Observable, of, takeWhile } from 'rxjs';
+import { BehaviorSubject, Observable, takeWhile } from 'rxjs';
 import { Product } from '../models/product.model';
 import { NotificationService } from '../services/notification.service';
 import { ProductRaguService } from '../services/product-ragu.service';
@@ -42,7 +42,9 @@ export class ProductsComponent implements OnDestroy, OnInit {
     return this.isFormControlInvalid(this.priceControl);
   }
 
-  products$: Observable<Product[]> = of([]);
+  private _productsSource: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  
+  products$: Observable<Product[]> = this._productsSource.asObservable();
   
 
   constructor(private readonly _formBuilder: FormBuilder, 
@@ -50,11 +52,16 @@ export class ProductsComponent implements OnDestroy, OnInit {
               private readonly _notificationService: NotificationService){}
   
   ngOnInit(): void {
-    this.products$ = this._productRaguService.get()
-      .pipe(catchError(() => { 
-        this._notificationService.notifyError();
-        return this.products$;
-      }));
+    this._productRaguService.get()
+      .pipe(takeWhile(() => this._isActive))
+      .subscribe({
+        next: products => {
+          this._productsSource.next([...products]);
+        },
+        error: () => {
+          this._notificationService.notifyError();
+        }
+      });
   }
   
   ngOnDestroy(): void {
@@ -66,7 +73,10 @@ export class ProductsComponent implements OnDestroy, OnInit {
       .post(this.fromForm())
       .pipe(takeWhile(() => this._isActive))
       .subscribe({
-        next: () => this.productForm.reset(),
+        next: newProduct => {
+          this._productsSource.next([...this._productsSource.value, {...newProduct}]);
+          this.productForm.reset();
+        },
         error: () => { this._notificationService.notifyError(); }
       });
   }

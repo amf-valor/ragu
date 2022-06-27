@@ -2,10 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpRequest } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { fireEvent } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
-import { Message, MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { Mother } from './mother';
 import './tests-extensions';
@@ -50,8 +49,8 @@ class HttpTestingControllerHelper {
     return testRequest;
   }
   
-  expectOneAndFlush(expectedUrl:string, tobeFlushed:any){
-    const testRequest = this.httpTestingController.expectOne(expectedUrl);
+  expectOneAndFlush(match:string | ((req: HttpRequest<any>) => boolean), tobeFlushed:any){
+    const testRequest = this.httpTestingController.expectOne(match);
     testRequest.flush(tobeFlushed);
   }
   
@@ -85,11 +84,12 @@ class Page<T>{
   }
 }
 
-export { 
+export {
   GENERIC_ERROR_MESSAGE,
   expectErrorWithMessage,
-  givenInputExpectOnlyNumbersAndCurrencyFormat, 
-  Mother, 
+  givenInputExpectOnlyNumbersAndCurrencyFormat,
+  Mother,
   HttpTestingControllerHelper,
-  Page 
+  Page
 };
+
