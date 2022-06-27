@@ -1,5 +1,6 @@
 //we can flush pretty much anything
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { HttpRequest } from '@angular/common/http';
 import { HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { fireEvent } from '@testing-library/angular';
@@ -54,13 +55,13 @@ class HttpTestingControllerHelper {
     testRequest.flush(tobeFlushed);
   }
   
-  matchAndFlushEmpty(url: string) {
-    const testRequest = this.matchFirst(url);
+  matchAndFlushEmpty(match: string | ((req: HttpRequest<any>) => boolean)) {
+    const testRequest = this.matchFirst(match);
     testRequest.flush({});
   }
 
-  private matchFirst(url: string) {
-    const testRequests = this.httpTestingController.match(url);
+  private matchFirst(match: string | ((req: HttpRequest<any>) => boolean)) {
+    const testRequests = this.httpTestingController.match(match);
 
     if (testRequests.length === 0)
       throw new Error('Make sure any request was made.');
@@ -68,8 +69,8 @@ class HttpTestingControllerHelper {
     return testRequests[0];
   }
 
-  matchAndFlushInternalServerError(url: string) {
-    const testRequest = this.matchFirst(url);
+  matchAndFlushInternalServerError(match: string | ((req: HttpRequest<any>) => boolean)) {
+    const testRequest = this.matchFirst(match);
     testRequest.flush('', Mother.internalServerError());
   }
 }

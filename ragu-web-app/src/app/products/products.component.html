@@ -35,5 +35,20 @@
       <p-button [disabled]="productForm.invalid" (onClick)="onSaveButtonClick()">Salvar</p-button>
     </form>
 </p-card>
+<div *ngIf="products$ | async as products" style="padding-top: 20px;">
+  <p-dataView [value]="products">
+    <ng-template let-product pTemplate="listItem">
+      <div data-testid="product" class="grid col-12">
+        <div class="col-8 font-bold text-xl">
+          {{product.name}}
+        </div>
+        <div class="col-4 font-bold">
+          {{product.price | currency}}
+        </div>
+      </div>
+    </ng-template>
+  </p-dataView>
+</div>
+
 
 

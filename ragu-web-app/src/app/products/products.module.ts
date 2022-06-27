@@ -6,6 +6,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 
 
 
@@ -19,7 +20,8 @@ import { CardModule } from 'primeng/card';
     InputNumberModule,
     InputTextModule,
     ReactiveFormsModule,
-    CardModule
+    CardModule,
+    DataViewModule
   ]
 })
 export class ProductsModule { }

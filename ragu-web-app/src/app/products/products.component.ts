@@ -1,6 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { takeWhile } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { catchError, Observable, of, takeWhile } from 'rxjs';
 import { Product } from '../models/product.model';
 import { NotificationService } from '../services/notification.service';
 import { ProductRaguService } from '../services/product-ragu.service';
@@ -10,7 +10,7 @@ import { ProductRaguService } from '../services/product-ragu.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnDestroy {
+export class ProductsComponent implements OnDestroy, OnInit {
   private readonly _productForm: FormGroup = this._formBuilder.group({
     name: ['', Validators.required],
     price: [null, Validators.required]
@@ -41,11 +41,21 @@ export class ProductsComponent implements OnDestroy {
   get isPriceControlInvalid(): boolean{
     return this.isFormControlInvalid(this.priceControl);
   }
+
+  products$: Observable<Product[]> = of([]);
   
 
   constructor(private readonly _formBuilder: FormBuilder, 
               private readonly _productRaguService: ProductRaguService,
               private readonly _notificationService: NotificationService){}
+  
+  ngOnInit(): void {
+    this.products$ = this._productRaguService.get()
+      .pipe(catchError(() => { 
+        this._notificationService.notifyError();
+        return this.products$;
+      }));
+  }
   
   ngOnDestroy(): void {
     this._isActive = false;
