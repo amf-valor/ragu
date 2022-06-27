@@ -1,1 +1,39 @@
-<p>products works!</p>
+<p-card>
+    <form [formGroup]="productForm" class="formgroup-inline"> 
+      <span class="p-float-label field">
+        <input 
+            type="text" 
+            id="name-input"
+            [formControl]="nameControl"
+            pInputText 
+        />
+        <label for="name-input">Nome</label>
+        <small  
+            *ngIf="isNameControlInvalid" 
+            class="p-error block"
+        >
+          Nome é obrigatório
+        </small>   
+      </span>
+      <span class="p-float-label field">
+        <p-inputNumber 
+            mode="currency" 
+            currency="BRL" 
+            inputId="price-input" 
+            locale="pt-BR"
+            [formControl]="priceControl" 
+        >
+        </p-inputNumber>
+        <label for="price-input">Preço</label>
+        <small  
+          *ngIf="isPriceControlInvalid" 
+          class="p-error block"
+        >
+          Preço é obrigatório
+        </small>
+      </span>
+      <p-button [disabled]="productForm.invalid" (onClick)="onSaveButtonClick()">Salvar</p-button>
+    </form>
+</p-card>
+
+

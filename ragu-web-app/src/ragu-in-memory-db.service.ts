@@ -10,6 +10,7 @@ interface DbCustomer {
 }
 
 interface DbProduct {
+  id: number
   name: string,
   price: number
 }
@@ -35,7 +36,7 @@ interface DbDeliveryLocale {
 
 export class RaguInMemoryDbService extends InMemoryDbService {
 
-  createDb(): { deliveryLocales: DbDeliveryLocale[], orders: DbOrder[] } {
+  createDb(): { deliveryLocales: DbDeliveryLocale[], orders: DbOrder[], products: DbProduct[] } {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -71,7 +72,7 @@ export class RaguInMemoryDbService extends InMemoryDbService {
           ofDay: today.toISOString(),
           bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 12, 0, 0, 0).toISOString(),
           products: [
-            { name: 'ragu', price: 10.0 }
+            { id:1, name: 'ragu', price: 10.0 }
           ]
         },
         {
@@ -92,8 +93,15 @@ export class RaguInMemoryDbService extends InMemoryDbService {
           ofDay: today.toISOString(),
           bookedAt: new Date(today.getFullYear(), today.getMonth(), today.getDay(), 11, 0, 0, 0).toISOString(),
           products: [
-            { name: 'feijoada', price: 30.0 }
+            { id: 2, name: 'feijoada', price: 30.0 }
           ]
+        }
+      ],
+      products:[
+        {
+          id: 3,
+          name: 'tapioca',
+          price: 12.0
         }
       ]
     };

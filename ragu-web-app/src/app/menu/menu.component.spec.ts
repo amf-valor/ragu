@@ -7,7 +7,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { routes } from '../app-routing.module';
 import { MenuComponent } from './menu.component';
 
-fdescribe('MenuComponent', () => {
+describe('MenuComponent', () => {
   let fixture: ComponentFixture<MenuComponent>;
 
   beforeEach(async () => {
