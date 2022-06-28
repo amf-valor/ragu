@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable } from 'rxjs';
+import { catchError, EMPTY, Observable, switchMap } from 'rxjs';
 import { Product } from '../models/product.model';
 import { RaguService } from './ragu.service';
 
@@ -19,9 +19,16 @@ export class ProductRaguService extends RaguService {
     return this._httpClient.post<Product>(this.uri, product)
     .pipe(catchError(this.handleError));
   }
-
+  
   get(): Observable<Product[]> {
     return this._httpClient.get<Product[]>(this.uri)
-      .pipe(catchError(this.handleError));
+    .pipe(catchError(this.handleError));
+  }
+  delete(id: number): Observable<void> {
+    return this._httpClient.delete(`${this.uri}/${id}`)
+      .pipe(
+        switchMap(() => EMPTY),
+        catchError(this.handleError)
+      );
   }
 }

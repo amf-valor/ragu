@@ -81,10 +81,21 @@ export class ProductsComponent implements OnDestroy, OnInit {
       });
   }
 
+  onRemoveButtonClick(id: number){
+    this._productRaguService.delete(id)
+      .pipe(takeWhile(() => this._isActive))
+      .subscribe({
+        error: () => { this._notificationService.notifyError(); },
+        complete: () => {
+          this._productsSource.next([...this._productsSource.value.filter(product => product.id !== id)]);
+        }
+      });
+  }
+
   private fromForm(): Product {
     return {
       name: this.nameControl.value,
-      price: this.priceControl?.value
+      price: this.priceControl.value
     };
   }
 }

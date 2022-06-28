@@ -42,8 +42,17 @@
         <div class="col-8 font-bold text-xl">
           {{product.name}}
         </div>
-        <div class="col-4 font-bold">
+        <div class="col-3 font-bold">
           {{product.price | currency}}
+        </div>
+        <div class="col-1">
+          <p-button
+            icon="pi pi-trash"
+            ariaLabel="remove"
+            (onClick)="onRemoveButtonClick(product.id)"
+          >
+            
+          </p-button>
         </div>
       </div>
     </ng-template>

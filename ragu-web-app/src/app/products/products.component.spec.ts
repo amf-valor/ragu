@@ -48,15 +48,20 @@ class ProductsPage extends Page<ProductsComponent> {
     await userEvent.click(this.saveButton);
   }
 
+  getRemoveButtonInSingleRow(): HTMLButtonElement {
+    const row = within(screen.getByTestId('product'));
+    return row.getByRole('button', { name: 'remove' });
+  }
+  
   typeAndLeavePriceInput(text: string) {
     this.typeAndLeave(this.priceInput, text);
   }
 }
 
-const PRODUCTS_RESOURCE = '/api/products';
+const PRODUCTS_URI = '/api/products';
 
 const postRequestFn = (request: HttpRequest<unknown>) => 
-  request.method === 'POST' && request.url === PRODUCTS_RESOURCE;
+  request.method === 'POST' && request.url === PRODUCTS_URI;
 
   describe('ProductsComponent', () => {
     let fixture: ComponentFixture<ProductsComponent>;
@@ -148,12 +153,12 @@ const postRequestFn = (request: HttpRequest<unknown>) =>
   });
 
   it('should get products when compenent is created', () => {
-    const actual = httpTestingController.expectOne(PRODUCTS_RESOURCE).request;
+    const actual = httpTestingController.expectOne(PRODUCTS_URI).request;
     expect(actual.method).toBe('GET');
   });
 
   it('should render products when component is created', () => {
-    httpTestingControllerHelper.expectOneAndFlush(PRODUCTS_RESOURCE, Mother.raguAndTapioca());
+    httpTestingControllerHelper.expectOneAndFlush(PRODUCTS_URI, Mother.raguAndTapioca());
     fixture.detectChanges();
 
     const productElements = screen.getAllByTestId('product');
@@ -169,7 +174,7 @@ const postRequestFn = (request: HttpRequest<unknown>) =>
 
   it('should notify error when get fail', () => {
     httpTestingControllerHelper.matchAndFlushInternalServerError(request => 
-      request.url === PRODUCTS_RESOURCE && 
+      request.url === PRODUCTS_URI && 
       request.method === 'GET');
     
     expect(notifyErrorSpy).toHaveBeenCalledOnceWith();
@@ -188,6 +193,43 @@ const postRequestFn = (request: HttpRequest<unknown>) =>
     const actual = screen.getByText(tapioca.name);
 
     expect(actual).toBeDefined();
+  });
+
+  describe('given remove button was clicked', () => {
+    const ragu = {
+      id: 1,
+      name: 'ragu',
+      price: 8
+    };
+
+    const RAGU_URI = `${PRODUCTS_URI}/${ragu.id}`;
+
+    beforeEach(async () => {  
+      httpTestingControllerHelper.expectOneAndFlush(PRODUCTS_URI, [ragu]);
+      fixture.detectChanges();
+      const raguRemoveButton = page.getRemoveButtonInSingleRow();
+      await userEvent.click(raguRemoveButton);
+      fixture.detectChanges();
+    });
+
+    it('should delete product', async () => {
+      const actual = httpTestingController.expectOne(request => request.url === RAGU_URI).request;
+      expect(actual.method).toBe('DELETE');
+    });
+
+    it('should remove product from product list', () => {
+      httpTestingControllerHelper.expectFirstStartsWithAndFlush(RAGU_URI, '');
+      fixture.detectChanges();
+
+      const actual = screen.queryByText(ragu.name);
+      
+      expect(actual).toBeNull();
+    });
+
+    it('should notify error when delete fail', () => {
+      httpTestingControllerHelper.matchAndFlushInternalServerError(RAGU_URI);
+      expect(notifyErrorSpy).toHaveBeenCalledOnceWith();
+    });
   });
 
   function expectProductFormInitialState(elements: ProductFormElements) {
