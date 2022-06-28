@@ -38,8 +38,8 @@ public sealed class GetOrderDetailsTests : IAsyncLifetime
                               .Excluding(_ => _.Owner)
         );
 
-        actual!.Products.Should().BeEquivalentTo(orderOfBen.Products, _ => _.Excluding(_ => _.Orders));
-        actual.Customer.Should().BeEquivalentTo(orderOfBen.Owner);
+        actual!.Products.Should().BeEquivalentTo(orderOfBen.Products, ExcludingProperties.ExcludeProductProperties);
+        actual.Customer.Should().BeEquivalentTo(orderOfBen.Owner, _ => _.Excluding(_ => _.Home));
     }
 
     [Fact]

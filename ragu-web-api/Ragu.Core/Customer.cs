@@ -4,19 +4,14 @@ public class Customer
 {
     public int Id { get; private set; }
     public string Name { get; private set; } = string.Empty;
+    public Address Home { get; private set; } = new Address();
     public long? PhoneNumber { get; set; }
-    public string Street { get; set; } = string.Empty;
-    public int StreetNumber { get; set; }
-    public string Neighborhood { get; set; } = string.Empty;
-    public string City { get; set; } = string.Empty;
 
     internal Customer() { }
-    public Customer(string name, string street, int streetNumber, string neighborhood, string city)
+    public Customer(string name, Address home, long? phoneNumber = null)
     {
         Name = name;
-        Street = street;
-        StreetNumber = streetNumber;
-        Neighborhood = neighborhood;
-        City = city;
+        Home = home;
+        PhoneNumber = phoneNumber;
     }
 }

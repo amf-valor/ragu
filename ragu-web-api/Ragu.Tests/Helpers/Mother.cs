@@ -11,24 +11,31 @@ internal static class Mother
 {
     internal static Order OrderOfJohn()
     {
-        var order = new Order(CreateCustomer("John"), 4.0m, TodayAtMidDay());
+        var order = new Order(CreateCustomer("John", AnyAddress()), 4.0m, TodayAtMidDay());
         order.AddItem(Ragu());
         return order;
     }
 
+    private static Address AnyAddress()
+    {
+        var any = "any";
+
+        return new Address.Builder()
+            .WithCity(any)
+            .WithNeighborhood(any)
+            .WithNumber(123)
+            .WithStreet(any)
+            .Build();
+
+    }
+
     internal static PostProductRequest RaguRequest() => new() { Name = "Ragu", Price = 10.0m };
 
-    private static Customer CreateCustomer(
-        string name = "",
-        long phoneNumber = default,
-        string street = "",
-        int streetNumber = default,
-        string neighborhood = "",
-        string city = "")
-            => new(name, street, streetNumber, neighborhood, city)
-            {
-                PhoneNumber = phoneNumber
-            };
+    private static Customer CreateCustomer(string name, Address address, long? phoneNumber = null)
+        => new(name, address)
+        {
+            PhoneNumber = phoneNumber
+        };
 
     internal static ICollection<Product> RaguFeijoadaAndGalinhada()
         => new List<Product>
@@ -82,7 +89,14 @@ internal static class Mother
 
     internal static Order OrderOfBen()
     {
-        var ben = CreateCustomer("Ben", 12986254104, "Rua ernesto evans", 578, "São miguel", "São Paulo");
+        var addressOfBen = new Address.Builder()
+            .WithCity("São paulo")
+            .WithNeighborhood("São miguel")
+            .WithNumber(578)
+            .WithStreet("Rua ernesto evans")
+            .Build();
+
+        var ben = CreateCustomer("Ben", addressOfBen, 12986254104);
         var order = new Order(ben, 5.0m, new DateTime(2022, 06, 07));
         order.AddItem(Feijoada());
         order.AddItem(Ragu());
@@ -97,5 +111,15 @@ internal static class Mother
         OrderOfBen()
     };
 
-    internal static Order OrderOfJoana() => new(CreateCustomer("Joana"), 3.0m, new DateTime(2022, 06, 09));
+    internal static Order OrderOfJoana() => new(CreateCustomer("Joana", AnyAddress()), 3.0m, new DateTime(2022, 06, 09));
+
+    internal static PostCustomerRequest PostRequestOfJoao() => new()
+    {
+        Name = "João",
+        City = "Ubatuba",
+        Neighborhood = "Itagua",
+        PhoneNumber = 12986254104,
+        Street = "Rua euclides da cunha",
+        StreetNumber = 55
+    };
 }

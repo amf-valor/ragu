@@ -45,6 +45,7 @@ public class RaguDbContext : DbContext
         modelBuilder.Entity<Customer>(b =>
         {
             b.Property(p => p.Id);
+            b.OwnsOne(p => p.Home);
         });
     }
 }

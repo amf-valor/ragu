@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ragu.InfraStructure.Data;
 
@@ -11,9 +12,10 @@ using Ragu.InfraStructure.Data;
 namespace Ragu.InfraStructure.Migrations
 {
     [DbContext(typeof(RaguDbContext))]
-    partial class RaguDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220628231127_CreateProducts_added_home_address")]
+    partial class CreateProducts_added_home_address
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

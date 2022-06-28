@@ -75,10 +75,10 @@ public class OrdersController : ControllerBase
                 Id = order.Owner.Id,
                 Name = order.Owner.Name,
                 PhoneNumber = order.Owner.PhoneNumber,
-                Street = order.Owner.Street,
-                StreetNumber = order.Owner.StreetNumber,
-                Neighborhood = order.Owner.Neighborhood,
-                City = order.Owner.City
+                Street = order.Owner.Home.Street,
+                StreetNumber = order.Owner.Home.StreetNumber,
+                Neighborhood = order.Owner.Home.Neighborhood,
+                City = order.Owner.Home.City
             },
             Products = order.Products.Select(_ => new GetOrderDetailsResponse.ProductResponse
             {
