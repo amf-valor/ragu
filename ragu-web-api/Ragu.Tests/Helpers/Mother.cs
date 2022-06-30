@@ -9,25 +9,80 @@ namespace Ragu.Tests.Helpers;
 
 internal static class Mother
 {
+    private const string Any = "any";
+    private const int AnyNumber = 123;
+
     internal static Order OrderOfJohn()
     {
-        var order = new Order(CreateCustomer("John", AnyAddress()), 4.0m, TodayAtMidDay());
+        var order = new Order(John(), 4.0m, TodayAtMidDay());
         order.AddItem(Ragu());
         return order;
     }
 
-    private static Address AnyAddress()
-    {
-        var any = "any";
-
-        return new Address.Builder()
-            .WithCity(any)
-            .WithNeighborhood(any)
-            .WithNumber(123)
-            .WithStreet(any)
+    private static Address AnyAddress() =>
+        new Address.Builder()
+            .WithCity(Any)
+            .WithNeighborhood(Any)
+            .WithNumber(AnyNumber)
+            .WithStreet(Any)
             .Build();
 
+
+
+    internal static ICollection<Customer> JohnJoanaAndBen() => new List<Customer>
+    {
+        John(),
+        Joana(),
+        Ben()
+    };
+
+    private static Customer John() => CreateCustomer("John", AnyAddress());
+
+    private static Customer Joana() => CreateCustomer("Joana", AnyAddress());
+
+    private static Customer Ben()
+    {
+        var addressOfBen = new Address.Builder()
+           .WithCity("São Paulo")
+           .WithNeighborhood("São miguel")
+           .WithNumber(578)
+           .WithStreet("Rua ernesto evans")
+           .Build();
+
+        return CreateCustomer("Ben", addressOfBen, 12986254104);
     }
+
+    internal static ICollection<GetCustomerResponse> JohnJoanaAndBenResponse(int idOfJohn, int idOfJoana, int idOfBen)
+    {
+        return new List<GetCustomerResponse>
+        {
+            CreateWithAnyAddress(idOfJohn, "John"),
+            CreateWithAnyAddress(idOfJoana, "Joana"),
+            new GetCustomerResponse
+            {
+                Id = idOfBen,
+                Name = "Ben",
+                City = "São Paulo",
+                Neighborhood = "São miguel",
+                PhoneNumber = 12986254104,
+                Street = "Rua ernesto evans",
+                StreetNumber = 578
+            }
+        };
+    }
+
+    private static GetCustomerResponse CreateWithAnyAddress(int id, string name) =>
+        new()
+        {
+            Id = id,
+            Name = name,
+            City = Any,
+            Neighborhood = Any,
+            PhoneNumber = null,
+            Street = Any,
+            StreetNumber = AnyNumber
+        };
+
 
     internal static PostProductRequest RaguRequest() => new() { Name = "Ragu", Price = 10.0m };
 
@@ -89,15 +144,7 @@ internal static class Mother
 
     internal static Order OrderOfBen()
     {
-        var addressOfBen = new Address.Builder()
-            .WithCity("São paulo")
-            .WithNeighborhood("São miguel")
-            .WithNumber(578)
-            .WithStreet("Rua ernesto evans")
-            .Build();
-
-        var ben = CreateCustomer("Ben", addressOfBen, 12986254104);
-        var order = new Order(ben, 5.0m, new DateTime(2022, 06, 07));
+        var order = new Order(Ben(), 5.0m, new DateTime(2022, 06, 07));
         order.AddItem(Feijoada());
         order.AddItem(Ragu());
         return order;
@@ -111,7 +158,7 @@ internal static class Mother
         OrderOfBen()
     };
 
-    internal static Order OrderOfJoana() => new(CreateCustomer("Joana", AnyAddress()), 3.0m, new DateTime(2022, 06, 09));
+    internal static Order OrderOfJoana() => new(Joana(), 3.0m, new DateTime(2022, 06, 09));
 
     internal static PostCustomerRequest PostRequestOfJoao() => new()
     {

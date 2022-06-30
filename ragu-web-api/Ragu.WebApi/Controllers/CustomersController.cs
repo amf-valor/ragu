@@ -42,6 +42,25 @@ public class CustomersController : ControllerBase
         return Created("/api/customers", response);
     }
 
+    [HttpGet]
+    public async Task<ActionResult<ICollection<GetCustomerResponse>>> Get()
+    {
+        var allCustomers = await _customerService.GetAll();
+
+        var response = allCustomers.Select(customer => new GetCustomerResponse
+        {
+            Id = customer.Id,
+            Name = customer.Name,
+            City = customer.Home.City,
+            Neighborhood = customer.Home.Neighborhood,
+            Street = customer.Home.Street,
+            PhoneNumber = customer.PhoneNumber,
+            StreetNumber = customer.Home.StreetNumber
+        });
+
+        return Ok(response);
+    }
+
     public class PostCustomerRequest
     {
         [Required]
@@ -58,6 +77,17 @@ public class CustomersController : ControllerBase
     }
 
     public class PostCustomerResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public long? PhoneNumber { get; set; }
+        public string Street { get; set; } = string.Empty;
+        public int StreetNumber { get; set; }
+        public string Neighborhood { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
+    }
+
+    public class GetCustomerResponse
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

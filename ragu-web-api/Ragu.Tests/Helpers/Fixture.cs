@@ -118,7 +118,8 @@ public sealed class Fixture : IDisposable
             @"TRUNCATE TABLE DeliveryLocales;
               TRUNCATE TABLE OrderProduct;
               DELETE FROM Orders;
-              DELETE FROM Products"
+              DELETE FROM Products;
+              DELETE FROM CUSTOMERS;"
         );
     }
 }

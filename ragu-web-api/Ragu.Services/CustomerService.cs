@@ -19,4 +19,6 @@ public class CustomerService
         _ = await _dbContext.SaveChangesAsync();
         return toBeAdded;
     }
+
+    public Task<IEnumerable<Customer>> GetAll() => Task.FromResult(_dbContext.Customers.AsEnumerable());
 }
