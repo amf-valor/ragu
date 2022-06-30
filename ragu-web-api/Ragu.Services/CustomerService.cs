@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Ragu.Core;
 using Ragu.InfraStructure.Data;
 
@@ -21,4 +22,7 @@ public class CustomerService
     }
 
     public Task<IEnumerable<Customer>> GetAll() => Task.FromResult(_dbContext.Customers.AsEnumerable());
+
+    public Task<bool> Exists(int id) => _dbContext.Customers.AnyAsync(_ => _.Id == id);
+
 }

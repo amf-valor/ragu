@@ -61,6 +61,40 @@ public class CustomersController : ControllerBase
         return Ok(response);
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Put(int id, [FromBody] UpdateCustomerRequest request, [FromServices] UpdateCustomerCommand command)
+    {
+        if (id != request.Id)
+        {
+            return BadRequest($"path id: {id} does not match payload id:{request.Id}");
+        }
+
+        if (!await _customerService.Exists(id))
+        {
+            return NotFound();
+        }
+
+        await command.Init(id);
+
+        await command
+            .SetName(request.Name)
+            .SetHomeAddress(FromRequest(request))
+            .SetPhoneNumber(request.PhoneNumber)
+            .Execute();
+
+        return NoContent();
+    }
+
+    private static Address FromRequest(IAddressResquest request)
+    {
+        return new Address.Builder()
+            .WithCity(request.City)
+            .WithNeighborhood(request.Neighborhood)
+            .WithNumber(request.StreetNumber)
+            .WithStreet(request.Street)
+            .Build();
+    }
+
     public class PostCustomerRequest
     {
         [Required]
@@ -97,4 +131,34 @@ public class CustomersController : ControllerBase
         public string Neighborhood { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
     }
+
+    public class UpdateCustomerRequest : IAddressResquest
+    {
+        public int Id { get; set; }
+
+        [Required]
+        public string Name { get; set; } = string.Empty;
+
+        public long? PhoneNumber { get; set; }
+
+        [Required]
+        public string Street { get; set; } = string.Empty;
+
+        public int StreetNumber { get; set; }
+
+        [Required]
+        public string Neighborhood { get; set; } = string.Empty;
+
+        [Required]
+        public string City { get; set; } = string.Empty;
+    }
+
+    public interface IAddressResquest
+    {
+        public string Street { get; set; }
+        public int StreetNumber { get; set; }
+        public string Neighborhood { get; set; }
+        public string City { get; set; }
+    }
 }
+

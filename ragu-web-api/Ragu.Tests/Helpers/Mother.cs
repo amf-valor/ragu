@@ -36,11 +36,39 @@ internal static class Mother
         Ben()
     };
 
+    internal static UpdateCustomerRequest UpdateCustomerRequest(int id)
+    {
+        var updated = "updated";
+
+        return new UpdateCustomerRequest
+        {
+            Id = id,
+            City = updated,
+            Name = updated,
+            Neighborhood = updated,
+            PhoneNumber = 123,
+            Street = updated,
+            StreetNumber = 123
+        };
+    }
+
+    internal static Customer UpdatedCustomer()
+    {
+        var address = new Address.Builder()
+          .WithCity("updated")
+          .WithNeighborhood("updated")
+          .WithNumber(123)
+          .WithStreet("updated")
+          .Build();
+
+        return new Customer("updated", address, 123);
+    }
+
     private static Customer John() => CreateCustomer("John", AnyAddress());
 
     private static Customer Joana() => CreateCustomer("Joana", AnyAddress());
 
-    private static Customer Ben()
+    public static Customer Ben()
     {
         var addressOfBen = new Address.Builder()
            .WithCity("São Paulo")

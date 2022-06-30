@@ -16,6 +16,11 @@ public static class HttpClientExtensions
         return await GetPayloadAsObject<T>(responseMessage);
     }
 
+    private static void AddHeaderApplicationJson(HttpClient httpClient)
+    {
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    }
+
     private static async Task<T?> GetPayloadAsObject<T>(HttpResponseMessage responseMessage)
     {
         responseMessage.EnsureSuccessStatusCode();
@@ -45,14 +50,12 @@ public static class HttpClientExtensions
         return await GetPayloadAsObject<T>(responseMessage);
     }
 
-    private static StringContent CreateJsonContent(object body)
-        => new(JsonSerializer.Serialize(body), Encoding.UTF8, MediaTypeNames.Application.Json);
-
     public static Task<HttpResponseMessage> PostAsJson(this HttpClient httpClient, string uri, object body)
         => httpClient.PostAsync(uri, CreateJsonContent(body));
 
-    private static void AddHeaderApplicationJson(HttpClient httpClient)
-    {
-        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    }
+    private static StringContent CreateJsonContent(object body)
+        => new(JsonSerializer.Serialize(body), Encoding.UTF8, MediaTypeNames.Application.Json);
+
+    public static Task<HttpResponseMessage> PutAsJson(this HttpClient httpClient, string uri, object body)
+        => httpClient.PutAsync(uri, CreateJsonContent(body));
 }

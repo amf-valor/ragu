@@ -3,8 +3,8 @@ namespace Ragu.Core;
 public class Customer
 {
     public int Id { get; private set; }
-    public string Name { get; private set; } = string.Empty;
-    public Address Home { get; private set; } = new Address();
+    public string Name { get; set; } = string.Empty;
+    public Address Home { get; set; } = new Address();
     public long? PhoneNumber { get; set; }
 
     internal Customer() { }
