@@ -22,4 +22,13 @@ describe('PhonePipe', () => {
 
     expect(actual).toThrow(new Error('Phone pipe only support format phone number which has length of 11'));
   });
+
+  it('should return (00) 00000-0000 when value is undefined', () => {
+    const given = undefined;
+
+    const actual = phonePipe.transform(given);
+    const expected = "(00) 00000-0000";
+
+    expect(actual).toBe(expected);
+  });
 });

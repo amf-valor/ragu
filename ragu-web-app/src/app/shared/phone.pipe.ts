@@ -5,7 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PhonePipe implements PipeTransform {
 
-  transform(rawPhoneNumber: number): string {
+  transform(rawPhoneNumber: number | undefined): string {
+    if(rawPhoneNumber === undefined)
+      return "(00) 00000-0000";
+
     const toBeFormatted = rawPhoneNumber.toString();
     
     if(toBeFormatted.length != 11)

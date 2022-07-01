@@ -1,17 +1,18 @@
-export interface Customer{
-    name: string,
-    phoneNumber?: number,
-    street: string,
-    streetNumber: number,
-    neighborhood: string,
-    city: string
+import { Address } from "./address.model";
+
+export interface Customer {
+  name: string,
+  phoneNumber?: number,
+  address: Address
 }
 
-export const defaultCustomer : Customer = {
-    name: "",
-    phoneNumber: 0,
+export const defaultCustomer: Customer = {
+  name: "",
+  phoneNumber: 0,
+  address: {
     street: "",
-    streetNumber: 0,
+    city: "",
     neighborhood: "",
-    city: ""
+    streetNumber:0
+  }
 };

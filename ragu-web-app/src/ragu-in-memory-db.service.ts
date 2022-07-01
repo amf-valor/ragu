@@ -2,7 +2,11 @@ import { InMemoryDbService } from "angular-in-memory-web-api";
 
 interface DbCustomer {
   name: string,
-  phone: number,
+  phoneNumber: number,
+  address: DbAddress
+}
+
+interface DbAddress{
   street: string,
   streetNumber: number,
   neighborhood: string,
@@ -36,7 +40,7 @@ interface DbDeliveryLocale {
 
 export class RaguInMemoryDbService extends InMemoryDbService {
 
-  createDb(): { deliveryLocales: DbDeliveryLocale[], orders: DbOrder[], products: DbProduct[] } {
+  createDb(): { deliveryLocales: DbDeliveryLocale[], orders: DbOrder[], products: DbProduct[], customers: DbCustomer[] } {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -59,11 +63,14 @@ export class RaguInMemoryDbService extends InMemoryDbService {
           customerName: 'João',
           customer: {
             name: 'João',
-            phone: 15986254196,
-            street: 'Rua euclides da cunha',
-            city: 'Ubatuba',
-            neighborhood: 'Itagua',
-            streetNumber: 55
+            phoneNumber: 15986254196,
+            address:{
+              street: 'Rua euclides da cunha',
+              city: 'Ubatuba',
+              neighborhood: 'Itagua',
+              streetNumber: 55
+            }
+            
           },
           subtotal: 68.70,
           deliveryTax: 4.00,
@@ -80,11 +87,13 @@ export class RaguInMemoryDbService extends InMemoryDbService {
           customerName: 'Natalia',
           customer: {
             name: 'Natalia',
-            phone: 12986254104,
-            street: 'Rua ernesto evans',
-            city: 'Sao paulo',
-            neighborhood: 'Sao miguel',
-            streetNumber: 578
+            phoneNumber: 12986254104,
+            address: {
+              street: 'Rua ernesto evans',
+              city: 'Sao paulo',
+              neighborhood: 'Sao miguel',
+              streetNumber: 578
+            }
           },
           subtotal: 68.70,
           deliveryTax: 4.00,
@@ -102,6 +111,29 @@ export class RaguInMemoryDbService extends InMemoryDbService {
           id: 3,
           name: 'tapioca',
           price: 12.0
+        }
+      ],
+      customers:[
+        {
+          name: 'Natalia',
+          phoneNumber: 12986254104,
+          address: {
+            street: 'Rua ernesto evans',
+            city: 'Sao paulo',
+            neighborhood: 'Sao miguel',
+            streetNumber: 578
+          }
+        },
+        {
+          name: 'João',
+          phoneNumber: 15986254196,
+          address:{
+            street: 'Rua euclides da cunha',
+            city: 'Ubatuba',
+            neighborhood: 'Itagua',
+            streetNumber: 55
+          }
+          
         }
       ]
     };

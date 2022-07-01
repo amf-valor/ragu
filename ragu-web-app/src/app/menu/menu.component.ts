@@ -20,6 +20,11 @@ export class MenuComponent{
         label: 'Produtos',
         icon: PrimeIcons.STAR,
         routerLink: ['/products']
+      },
+      {
+        label: 'Clientes',
+        icon: PrimeIcons.USER,
+        routerLink: ['/customers']
       }
     ];
   }

@@ -33,6 +33,10 @@ describe('MenuComponent', () => {
   it('should redirect to products when produtos menu item is clicked', async () =>{
     await givenMenuItemShouldRedirecTo('Produtos', '/products');
   });
+
+  it('should redirect to customers when clientes menu item is clicked', async() => {
+    await givenMenuItemShouldRedirecTo('Clientes', '/customers');
+  });
   
   async function givenMenuItemShouldRedirecTo(menuItemText: string, expectedPath: string) {
     const menuItem = screen.getByText(menuItemText);

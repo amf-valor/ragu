@@ -11,6 +11,9 @@ import { OrderService } from './services/order-ragu.service';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderDetailModule } from './order-detail/order-detail.module';
 import { MessageService } from 'primeng/api';
+import { CustomerListComponent } from './customers/customer-list/customer-list.component';
+import { CustomerRaguService } from './services/customer-ragu.service';
+import { CustomersModule } from './customers/customers.module';
 
 describe('AppRouting', () => {
   let appFixture: ComponentFixture<AppComponent>;
@@ -37,8 +40,12 @@ describe('AppRouting', () => {
         ToastDummyComponent,
         OrderListDummyComponent
       ],
-      imports: [RouterTestingModule.withRoutes(routes), OrderDetailModule],
-      providers:[{ provide:OrderService, useValue: orderServiceStub }, MessageService]
+      imports: [RouterTestingModule.withRoutes(routes), OrderDetailModule, CustomersModule],
+      providers:[
+        { provide:OrderService, useValue: orderServiceStub }, 
+        MessageService,
+        { provide: CustomerRaguService, useValue: { get: () => of([]) } }
+      ]
     })
     .compileComponents();
   });
@@ -62,5 +69,14 @@ describe('AppRouting', () => {
 
     const orderDetailComponent = appFixture.queryOnDebugElement(By.directive(OrderDetailComponent));
     expect(orderDetailComponent).not.toBeNull();
+  }));
+
+  it('should redirect to customers', fakeAsync(() => {
+    router.navigate(['/customers']);
+    tick();
+    
+    const actual = appFixture.queryOnDebugElement(By.directive(CustomerListComponent));
+    
+    expect(actual).not.toBeNull();
   }));
 });

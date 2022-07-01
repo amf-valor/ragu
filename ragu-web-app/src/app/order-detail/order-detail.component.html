@@ -19,7 +19,7 @@
     </p-card>
     <p-card [header]="customer.name" class="col-12 text-center">
       <p data-testid="phoneNumber" *ngIf="customer.phoneNumber">{{customer.phoneNumber | phone}}</p>
-      <p>{{customer.street}}, {{customer.streetNumber}} {{customer.neighborhood | uppercase}} - {{customer.city}}</p>
+      <p>{{customer.address | address}}</p>
     </p-card>
     <p-card data-testid="orderPaymentDetails">
       <div class="grid col-12">
