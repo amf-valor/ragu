@@ -46,7 +46,6 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'ragu-api'
-        slot-name: 'production'
+        app-name: 'ragu-web-api'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_4633322273314e28855ceb3433999663 }}
-        images: 'raguapiacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ce848e922c544888b447440dbd6afafa }}/raguapi7070:${{ github.sha }}'
+        images: 'raguapiacr.azurecr.io/raguapi:${{ github.sha }}'
