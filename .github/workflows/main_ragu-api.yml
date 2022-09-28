@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
-        tags: raguapiacr.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_ce848e922c544888b447440dbd6afafa }}/raguapi:${{ github.sha }}
+        tags: raguapiacr.azurecr.io/raguapi:${{ github.sha }}
         file: ./ragu-web-api/Dockerfile
 
   deploy:
