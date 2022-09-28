@@ -16,7 +16,7 @@ COPY Ragu.WebApi/. ./Ragu.WebApi/
 COPY Ragu.Services/. ./Ragu.Services/
 COPY Ragu.InfraStructure/. ./Ragu.InfraStructure/
 COPY Ragu.Core/. ./Ragu.Core/
-COPY Ragu.Tests/. Ragu.Tests/
+COPY Ragu.Tests/. ./Ragu.Tests/
 RUN dotnet publish -c Release -o out
     
 # Build runtime image
