@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  raguBaseUrl: '{prod_base_url_is_empty}',
+  raguBaseUrl: 'https://ragu-web-api.azurewebsites.net',
   useInMemoryApi: false
 };
